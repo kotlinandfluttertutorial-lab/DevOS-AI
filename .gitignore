@@ -1,35 +1,41 @@
-# Gradle files
+## Android / Gradle
 .gradle/
 build/
-.kotlin/
-
-# Local configuration file (sdk path, etc)
+.idea/
+*.iml
 local.properties
-
-# Log/OS Files
-*.log
-
-# Android Studio generated files and folders
 captures/
+*.hprof
 .externalNativeBuild/
 .cxx/
-*.aab
+*.ap_
 *.apk
-output-metadata.json
-
-# IntelliJ
-*.iml
-.idea/
-misc.xml
-deploymentTargetDropDown.xml
-render.experimental.xml
-
-# Keystore files
+*.aab
 *.jks
 *.keystore
 
-# Google Services (e.g. APIs or Firebase)
+## Secrets — NEVER commit these
+local.properties
+secrets.properties
+*.env
+*.env.*
+service-account.json
 google-services.json
+keystore.properties
 
-# Android Profiling
-*.hprof
+## OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+## Test fixtures (large binary fixtures excluded)
+test-fixtures/eval-repo/*.jar
+test-fixtures/security-samples/*.jar
+
+## Generated
+app/schemas/
+**/build/
+**/.kotlin/
+
+## Kiro session artifacts
+.kiro/sessions/

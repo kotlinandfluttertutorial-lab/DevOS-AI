@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DevOS AI</string>
+    <string name="app_tagline">Understand your code. Learn faster. Build smarter.</string>
+
+    <!-- Navigation labels -->
+    <string name="nav_home">Home</string>
+    <string name="nav_projects">Projects</string>
+    <string name="nav_ai">AI</string>
+    <string name="nav_learn">Learn</string>
+    <string name="nav_more">More</string>
+
+    <!-- Common UI -->
+    <string name="action_retry">Retry</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_confirm">Confirm</string>
+    <string name="action_dismiss">Dismiss</string>
+    <string name="action_search">Search</string>
+    <string name="action_ask_ai">Ask AI</string>
+    <string name="action_copy">Copy</string>
+    <string name="action_share">Share</string>
+
+    <!-- States -->
+    <string name="state_loading">Loading…</string>
+    <string name="state_error_generic">Something went wrong</string>
+    <string name="state_empty_generic">Nothing here yet</string>
+
+    <!-- AI -->
+    <string name="ai_placeholder">Ask DevOS anything…</string>
+    <string name="ai_context_global">Global workspace</string>
+    <string name="ai_context_project">Current project</string>
+    <string name="ai_context_repository">Current repository</string>
+    <string name="ai_context_file">Current file</string>
+    <string name="ai_context_symbol">Current symbol</string>
+</resources>
