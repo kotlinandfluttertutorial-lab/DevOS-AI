@@ -1,11 +1,16 @@
 package com.devos.ai.feature.auth.navigation
 
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import androidx.navigation.navDeepLink
+import com.devos.ai.feature.auth.login.AuthViewModel
+import com.devos.ai.feature.auth.login.LoginScreen
+import com.devos.ai.feature.auth.model.OAuthProvider
 import com.devos.ai.feature.auth.onboarding.OnboardingScreen
 import com.devos.ai.feature.auth.onboarding.OnboardingViewModel
 import com.devos.ai.feature.auth.splash.SplashScreen
@@ -69,6 +74,49 @@ fun NavGraphBuilder.onboardingNavigation(navController: NavController) {
             onSetPage = viewModel::setPage,
             onSkip = viewModel::skipOnboarding,
             onComplete = viewModel::completeOnboarding,
+        )
+    }
+}
+
+/**
+ * Adds the Login screen to the NavGraph, including the OAuth deep link handler.
+ *
+ * Deep link: devos://auth/callback?code={code}&provider={provider}
+ * When the browser returns from GitHub/GitLab, Android routes the intent here and
+ * [AuthViewModel.handleAuthCallback] exchanges the code for a token.
+ */
+fun NavGraphBuilder.loginNavigation(navController: NavController) {
+    composable(
+        route = ROUTE_LOGIN,
+        deepLinks = listOf(
+            navDeepLink {
+                uriPattern = "devos://auth/callback?code={code}&provider={provider}"
+            },
+        ),
+    ) { backStackEntry ->
+        val viewModel: AuthViewModel = hiltViewModel()
+        val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+        val code = backStackEntry.arguments?.getString("code")
+        val providerName = backStackEntry.arguments?.getString("provider")
+        LaunchedEffect(code, providerName) {
+            if (!code.isNullOrEmpty() && !providerName.isNullOrEmpty()) {
+                runCatching { OAuthProvider.valueOf(providerName.uppercase()) }
+                    .getOrNull()
+                    ?.let { provider -> viewModel.handleAuthCallback(code, provider) }
+            }
+        }
+
+        LoginScreen(
+            uiState = uiState,
+            navEvent = viewModel.navEvent,
+            onLoginGitHub = viewModel::loginWithGitHub,
+            onLoginGitLab = viewModel::loginWithGitLab,
+            onNavigateToHome = {
+                navController.navigate("home") {
+                    popUpTo(ROUTE_LOGIN) { inclusive = true }
+                }
+            },
         )
     }
 }

@@ -1,5 +1,6 @@
 package com.devos.ai
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -77,5 +78,15 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    /**
+     * Called when a new intent arrives while the activity is already running (e.g. via singleTop
+     * launch mode). Updating the intent ensures the NavHost deep link handler processes the
+     * OAuth callback (devos://auth/callback?code=XXX&provider=github).
+     */
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
     }
 }

@@ -38,6 +38,8 @@ dependencies {
     implementation(libs.androidx.datastore)
     implementation(libs.androidx.browser)
     implementation(libs.hilt.android)
+    implementation(libs.timber)
+    implementation(libs.okhttp)
     implementation(libs.hilt.navigation.compose)
     ksp(libs.hilt.compiler)
 

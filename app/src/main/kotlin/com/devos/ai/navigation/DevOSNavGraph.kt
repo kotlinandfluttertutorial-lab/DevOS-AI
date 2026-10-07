@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.devos.ai.feature.auth.navigation.loginNavigation
 import com.devos.ai.feature.auth.navigation.onboardingNavigation
 import com.devos.ai.feature.auth.navigation.splashNavigation
 
@@ -41,9 +42,7 @@ fun DevOSNavGraph(
         onboardingNavigation(navController)
 
         // TODO(FEAT-004): Replace with authNavigation(navController)
-        composable(route = DevOSRoutes.LOGIN) {
-            PlaceholderScreen(route = DevOSRoutes.LOGIN)
-        }
+        loginNavigation(navController)
 
         // ── Primary tabs ────────────────────────────────────────────────────────
         composable(route = DevOSRoutes.HOME) {
