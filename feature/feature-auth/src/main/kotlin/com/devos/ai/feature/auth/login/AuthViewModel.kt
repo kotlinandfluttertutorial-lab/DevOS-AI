@@ -5,8 +5,8 @@ import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.devos.ai.core.security.SecureTokenRepository
 import com.devos.ai.feature.auth.model.OAuthProvider
+import com.devos.ai.feature.auth.usecase.ExchangeCodeForTokenUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
@@ -19,99 +19,112 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.FormBody
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import org.json.JSONObject
-import timber.log.Timber
 import javax.inject.Inject
 
 /**
- * Placeholder client ID constants — real IDs will be loaded from EncryptedSharedPreferences
- * in a follow-up ticket (DEVOS-012). Never place real client IDs in source code.
+ * OAuth URL constants.
+ *
+ * client_id is PLACEHOLDER — real values must be loaded from EncryptedSharedPreferences,
+ * NOT from BuildConfig or hardcoded source. These placeholders ensure the OAuth flow
+ * is exercisable without a live registration.
  */
-private const val GITHUB_AUTH_URL =
-    "https://github.com/login/oauth/authorize?client_id=DEVOS_GITHUB_CLIENT_ID&scope=repo,read:user"
-private const val GITHUB_TOKEN_URL = "https://github.com/login/oauth/access_token"
-private const val GITLAB_AUTH_URL =
-    "https://gitlab.com/oauth/authorize?client_id=DEVOS_GITLAB_CLIENT_ID&response_type=code&scope=api+read_user"
-private const val GITLAB_TOKEN_URL = "https://gitlab.com/oauth/token"
+private const val GITHUB_OAUTH_URL =
+    "https://github.com/login/oauth/authorize?client_id=PLACEHOLDER&scope=repo"
+private const val GITLAB_OAUTH_URL =
+    "https://gitlab.com/oauth/authorize?client_id=PLACEHOLDER&response_type=code&scope=api"
 
+/**
+ * ViewModel for the Login screen.
+ *
+ * Responsibilities:
+ * - Set [LoginUiState.Loading] and open a Chrome Custom Tab for OAuth.
+ * - Handle the deep-link callback containing the authorization code.
+ * - Delegate token exchange + secure storage to [ExchangeCodeForTokenUseCase].
+ * - Emit [AuthNavEvent.NavigateToHome] on success via [navEvent] (SharedFlow).
+ *
+ * Architecture constraints:
+ * - Does NOT import NavController — navigation via SharedFlow.
+ * - Does NOT use WebView — Chrome Custom Tab only.
+ * - Never logs a raw token — only masked form.
+ *
+ * The [ioDispatcher] is not Hilt-injected to avoid requiring a Hilt binding for
+ * [CoroutineDispatcher]. Tests construct via the secondary constructor.
+ */
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    private val secureTokenRepository: SecureTokenRepository,
+    private val exchangeCodeForTokenUseCase: ExchangeCodeForTokenUseCase,
     @ApplicationContext private val context: Context,
 ) : ViewModel() {
 
-    // Use Dispatchers.IO directly; not injected to avoid Hilt binding requirement.
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+    // Overridable in tests via secondary constructor
+    private var ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+
+    /** Secondary constructor for test injection of a controlled dispatcher. */
+    constructor(
+        exchangeCodeForTokenUseCase: ExchangeCodeForTokenUseCase,
+        context: Context,
+        ioDispatcher: CoroutineDispatcher,
+    ) : this(exchangeCodeForTokenUseCase, context) {
+        this.ioDispatcher = ioDispatcher
+    }
 
     private val _uiState = MutableStateFlow<LoginUiState>(LoginUiState.Idle)
     val uiState: StateFlow<LoginUiState> = _uiState.asStateFlow()
 
-    private val _navEvent = MutableSharedFlow<LoginNavEvent>()
-    val navEvent: SharedFlow<LoginNavEvent> = _navEvent.asSharedFlow()
+    private val _navEvent = MutableSharedFlow<AuthNavEvent>()
+    val navEvent: SharedFlow<AuthNavEvent> = _navEvent.asSharedFlow()
 
-    private val httpClient = OkHttpClient()
-
+    /**
+     * Launch GitHub OAuth flow via Chrome Custom Tab.
+     * Sets [LoginUiState.Loading] before attempting the CCT launch.
+     */
     fun loginWithGitHub() {
         _uiState.value = LoginUiState.Loading
-        val intent = CustomTabsIntent.Builder().build()
-        intent.launchUrl(context, GITHUB_AUTH_URL.toUri())
-    }
-
-    fun loginWithGitLab() {
-        _uiState.value = LoginUiState.Loading
-        val intent = CustomTabsIntent.Builder().build()
-        intent.launchUrl(context, GITLAB_AUTH_URL.toUri())
-    }
-
-    fun handleAuthCallback(code: String, provider: OAuthProvider) {
-        viewModelScope.launch {
-            _uiState.value = LoginUiState.Loading
-            try {
-                val token = exchangeCodeForToken(code, provider)
-                if (token != null) {
-                    secureTokenRepository.saveToken(provider, token)
-                    // SECURITY: token already masked inside SecureTokenRepositoryImpl
-                    Timber.d("Auth callback handled successfully for ${provider.name}")
-                    _navEvent.emit(LoginNavEvent.ToHome)
-                } else {
-                    _uiState.value = LoginUiState.Error("Authentication failed. Please try again.")
-                }
-            } catch (e: Exception) {
-                Timber.e(e, "OAuth callback handling failed for ${provider.name}")
-                _uiState.value = LoginUiState.Error(e.message ?: "Authentication failed")
-            }
-        }
+        runCatching { openCustomTab(GITHUB_OAUTH_URL) }
+            .onFailure { _uiState.value = LoginUiState.Error(it.message ?: "Failed to open browser") }
     }
 
     /**
-     * Exchanges an OAuth authorization code for an access token.
-     *
-     * Internal visibility so it can be tested directly in unit tests.
-     * Returns null on any HTTP or parsing failure.
+     * Launch GitLab OAuth flow via Chrome Custom Tab.
+     * Sets [LoginUiState.Loading] before attempting the CCT launch.
      */
-    internal suspend fun exchangeCodeForToken(code: String, provider: OAuthProvider): String? =
-        withContext(ioDispatcher) {
-            val tokenUrl = when (provider) {
-                OAuthProvider.GITHUB -> GITHUB_TOKEN_URL
-                OAuthProvider.GITLAB -> GITLAB_TOKEN_URL
+    fun loginWithGitLab() {
+        _uiState.value = LoginUiState.Loading
+        runCatching { openCustomTab(GITLAB_OAUTH_URL) }
+            .onFailure { _uiState.value = LoginUiState.Error(it.message ?: "Failed to open browser") }
+    }
+
+    /**
+     * Process the deep-link callback from the OAuth provider.
+     *
+     * Called from the NavGraph after it receives `devos://auth/callback?code=…`.
+     *
+     * @param code Authorization code extracted from the deep-link URI.
+     * @param provider Which provider the callback came from.
+     */
+    fun handleAuthCallback(code: String, provider: OAuthProvider) {
+        viewModelScope.launch {
+            _uiState.value = LoginUiState.Loading
+            val result = withContext(ioDispatcher) {
+                exchangeCodeForTokenUseCase(code, provider)
             }
-            val body = FormBody.Builder()
-                .add("code", code)
-                .add("grant_type", "authorization_code")
-                .build()
-            val request = Request.Builder()
-                .url(tokenUrl)
-                .post(body)
-                .addHeader("Accept", "application/json")
-                .build()
-            runCatching {
-                val response = httpClient.newCall(request).execute()
-                if (!response.isSuccessful) return@withContext null
-                val responseBody = response.body?.string() ?: return@withContext null
-                JSONObject(responseBody).optString("access_token").takeIf { it.isNotEmpty() }
-            }.getOrNull()
+            result
+                .onSuccess {
+                    _uiState.value = LoginUiState.Success
+                    _navEvent.emit(AuthNavEvent.NavigateToHome)
+                }
+                .onFailure { throwable ->
+                    _uiState.value = LoginUiState.Error(
+                        throwable.message ?: "Login failed",
+                    )
+                }
         }
+    }
+
+    // ── Private helpers ────────────────────────────────────────────────────────
+
+    private fun openCustomTab(url: String) {
+        val intent = CustomTabsIntent.Builder().build()
+        intent.launchUrl(context, url.toUri())
+    }
 }
