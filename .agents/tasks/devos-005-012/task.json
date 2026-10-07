@@ -1,7 +1,0 @@
-{
-  "task_id": "task-devos-005-012",
-  "task_description": "Implement DevOS AI Foundation: DEVOS-005 design system components, DEVOS-006 code/AI components, DEVOS-007 bottom nav wired into app shell, DEVOS-008 nav graph wired with placeholder routes, DEVOS-009 splash screen, DEVOS-010 onboarding flow, DEVOS-011 login screen + OAuth, DEVOS-012 secure token storage.",
-  "status": "pending",
-  "feature_order": ["FEAT-001", "FEAT-002", "FEAT-003", "FEAT-004"],
-  "blocked_reason": null
-}

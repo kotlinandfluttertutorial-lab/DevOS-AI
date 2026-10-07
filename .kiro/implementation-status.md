@@ -1,8 +1,8 @@
 # DevOS AI — Implementation Status
 
-**Last Updated:** 2026-10-07  
+**Last Updated:** 2026-10-08  
 **Build Status:** ✅ BUILD SUCCESSFUL (`./gradlew assembleDebug`)  
-**Overall Progress:** 10 / 70 tickets complete (Jira: DA project, key `DA`)  
+**Overall Progress:** 12 / 70 tickets complete (DEVOS-001 through DEVOS-012)  
 **Jira sync:** Live — https://androidassistant.atlassian.net (project DevOS-AI, key `DA`)
 
 ---
@@ -40,8 +40,8 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 | 🟢 | DEVOS-008 | DA-20 | Navigation graph | Firoj | 4/4 | All routes wired with PlaceholderScreen; NavHost compiles |
 | 🟢 | DEVOS-009 | DA-21 | Splash screen | Firoj | 4/4 | SplashScreen animated logo + SplashViewModel + 1500ms delay; NavGraph wired |
 | 🟢 | DEVOS-010 | DA-22 | Onboarding flow | Firoj | 5/5 | HorizontalPager 4 pages, StepDot, OnboardingViewModel, DataStore flag; NavGraph wired |
-| 🟢 | DEVOS-011 | DA-23 | Login — GitHub/GitLab OAuth | Firoj | 8/8 | Done — LoginScreen (full-screen no-chrome, gradient logo, email/password fallback, OR divider, inline error, footer), AuthViewModel (Custom Tabs OAuth, OkHttp token exchange), loginNavigation wired, deep link registered. Build ✅ |
-| 🟢 | DEVOS-012 | DA-24 | Secure token storage | JetpackCompose | 6/6 | Done — `SecureTokenRepository`/`Impl`/`TokenKey` committed (`feat(security): ...`) |
+| 🟢 | DEVOS-011 | DA-23 | Login — GitHub/GitLab OAuth | Firoj | 5/5 | Done — LoginScreen (2 DevOSButton: primary GitHub, secondary GitLab; DevOSErrorState on error), AuthViewModel (Custom Tabs OAuth, ExchangeCodeForTokenUseCase, SharedFlow nav), loginNavigation wired, deep link devos://auth/callback registered. Build ✅. Tests: AuthViewModelTest 6/6, ExchangeCodeForTokenTest 4/4 |
+| 🟢 | DEVOS-012 | DA-24 | Secure token storage | Firoj | 3/3 | Done — `SecureTokenRepository` interface + `SecureTokenRepositoryImpl` (EncryptedSharedPreferences AES256-GCM) + `SecurityModule` (@Binds) in core-security. TokenKey interface. OAuthProvider implements TokenKey. CheckAuthStateUseCase wired to SecureTokenRepository. Build ✅ |
 
 ## Phase 2 — Repository Intelligence (DEVOS-E02 / DA-2)
 
@@ -131,7 +131,7 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 
 | Status | Ticket | DA Key | Summary | Assignee | ACs | Notes |
 |--------|--------|--------|---------|----------|-----|-------|
-| 🔴 | DEVOS-057 | DA-69 | Home dashboard screen | Firoj | 0/9 | Needs Phase 1 |
+| 🟡 | DEVOS-057 | DA-69 | Home dashboard screen | Firoj | 0/9 | **In Progress — Next up for Firoj.** |
 | 🔴 | DEVOS-058 | DA-70 | Home AI recommendations engine | JetpackCompose | 0/7 | Needs DEVOS-057 |
 | 🔴 | DEVOS-059 | DA-72 | Notifications screen | Firoj | 0/8 | Combined ticket w/ Search + Profile in Jira |
 | 🔴 | DEVOS-060 | DA-71 | Search screen — global | Firoj | 0/6 | |
@@ -169,7 +169,9 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 | 2025-01-01 | DEVOS-005/006 | Design system component library (FEAT-001) | 7/7 ACs |
 | 2025-01-02 | DEVOS-007/008 | Bottom nav + NavGraph wired (FEAT-002) | 5/5 ACs |
 | 2025-01-03 | DEVOS-009/010 | Splash + Onboarding screens (FEAT-003) | 10/10 ACs |
-| 2026-10-07 | DEVOS-011 | Login screen — GitHub/GitLab OAuth + email/password fallback | 8/8 ACs | all 122 tickets (12 epics + 70 feature + 40 screen-mirror) assigned across Firoj Mohammad (68) and JetpackCompose (42, excl. 12 unassigned epics); 10 tickets transitioned to Done, 2 to In Progress in Jira project `DA`. Split rationale posted as comment on DA-1. | — |
+| 2026-10-08 | DEVOS-011 | Login screen — GitHub/GitLab OAuth (FEAT-004) | 5/5 ACs — `./gradlew :feature:feature-auth:testDebugUnitTest` PASS (26 tests); `./gradlew assembleDebug` PASS |
+| 2026-10-08 | DEVOS-012 | Secure token storage — EncryptedSharedPreferences AES256-GCM (FEAT-004) | 3/3 ACs — `./gradlew :core:core-security:assembleDebug` PASS; `./gradlew testDebugUnitTest` PASS |
+| 2026-10-08 | DEVOS-011/012 | Review fix (feat-004-review): OAuth client IDs loaded from SecureTokenRepository via OAuthClientIdKey enum; dead LoginNavEvent.kt deleted; AuthViewModelTest updated for new constructor | All checks re-run PASS |
 
 ---
 
@@ -177,8 +179,10 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 
 | Check | Status |
 |-------|--------|
-| `./gradlew :designsystem:assembleDebug` | ✅ PASS |
+| `./gradlew :core:core-security:assembleDebug` | ✅ PASS |
+| `./gradlew :feature:feature-auth:testDebugUnitTest` | ✅ PASS (review-fix iteration: 8 AuthViewModel, 5 CheckAuthState, 4 ExchangeCodeForToken, 8 OnboardingVM, 3 SplashVM = 28 tests) |
 | `./gradlew assembleDebug` | ✅ PASS |
+| `./gradlew testDebugUnitTest` | ✅ PASS (BUILD SUCCESSFUL) |
 | Dark mode verified | 🔴 Not started |
 | Accessibility scan | 🔴 Not started |
 
