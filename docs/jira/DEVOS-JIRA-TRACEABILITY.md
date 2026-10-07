@@ -117,3 +117,50 @@
 | OBSERVE | 068, 069 | 2 |
 | LEARN | 054, 058 | 2 |
 | IMPROVE | 070 | 1 |
+
+---
+
+## Kiro Prompt Coverage Map
+
+*Updated: 2026-10-07 — 20 prompt files covering all 70 feature tickets (100% coverage)*
+
+| Prompt File | Tickets Covered | Epic(s) |
+|-------------|----------------|---------|
+| `DEVOS-001-android-setup.md` | DEVOS-001 | E01 |
+| `DEVOS-002-design-system-tokens.md` | DEVOS-002, 003, 004, 006, 007, 008 | E01 |
+| `DEVOS-005-design-system-components.md` | DEVOS-005 | E01 |
+| `DEVOS-009-onboarding-auth.md` | DEVOS-009, 010, 011, 012 | E01 |
+| `DEVOS-013-repository-intelligence.md` | DEVOS-013, 014, 015, 016, 017 | E02 |
+| `DEVOS-018-code-intelligence.md` | DEVOS-018, 021, 022, 023, 024, 025 | E03 |
+| `DEVOS-019-code-viewer.md` | DEVOS-019, 020 | E03 |
+| `DEVOS-026-ai-chat-screen.md` | DEVOS-026, 027, 028 | E04 |
+| `DEVOS-029-ai-platform-extended.md` | DEVOS-029, 030, 032, 033, 034 | E04 |
+| `DEVOS-031-rag-pipeline.md` | DEVOS-031 | E04 |
+| `DEVOS-037-agent-engine.md` | DEVOS-035, 036, 037 | E05 |
+| `DEVOS-038-mcp-integration.md` | DEVOS-038, 039 | E05 |
+| `DEVOS-040-developer-intelligence.md` | DEVOS-040, 041, 042, 043, 044, 045 | E06 |
+| `DEVOS-046-quality-intelligence.md` | DEVOS-046, 047, 048, 049 | E07 |
+| `DEVOS-050-learning-dashboard.md` | DEVOS-050, 051, 052, 053, 054 | E08 |
+| `DEVOS-055-developer-memory.md` | DEVOS-055, 056 | E09 |
+| `DEVOS-057-home-dashboard.md` | DEVOS-057, 058 | E10 |
+| `DEVOS-059-command-center-screens.md` | DEVOS-059, 060, 061 | E10 |
+| `DEVOS-062-settings-and-ui-polish.md` | DEVOS-062, 063, 064, 065, 066 | E11 |
+| `DEVOS-067-platform-ai-sdlc.md` | DEVOS-067, 068, 069, 070 | E12 |
+
+### Coverage by Epic
+
+| Epic | Feature Tickets | Prompt Files | Coverage |
+|------|----------------|--------------|----------|
+| E01 Foundation | 12 | 4 files (001, 002, 005, 009) | ✅ 100% |
+| E02 Repository Intelligence | 5 | 1 file (013) | ✅ 100% |
+| E03 Code Intelligence | 8 | 2 files (018, 019) | ✅ 100% |
+| E04 AI Platform | 9 | 3 files (026, 029, 031) | ✅ 100% |
+| E05 Agents & MCP | 5 | 2 files (037, 038) | ✅ 100% |
+| E06 Developer Intelligence | 6 | 1 file (040) | ✅ 100% |
+| E07 Quality Intelligence | 4 | 1 file (046) | ✅ 100% |
+| E08 Learning | 5 | 1 file (050) | ✅ 100% |
+| E09 Developer Memory | 2 | 1 file (055) | ✅ 100% |
+| E10 Command Center | 5 | 2 files (057, 059) | ✅ 100% |
+| E11 Android UI/UX | 5 | 1 file (062) | ✅ 100% |
+| E12 Platform | 4 | 1 file (067) | ✅ 100% |
+| **Total** | **70** | **20 files** | **✅ 100%** |
