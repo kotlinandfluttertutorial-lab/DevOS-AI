@@ -5,7 +5,6 @@ import androidx.test.core.app.ApplicationProvider
 import com.devos.ai.core.database.DevOSDatabase
 import com.devos.ai.core.database.entity.FileEntity
 import com.devos.ai.core.database.entity.RepositoryEntity
-import com.devos.ai.domain.repository.model.SyncStatus
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -55,7 +54,7 @@ class FileDaoTest {
                 provider      = "GITHUB",
                 healthScore   = 0f,
                 lastSyncAt    = null,
-                syncStatus    = SyncStatus.IDLE.name,
+                syncStatus    = "IDLE",
                 localPath     = null,
             ),
         )

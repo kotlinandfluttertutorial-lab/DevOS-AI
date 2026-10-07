@@ -5,7 +5,6 @@ import androidx.test.core.app.ApplicationProvider
 import app.cash.turbine.test
 import com.devos.ai.core.database.DevOSDatabase
 import com.devos.ai.core.database.entity.RepositoryEntity
-import com.devos.ai.domain.repository.model.SyncStatus
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -46,7 +45,7 @@ class RepositoryDaoTest {
         id: String = "repo-1",
         name: String = "MyApp",
         owner: String = "acme",
-        syncStatus: String = SyncStatus.IDLE.name,
+        syncStatus: String = "IDLE",
     ) = RepositoryEntity(
         id            = id,
         name          = name,
@@ -135,11 +134,11 @@ class RepositoryDaoTest {
 
     @Test
     fun `updateSyncStatus changes syncStatus column only`() = runTest {
-        dao.upsert(makeEntity(syncStatus = SyncStatus.IDLE.name))
-        dao.updateSyncStatus("repo-1", SyncStatus.SYNCING.name)
+        dao.upsert(makeEntity(syncStatus = "IDLE"))
+        dao.updateSyncStatus("repo-1", "SYNCING")
 
         val entity = dao.getById("repo-1")
-        assertEquals(SyncStatus.SYNCING.name, entity?.syncStatus)
+        assertEquals("SYNCING", entity?.syncStatus)
         // Other fields untouched
         assertEquals("MyApp", entity?.name)
     }
