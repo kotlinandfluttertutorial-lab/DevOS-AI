@@ -18,6 +18,8 @@ android {
 dependencies {
     // Domain modules are pure Kotlin — no Android, no Compose, no Room
     implementation(libs.kotlinx.coroutines)
+    // javax.inject for @Inject annotations in use cases
+    compileOnly("javax.inject:javax.inject:1")
     testImplementation(libs.bundles.test.unit)
     testRuntimeOnly(libs.test.junit5.engine)
 }

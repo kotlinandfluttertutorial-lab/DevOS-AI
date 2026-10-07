@@ -6,7 +6,10 @@ Use the supplied Figma Android UI design as the visual reference:
 
 FIGMA:
 
-https://www.figma.com/design/FEocNGzA4RbwhYuKSNHYsp/AndroidUi--Community-?node-id=1015-2&t=eWzTC1QtHz9ntrzo-0
+https://www.figma.com/design/BZVZGTGkQisVhZcIJ4huvp/Untitled?node-id=3-4&t=fDACFXVRLwshZYSN-0
+
+FIGMA PAT:
+<removed — never commit tokens; store in a password manager or environment variable>
 
 IMPORTANT:
 

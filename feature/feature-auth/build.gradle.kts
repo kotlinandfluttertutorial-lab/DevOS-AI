@@ -1,0 +1,53 @@
+plugins {
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
+}
+
+android {
+    namespace = "com.devos.ai.feature.auth"
+    compileSdk = 35
+    defaultConfig { minSdk = 26 }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    kotlinOptions { jvmTarget = "17" }
+    buildFeatures { compose = true }
+
+    testOptions {
+        unitTests.all {
+            it.useJUnitPlatform()
+        }
+    }
+}
+
+dependencies {
+    implementation(project(":designsystem"))
+    implementation(project(":core:core-common"))
+    implementation(project(":core:core-security"))
+    implementation(project(":core:core-ui"))
+
+    implementation(platform(libs.compose.bom))
+    implementation(libs.bundles.compose)
+    implementation(libs.navigation.compose)
+    implementation(libs.androidx.lifecycle.compose)
+    implementation(libs.androidx.lifecycle.vm)
+    implementation(libs.androidx.datastore)
+    implementation(libs.androidx.browser)
+    implementation(libs.hilt.android)
+    implementation(libs.hilt.navigation.compose)
+    ksp(libs.hilt.compiler)
+
+    testImplementation(libs.bundles.test.unit)
+    testRuntimeOnly(libs.test.junit5.engine)
+    testRuntimeOnly(libs.test.junit5.launcher)
+    androidTestImplementation(platform(libs.compose.bom))
+    androidTestImplementation(libs.bundles.test.android)
+    androidTestImplementation(libs.test.hilt)
+    kspAndroidTest(libs.hilt.compiler)
+    debugImplementation(libs.compose.ui.tooling)
+    debugImplementation(libs.test.compose.manifest)
+}

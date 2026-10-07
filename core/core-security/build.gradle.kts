@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -17,6 +19,9 @@ android {
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.security.crypto)
+    implementation(libs.hilt.android)
+    implementation(libs.kotlinx.coroutines)
+    ksp(libs.hilt.compiler)
     testImplementation(libs.bundles.test.unit)
     testRuntimeOnly(libs.test.junit5.engine)
 }

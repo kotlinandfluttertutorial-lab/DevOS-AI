@@ -1,7 +1,6 @@
 package com.devos.ai.domain.ai.repository
 
 import com.devos.ai.domain.ai.model.AIContext
-import com.devos.ai.domain.ai.model.CodeChunk
 
 /**
  * Repository interface for RAG (Retrieval-Augmented Generation) operations.

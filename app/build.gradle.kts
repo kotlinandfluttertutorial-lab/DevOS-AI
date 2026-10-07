@@ -52,6 +52,9 @@ dependencies {
     implementation(project(":core:core-security"))
     implementation(project(":core:core-ui"))
 
+    // Data modules (Hilt bindings)
+    implementation(project(":data:data-ai"))
+
     // Design system
     implementation(project(":designsystem"))
 

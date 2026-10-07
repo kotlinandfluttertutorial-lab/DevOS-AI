@@ -1,0 +1,2970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DevOS AI — Mobile UI Mockups</title>
+<style>
+/* ═══════════════════════════════════════════════════
+   DESIGN SYSTEM TOKENS
+═══════════════════════════════════════════════════ */
+:root {
+  /* Dark palette */
+  --bg:          #0F111A;
+  --surface:     #1A1C2E;
+  --surface-var: #252840;
+  --outline:     #3A3F58;
+  --outline-var: #2A2E42;
+  --on-bg:       #E2E8F0;
+  --on-surface:  #E2E8F0;
+  --on-sv:       #A8B3CF;
+  --primary:     #82AAFF;
+  --on-primary:  #001E6E;
+  --primary-c:   #003298;
+  --on-primary-c:#D6E2FF;
+  --secondary:   #89DDFF;
+  --tertiary:    #C3E88D;
+  --error:       #FF5370;
+  --warning:     #FFCB6B;
+  --info:        #B2CCD6;
+  /* syntax */
+  --syn-keyword: #C792EA;
+  --syn-string:  #C3E88D;
+  --syn-number:  #F78C6C;
+  --syn-comment: #546E7A;
+  --syn-type:    #FFCB6B;
+  --syn-fn:      #82AAFF;
+  --code-bg:     #1E1E2E;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #111827;
+  color: #fff;
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ═══════════════════════════════════════════════════
+   SIDEBAR NAV
+═══════════════════════════════════════════════════ */
+#sidebar {
+  width: 280px;
+  min-width: 280px;
+  background: #0d1117;
+  border-right: 1px solid #21262d;
+  overflow-y: auto;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  padding: 16px 0;
+}
+#sidebar h2 {
+  padding: 8px 16px 12px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #6b7280;
+  font-weight: 600;
+}
+#sidebar .epic {
+  padding: 6px 16px 2px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #4b5563;
+  font-weight: 700;
+  margin-top: 6px;
+}
+#sidebar a {
+  display: block;
+  padding: 7px 16px 7px 24px;
+  font-size: 13px;
+  color: #9ca3af;
+  text-decoration: none;
+  border-radius: 0;
+  transition: all 0.15s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#sidebar a:hover { background: #161b22; color: #e2e8f0; }
+#sidebar a.active { background: #1f2937; color: #82AAFF; border-left: 2px solid #82AAFF; }
+
+/* ═══════════════════════════════════════════════════
+   MAIN CANVAS
+═══════════════════════════════════════════════════ */
+#main {
+  flex: 1;
+  padding: 32px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+}
+#screen-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #e2e8f0;
+  text-align: center;
+  margin-bottom: -32px;
+}
+
+/* ═══════════════════════════════════════════════════
+   PHONE FRAME
+═══════════════════════════════════════════════════ */
+.phone-frame {
+  width: 393px;
+  background: #0F111A;
+  border-radius: 44px;
+  border: 2px solid #3A3F58;
+  box-shadow: 0 0 0 4px #1a1c2e, 0 32px 64px rgba(0,0,0,.8);
+  overflow: hidden;
+  position: relative;
+  /* notch */
+}
+.phone-frame::before {
+  content: '';
+  display: block;
+  width: 120px;
+  height: 28px;
+  background: #0d0f17;
+  border-radius: 0 0 18px 18px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 10;
+}
+.phone-screen {
+  background: var(--bg);
+  min-height: 740px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+/* STATUS BAR */
+.status-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 20px 0;
+  height: 24px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--on-bg);
+}
+.status-bar .status-right { display: flex; gap: 6px; align-items: center; }
+
+/* TOP APP BAR */
+.top-bar {
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  height: 64px;
+  background: var(--bg);
+  gap: 4px;
+}
+.top-bar .title {
+  flex: 1;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--on-bg);
+  padding: 0 8px;
+}
+.top-bar .subtitle {
+  font-size: 14px;
+  color: var(--on-sv);
+}
+.icon-btn {
+  width: 40px; height: 40px;
+  border-radius: 20px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--on-bg);
+  font-size: 20px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* BOTTOM NAV */
+.bottom-nav {
+  display: flex;
+  background: var(--surface-var);
+  border-top: 1px solid var(--outline-var);
+  padding: 8px 0 16px;
+  height: 80px;
+  position: absolute;
+  bottom: 0;
+  left: 0; right: 0;
+}
+.nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding-top: 4px;
+  cursor: pointer;
+}
+.nav-item .nav-icon {
+  width: 64px; height: 32px;
+  border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  transition: background 0.15s;
+}
+.nav-item.active .nav-icon { background: var(--primary-c); }
+.nav-item .nav-label { font-size: 11px; color: var(--on-sv); font-weight: 500; }
+.nav-item.active .nav-label { color: var(--on-primary-c); }
+
+/* SCROLLABLE BODY */
+.screen-body {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 80px;
+}
+.screen-body::-webkit-scrollbar { width: 0; }
+
+/* ═══════════════════════════════════════════════════
+   COMMON COMPONENTS
+═══════════════════════════════════════════════════ */
+
+/* Search bar */
+.search-bar {
+  margin: 12px 16px 8px;
+  background: var(--surface-var);
+  border-radius: 28px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  height: 52px;
+  gap: 10px;
+  border: 1px solid var(--outline);
+}
+.search-bar input {
+  flex: 1; background: none; border: none; outline: none;
+  color: var(--on-bg); font-size: 15px;
+}
+.search-bar .si { color: var(--on-sv); font-size: 20px; }
+
+/* Section header */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 16px 8px;
+}
+.section-header h3 { font-size: 14px; font-weight: 600; color: var(--on-sv); text-transform: uppercase; letter-spacing: 0.5px; }
+.section-header .see-all { font-size: 13px; color: var(--primary); font-weight: 500; }
+
+/* Card */
+.card {
+  background: var(--surface);
+  border-radius: 12px;
+  border: 1px solid var(--outline-var);
+  padding: 16px;
+  margin: 0 16px 8px;
+}
+.card-sm { padding: 12px; }
+
+/* Chip */
+.chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: var(--surface-var);
+  border: 1px solid var(--outline);
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-size: 12px;
+  color: var(--on-sv);
+  white-space: nowrap;
+}
+.chip.active { background: var(--primary-c); border-color: var(--primary); color: var(--on-primary-c); }
+.chip.success { background: #2D5000; border-color: var(--tertiary); color: var(--tertiary); }
+.chip.error { background: #930000; border-color: var(--error); color: var(--error); }
+.chip.warning { background: #3d2c00; border-color: var(--warning); color: var(--warning); }
+
+/* Badge */
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.badge-success { background: #2D5000; color: var(--tertiary); }
+.badge-error { background: #930000; color: var(--error); }
+.badge-warning { background: #3d2c00; color: var(--warning); }
+.badge-info { background: #003547; color: var(--secondary); }
+.badge-primary { background: var(--primary-c); color: var(--on-primary-c); }
+
+/* Avatar */
+.avatar {
+  width: 36px; height: 36px;
+  border-radius: 18px;
+  background: var(--primary-c);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 700; color: var(--on-primary-c);
+  flex-shrink: 0;
+}
+
+/* Divider */
+.divider { height: 1px; background: var(--outline-var); margin: 0 16px; }
+
+/* Button */
+.btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  height: 48px;
+  border-radius: 8px;
+  font-size: 14px; font-weight: 600;
+  cursor: pointer; border: none;
+  transition: opacity .15s;
+}
+.btn:active { opacity: 0.8; }
+.btn-primary { background: var(--primary); color: var(--on-primary); }
+.btn-secondary { background: var(--surface-var); color: var(--on-bg); border: 1px solid var(--outline); }
+.btn-outlined { background: transparent; color: var(--primary); border: 1.5px solid var(--primary); }
+.btn-error { background: var(--error); color: #fff; }
+.btn-full { width: 100%; }
+.btn-ghost { background: transparent; color: var(--on-sv); }
+
+/* Tab row */
+.tab-row {
+  display: flex;
+  border-bottom: 1px solid var(--outline-var);
+  overflow-x: auto;
+  padding: 0 8px;
+}
+.tab-row::-webkit-scrollbar { height: 0; }
+.tab-item {
+  padding: 12px 16px 10px;
+  font-size: 13px; font-weight: 500;
+  color: var(--on-sv);
+  white-space: nowrap;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  flex-shrink: 0;
+}
+.tab-item.active { color: var(--primary); border-bottom-color: var(--primary); }
+
+/* Code block */
+.code-block {
+  background: var(--code-bg);
+  border-radius: 8px;
+  padding: 12px;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 12px;
+  line-height: 20px;
+  overflow-x: auto;
+  border: 1px solid var(--outline-var);
+}
+.code-block::-webkit-scrollbar { height: 4px; }
+.code-block::-webkit-scrollbar-thumb { background: var(--outline); border-radius: 2px; }
+.kw { color: var(--syn-keyword); }
+.str { color: var(--syn-string); }
+.num { color: var(--syn-number); }
+.cmt { color: var(--syn-comment); }
+.ty { color: var(--syn-type); }
+.fn { color: var(--syn-fn); }
+
+/* List item */
+.list-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  gap: 12px;
+  cursor: pointer;
+}
+.list-item:hover { background: rgba(255,255,255,.03); }
+.list-item .li-icon {
+  width: 40px; height: 40px; border-radius: 10px;
+  background: var(--surface-var);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
+}
+.list-item .li-body { flex: 1; min-width: 0; }
+.list-item .li-title { font-size: 14px; font-weight: 500; color: var(--on-bg); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.list-item .li-sub { font-size: 12px; color: var(--on-sv); margin-top: 2px; }
+.list-item .li-end { flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+
+/* Progress bar */
+.progress-bar { height: 4px; background: var(--surface-var); border-radius: 2px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 2px; background: var(--primary); }
+.progress-fill.success { background: var(--tertiary); }
+.progress-fill.error { background: var(--error); }
+.progress-fill.warning { background: var(--warning); }
+
+/* AI message bubble */
+.ai-bubble {
+  margin: 8px 16px 8px 8px;
+  background: var(--surface-var);
+  border-radius: 4px 16px 16px 16px;
+  padding: 12px 14px;
+  font-size: 14px; line-height: 1.5;
+  color: var(--on-bg);
+  border: 1px solid var(--outline-var);
+}
+.user-bubble {
+  margin: 8px 8px 8px 40px;
+  background: var(--primary-c);
+  border-radius: 16px 4px 16px 16px;
+  padding: 12px 14px;
+  font-size: 14px; line-height: 1.5;
+  color: var(--on-primary-c);
+  align-self: flex-end;
+}
+
+/* Horizontal scroll chips */
+.chip-scroll {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 8px 16px;
+}
+.chip-scroll::-webkit-scrollbar { height: 0; }
+
+/* Health grid */
+.health-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 0 16px 8px;
+}
+.health-cell {
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 14px;
+  border: 1px solid var(--outline-var);
+}
+.health-cell .hc-label { font-size: 11px; color: var(--on-sv); font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px; }
+.health-cell .hc-value { font-size: 24px; font-weight: 700; margin-top: 4px; }
+.health-cell .hc-sub { font-size: 11px; color: var(--on-sv); margin-top: 2px; }
+
+/* Settings row */
+.settings-row {
+  display: flex;
+  align-items: center;
+  padding: 14px 16px;
+  gap: 14px;
+  cursor: pointer;
+}
+.settings-row:hover { background: rgba(255,255,255,.03); }
+.settings-row .sr-icon { font-size: 20px; color: var(--on-sv); width: 24px; text-align: center; }
+.settings-row .sr-body { flex: 1; }
+.settings-row .sr-label { font-size: 15px; color: var(--on-bg); }
+.settings-row .sr-sub { font-size: 12px; color: var(--on-sv); margin-top: 1px; }
+.settings-row .sr-arrow { color: var(--on-sv); font-size: 16px; }
+
+/* Toggle */
+.toggle {
+  width: 44px; height: 26px;
+  border-radius: 13px;
+  background: var(--outline);
+  position: relative;
+  flex-shrink: 0;
+}
+.toggle.on { background: var(--primary); }
+.toggle::after {
+  content: '';
+  width: 20px; height: 20px;
+  background: #fff; border-radius: 10px;
+  position: absolute;
+  top: 3px; left: 3px;
+  transition: left .2s;
+}
+.toggle.on::after { left: 21px; }
+
+/* Step indicator */
+.step {
+  display: flex;
+  align-items: flex-start;
+  padding: 10px 16px;
+  gap: 12px;
+}
+.step .step-icon {
+  width: 28px; height: 28px;
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; flex-shrink: 0;
+  margin-top: 2px;
+}
+.step .step-icon.done { background: var(--tertiary); color: #1E3700; }
+.step .step-icon.active { background: var(--primary); color: var(--on-primary); animation: pulse 1.5s infinite; }
+.step .step-icon.pending { background: var(--surface-var); color: var(--on-sv); border: 1px solid var(--outline); }
+.step .step-icon.failed { background: var(--error); color: #fff; }
+.step .step-body { flex: 1; }
+.step .step-title { font-size: 14px; font-weight: 500; color: var(--on-bg); }
+.step .step-sub { font-size: 12px; color: var(--on-sv); margin-top: 2px; }
+
+@keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(130,170,255,.4); } 50% { box-shadow: 0 0 0 6px rgba(130,170,255,0); } }
+
+/* Language bar */
+.lang-bar { display: flex; height: 6px; border-radius: 3px; overflow: hidden; margin: 0 16px 12px; gap: 2px; }
+.lang-seg { height: 100%; border-radius: 3px; }
+
+/* Security finding */
+.finding {
+  display: flex;
+  padding: 12px 16px;
+  gap: 12px;
+  align-items: flex-start;
+  border-bottom: 1px solid var(--outline-var);
+}
+.finding .sev {
+  width: 8px; height: 8px; border-radius: 4px;
+  margin-top: 6px; flex-shrink: 0;
+}
+.sev-critical { background: #FF5370; box-shadow: 0 0 6px rgba(255,83,112,.5); }
+.sev-high { background: var(--warning); }
+.sev-medium { background: var(--secondary); }
+.sev-low { background: var(--tertiary); }
+
+/* Scrolling notification */
+.notif-item {
+  display: flex;
+  padding: 12px 16px;
+  gap: 12px;
+  border-bottom: 1px solid var(--outline-var);
+  cursor: pointer;
+}
+.notif-item.unread { background: rgba(130,170,255,.04); }
+.notif-dot { width: 8px; height: 8px; border-radius: 4px; background: var(--primary); flex-shrink: 0; margin-top: 6px; }
+
+/* ═══════════════════════════════════════════════════
+   SCREEN WRAPPERS — hidden by default
+═══════════════════════════════════════════════════ */
+.screen-wrap { display: none; }
+.screen-wrap.visible { display: block; }
+</style>
+
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════ SIDEBAR ════ -->
+<nav id="sidebar">
+  <h2>DevOS AI Screens</h2>
+
+  <div class="epic">E01 · Foundation</div>
+  <a href="#" onclick="show('splash')">01 Splash</a>
+  <a href="#" onclick="show('onboarding')">02 Onboarding</a>
+  <a href="#" onclick="show('login')">03 Login</a>
+
+  <div class="epic">E10 · Command Center</div>
+  <a href="#" onclick="show('home')">04 Home Dashboard</a>
+  <a href="#" onclick="show('notifications')">37 Notifications</a>
+  <a href="#" onclick="show('search')">39 Search</a>
+  <a href="#" onclick="show('profile')">38 Profile</a>
+
+  <div class="epic">E02 · Repository Intel</div>
+  <a href="#" onclick="show('project-list')">05 Project List</a>
+  <a href="#" onclick="show('project-overview')">06 Project Overview</a>
+  <a href="#" onclick="show('repo-import')">07 Repository Import</a>
+  <a href="#" onclick="show('repo-sync')">08 Repository Sync</a>
+  <a href="#" onclick="show('repo-overview')">09 Repository Overview</a>
+
+  <div class="epic">E03 · Code Intelligence</div>
+  <a href="#" onclick="show('file-explorer')">10 File Explorer</a>
+  <a href="#" onclick="show('code-viewer')">11 Code Viewer</a>
+  <a href="#" onclick="show('code-search')">12 Code Search</a>
+  <a href="#" onclick="show('symbol-details')">13 Symbol Details</a>
+  <a href="#" onclick="show('dep-graph')">14 Dependency Graph</a>
+  <a href="#" onclick="show('architecture')">15 Architecture Overview</a>
+
+  <div class="epic">E04 · AI Platform</div>
+  <a href="#" onclick="show('ai-chat')">16 AI Chat</a>
+  <a href="#" onclick="show('ai-answer')">17 AI Answer Details</a>
+  <a href="#" onclick="show('ai-evidence')">18 AI Source Evidence</a>
+  <a href="#" onclick="show('ai-settings')">34 AI Settings</a>
+  <a href="#" onclick="show('provider-settings')">35 Provider Settings</a>
+
+  <div class="epic">E05 · Agents & MCP</div>
+  <a href="#" onclick="show('agent-run')">19 Agent Run</a>
+  <a href="#" onclick="show('agent-tool')">20 Agent Tool Execution</a>
+  <a href="#" onclick="show('mcp-tools')">33 MCP Tools</a>
+
+  <div class="epic">E06 · Developer Intel</div>
+  <a href="#" onclick="show('git-history')">21 Git History</a>
+  <a href="#" onclick="show('issues')">22 Issues</a>
+  <a href="#" onclick="show('issue-detail')">23 Issue Detail</a>
+  <a href="#" onclick="show('pull-requests')">24 Pull Requests</a>
+  <a href="#" onclick="show('pr-review')">25 PR AI Review</a>
+
+  <div class="epic">E07 · Quality Intel</div>
+  <a href="#" onclick="show('security')">26 Security Findings</a>
+  <a href="#" onclick="show('test-intel')">27 Test Intelligence</a>
+
+  <div class="epic">E08 · Learning</div>
+  <a href="#" onclick="show('learning-dashboard')">28 Learning Dashboard</a>
+  <a href="#" onclick="show('course-details')">29 Course Details</a>
+  <a href="#" onclick="show('lesson')">30 Lesson</a>
+  <a href="#" onclick="show('quiz')">31 Quiz</a>
+
+  <div class="epic">E09 · Developer Memory</div>
+  <a href="#" onclick="show('memory')">32 Developer Memory</a>
+
+  <div class="epic">E11 · Settings & UI</div>
+  <a href="#" onclick="show('settings')">40 Settings</a>
+  <a href="#" onclick="show('project-settings')">36 Project Settings</a>
+</nav>
+
+<!-- ════════════════════════════════════════════ MAIN ════ -->
+<main id="main">
+
+<!-- ══════════════════════════════════ SPLASH ══ -->
+<div id="s-splash" class="screen-wrap visible">
+<div class="phone-frame">
+<div class="phone-screen" style="background: linear-gradient(160deg, #0F111A 0%, #1a1c2e 100%); justify-content: center; align-items: center; min-height: 812px;">
+  <div style="text-align:center; padding: 40px 32px;">
+    <div style="width:80px;height:80px;border-radius:20px;background:linear-gradient(135deg,#82AAFF,#89DDFF);margin:0 auto 24px;display:flex;align-items:center;justify-content:center;font-size:36px;box-shadow:0 8px 32px rgba(130,170,255,.4);">🤖</div>
+    <div style="font-size:32px;font-weight:800;color:#E2E8F0;letter-spacing:-1px;">DevOS AI</div>
+    <div style="font-size:13px;color:#A8B3CF;margin-top:8px;line-height:1.5;">Understand your code.<br>Learn faster. Build smarter.</div>
+    <div style="margin-top:48px;">
+      <div style="width:48px;height:4px;background:#252840;border-radius:2px;margin:0 auto;overflow:hidden;">
+        <div style="width:60%;height:100%;background:linear-gradient(90deg,#82AAFF,#89DDFF);border-radius:2px;animation:loading 1.5s ease-in-out infinite;"></div>
+      </div>
+      <div style="font-size:12px;color:#546E7A;margin-top:10px;">Initializing…</div>
+    </div>
+  </div>
+  <div style="position:absolute;bottom:40px;width:100%;text-align:center;">
+    <div style="font-size:11px;color:#3A3F58;">v1.0.0 · Build 2026.10.07</div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════ ONBOARDING ══ -->
+<div id="s-onboarding" class="screen-wrap">
+<div class="phone-frame">
+<div class="phone-screen" style="min-height:812px;">
+  <div class="status-bar"><span>9:41</span><div class="status-right">📶 🔋</div></div>
+  <div style="display:flex;justify-content:flex-end;padding:8px 16px;">
+    <span style="font-size:13px;color:#82AAFF;font-weight:500;">Skip</span>
+  </div>
+  <!-- Slide 1 -->
+  <div style="padding: 24px 32px; text-align:center; flex:1; display:flex; flex-direction:column; align-items:center;">
+    <div style="width:200px;height:180px;background:#1A1C2E;border-radius:24px;border:1px solid #3A3F58;display:flex;align-items:center;justify-content:center;font-size:72px;margin:16px auto 32px;">🤖</div>
+    <div style="font-size:24px;font-weight:700;color:#E2E8F0;line-height:1.3;">AI Developer<br>Command Center</div>
+    <div style="font-size:14px;color:#A8B3CF;margin-top:12px;line-height:1.6;">Your intelligent workspace for Android development. AI-powered code understanding at your fingertips.</div>
+  </div>
+  <!-- Dots -->
+  <div style="display:flex;justify-content:center;gap:8px;padding:24px 0 16px;">
+    <div style="width:24px;height:8px;background:#82AAFF;border-radius:4px;"></div>
+    <div style="width:8px;height:8px;background:#252840;border-radius:4px;"></div>
+    <div style="width:8px;height:8px;background:#252840;border-radius:4px;"></div>
+    <div style="width:8px;height:8px;background:#252840;border-radius:4px;"></div>
+  </div>
+  <div style="padding:16px 24px 48px;">
+    <button class="btn btn-primary btn-full">Next →</button>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════ LOGIN ══ -->
+<div id="s-login" class="screen-wrap">
+<div class="phone-frame">
+<div class="phone-screen" style="min-height:812px;">
+  <div class="status-bar"><span>9:41</span><div class="status-right">📶 🔋</div></div>
+  <div style="padding:48px 24px 32px;text-align:center;">
+    <div style="width:64px;height:64px;border-radius:16px;background:linear-gradient(135deg,#82AAFF,#89DDFF);margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:28px;">🤖</div>
+    <div style="font-size:24px;font-weight:700;color:#E2E8F0;">Sign in to DevOS AI</div>
+    <div style="font-size:13px;color:#A8B3CF;margin-top:6px;">Connect your developer workspace</div>
+  </div>
+  <div style="padding:0 24px;display:flex;flex-direction:column;gap:12px;">
+    <button class="btn btn-secondary btn-full" style="gap:12px;font-size:14px;justify-content:flex-start;padding:0 20px;">
+      <span style="font-size:18px;">🐙</span> Continue with GitHub
+    </button>
+    <button class="btn btn-secondary btn-full" style="gap:12px;font-size:14px;justify-content:flex-start;padding:0 20px;">
+      <span style="font-size:18px;">🦊</span> Continue with GitLab
+    </button>
+    <div style="display:flex;align-items:center;gap:12px;padding:8px 0;">
+      <div style="flex:1;height:1px;background:#3A3F58;"></div>
+      <span style="font-size:12px;color:#546E7A;">or</span>
+      <div style="flex:1;height:1px;background:#3A3F58;"></div>
+    </div>
+    <div style="background:#1A1C2E;border:1px solid #3A3F58;border-radius:8px;padding:14px 16px;">
+      <div style="font-size:11px;color:#A8B3CF;margin-bottom:4px;">EMAIL</div>
+      <div style="font-size:14px;color:#E2E8F0;">dev@example.com</div>
+    </div>
+    <div style="background:#1A1C2E;border:1px solid #3A3F58;border-radius:8px;padding:14px 16px;">
+      <div style="font-size:11px;color:#A8B3CF;margin-bottom:4px;">PASSWORD</div>
+      <div style="font-size:14px;color:#546E7A;">••••••••</div>
+    </div>
+    <button class="btn btn-primary btn-full" style="margin-top:4px;">Sign In</button>
+  </div>
+  <div style="text-align:center;padding:16px;font-size:12px;color:#546E7A;">
+    By continuing you agree to our <span style="color:#82AAFF;">Terms</span> &amp; <span style="color:#82AAFF;">Privacy Policy</span>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════ HOME DASHBOARD ══ -->
+<div id="s-home" class="screen-wrap">
+<div class="phone-frame">
+<div class="phone-screen" style="min-height:812px;position:relative;">
+  <div class="status-bar"><span>9:41</span><div class="status-right">📶 🔋</div></div>
+  <div class="top-bar">
+    <div style="flex:1;">
+      <div style="font-size:11px;color:#A8B3CF;">Wednesday, Oct 7</div>
+      <div style="font-size:20px;font-weight:700;color:#E2E8F0;">Good morning, Dev 👋</div>
+    </div>
+    <div class="icon-btn" style="position:relative;">🔔<span style="position:absolute;top:6px;right:6px;width:8px;height:8px;background:#FF5370;border-radius:4px;border:2px solid #0F111A;"></span></div>
+    <div class="avatar">D</div>
+  </div>
+
+  <div class="screen-body">
+    <!-- AI Search -->
+    <div class="search-bar" style="margin:8px 16px 12px;">
+      <span class="si">🔍</span>
+      <input placeholder="Ask AI anything about your code…" style="font-size:14px;" />
+      <span style="font-size:18px;">✨</span>
+    </div>
+
+    <!-- Recent Projects -->
+    <div class="section-header"><h3>Recent Projects</h3><span class="see-all">See all</span></div>
+    <div style="display:flex;gap:12px;overflow-x:auto;padding:0 16px 12px;">
+      <div style="min-width:160px;background:#1A1C2E;border-radius:12px;border:1px solid #3A3F58;padding:14px;cursor:pointer;">
+        <div style="font-size:20px;margin-bottom:8px;">📱</div>
+        <div style="font-size:14px;font-weight:600;color:#E2E8F0;">DevOS AI</div>
+        <div style="font-size:11px;color:#A8B3CF;margin-top:2px;">Android · Kotlin</div>
+        <div style="display:flex;align-items:center;gap:4px;margin-top:8px;">
+          <div style="width:6px;height:6px;border-radius:3px;background:#C3E88D;"></div>
+          <span style="font-size:11px;color:#C3E88D;">Healthy</span>
+        </div>
+      </div>
+      <div style="min-width:160px;background:#1A1C2E;border-radius:12px;border:1px solid #3A3F58;padding:14px;cursor:pointer;">
+        <div style="font-size:20px;margin-bottom:8px;">⚡</div>
+        <div style="font-size:14px;font-weight:600;color:#E2E8F0;">Compose Lib</div>
+        <div style="font-size:11px;color:#A8B3CF;margin-top:2px;">Android · Kotlin</div>
+        <div style="display:flex;align-items:center;gap:4px;margin-top:8px;">
+          <div style="width:6px;height:6px;border-radius:3px;background:#FFCB6B;"></div>
+          <span style="font-size:11px;color:#FFCB6B;">2 Warnings</span>
+        </div>
+      </div>
+      <div style="min-width:160px;background:#1A1C2E;border-radius:12px;border:1px solid #3A3F58;padding:14px;cursor:pointer;">
+        <div style="font-size:20px;margin-bottom:8px;">🔧</div>
+        <div style="font-size:14px;font-weight:600;color:#E2E8F0;">SDK Tools</div>
+        <div style="font-size:11px;color:#A8B3CF;margin-top:2px;">Kotlin Multiplatform</div>
+        <div style="display:flex;align-items:center;gap:4px;margin-top:8px;">
+          <div style="width:6px;height:6px;border-radius:3px;background:#FF5370;"></div>
+          <span style="font-size:11px;color:#FF5370;">1 Critical</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Recommendations -->
+    <div class="section-header"><h3>AI Recommendations</h3><span style="font-size:12px;color:#A8B3CF;">3 items</span></div>
+    <div class="card" style="border-left:3px solid #FF5370;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+        <div style="display:flex;gap:10px;flex:1;">
+          <span style="font-size:20px;">🔒</span>
+          <div>
+            <div style="font-size:13px;font-weight:600;color:#E2E8F0;">Security: SQL Injection Risk</div>
+            <div style="font-size:12px;color:#A8B3CF;margin-top:3px;">Found in <span style="color:#89DDFF;">DatabaseHelper.kt</span> · High severity</div>
+          </div>
+        </div>
+        <span style="color:#546E7A;font-size:16px;">✕</span>
+      </div>
+    </div>
+    <div class="card" style="border-left:3px solid #FFCB6B;">
+      <div style="display:flex;gap:10px;">
+        <span style="font-size:20px;">🧪</span>
+        <div>
+          <div style="font-size:13px;font-weight:600;color:#E2E8F0;">Add tests for AuthViewModel</div>
+          <div style="font-size:12px;color:#A8B3CF;margin-top:3px;">Coverage dropped to 34% · 3 untested functions</div>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="border-left:3px solid #82AAFF;">
+      <div style="display:flex;gap:10px;">
+        <span style="font-size:20px;">📖</span>
+        <div>
+          <div style="font-size:13px;font-weight:600;color:#E2E8F0;">Learn: Kotlin Coroutines</div>
+          <div style="font-size:12px;color:#A8B3CF;margin-top:3px;">Based on recent code patterns · 4 lessons</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Project Health -->
+    <div class="section-header"><h3>Project Health</h3></div>
+    <div class="health-grid">
+      <div class="health-cell"><div class="hc-label">Security</div><div class="hc-value" style="color:#FF5370;">2</div><div class="hc-sub">Critical findings</div></div>
+      <div class="health-cell"><div class="hc-label">Tests</div><div class="hc-value" style="color:#FFCB6B;">67%</div><div class="hc-sub">Coverage</div></div>
+      <div class="health-cell"><div class="hc-label">Architecture</div><div class="hc-value" style="color:#C3E88D;">A</div><div class="hc-sub">Clean MVVM</div></div>
+      <div class="health-cell"><div class="hc-label">Dependencies</div><div class="hc-value" style="color:#FFCB6B;">3</div><div class="hc-sub">Updates available</div></div>
+    </div>
+
+    <!-- Recent AI Sessions -->
+    <div class="section-header"><h3>Recent AI Sessions</h3><span class="see-all">See all</span></div>
+    <div class="list-item">
+      <div class="li-icon">✨</div>
+      <div class="li-body">
+        <div class="li-title">Explain RepositoryViewModel</div>
+        <div class="li-sub">2 hours ago · DevOS AI</div>
+      </div>
+      <div class="li-end"><span style="font-size:12px;color:#546E7A;">›</span></div>
+    </div>
+    <div class="divider"></div>
+    <div class="list-item">
+      <div class="li-icon">🐛</div>
+      <div class="li-body">
+        <div class="li-title">Debug navigation back stack issue</div>
+        <div class="li-sub">Yesterday · Compose Lib</div>
+      </div>
+      <div class="li-end"><span style="font-size:12px;color:#546E7A;">›</span></div>
+    </div>
+    <div style="height:16px;"></div>
+  </div>
+
+  <!-- Bottom Nav -->
+  <div class="bottom-nav">
+    <div class="nav-item active"><div class="nav-icon">🏠</div><div class="nav-label">Home</div></div>
+    <div class="nav-item"><div class="nav-icon">📁</div><div class="nav-label">Projects</div></div>
+    <div class="nav-item"><div class="nav-icon">✨</div><div class="nav-label">AI</div></div>
+    <div class="nav-item"><div class="nav-icon">🎓</div><div class="nav-label">Learn</div></div>
+    <div class="nav-item"><div class="nav-icon">☰</div><div class="nav-label">More</div></div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════ PROJECT LIST ══ -->
+<div id="s-project-list" class="screen-wrap">
+<div class="phone-frame">
+<div class="phone-screen" style="min-height:812px;position:relative;">
+  <div class="status-bar"><span>9:41</span><div class="status-right">📶 🔋</div></div>
+  <div class="top-bar">
+    <div class="title">Projects</div>
+    <div class="icon-btn">🔍</div>
+    <div class="icon-btn">＋</div>
+  </div>
+  <div class="screen-body">
+    <div class="search-bar"><span class="si">🔍</span><input placeholder="Search projects…"/></div>
+    <div class="chip-scroll">
+      <div class="chip active">All (4)</div>
+      <div class="chip">Android</div>
+      <div class="chip">Kotlin</div>
+      <div class="chip">Multiplatform</div>
+    </div>
+    <!-- Project cards -->
+    <div class="card" style="margin-top:8px;">
+      <div style="display:flex;align-items:flex-start;gap:12px;">
+        <div style="width:48px;height:48px;border-radius:12px;background:#252840;display:flex;align-items:center;justify-content:center;font-size:22px;">📱</div>
+        <div style="flex:1;">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+            <div style="font-size:16px;font-weight:600;color:#E2E8F0;">DevOS AI</div>
+            <div class="badge badge-success">Healthy</div>
+          </div>
+          <div style="font-size:12px;color:#A8B3CF;margin-top:3px;">github.com/dev/devos-ai</div>
+          <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;">
+            <div class="chip" style="font-size:11px;padding:2px 8px;">Kotlin</div>
+            <div class="chip" style="font-size:11px;padding:2px 8px;">Android</div>
+            <div class="chip" style="font-size:11px;padding:2px 8px;">Compose</div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px solid #2A2E42;">
+        <span style="font-size:12px;color:#546E7A;">Synced 2h ago</span>
+        <div style="display:flex;gap:12px;">
+          <span style="font-size:12px;color:#A8B3CF;">⚠ 2</span>
+          <span style="font-size:12px;color:#A8B3CF;">🔀 5 PRs</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div style="display:flex;align-items:flex-start;gap:12px;">
+        <div style="width:48px;height:48px;border-radius:12px;background:#252840;display:flex;align-items:center;justify-content:center;font-size:22px;">⚡</div>
+        <div style="flex:1;">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+            <div style="font-size:16px;font-weight:600;color:#E2E8F0;">Compose Lib</div>
+            <div class="badge badge-warning">2 Warnings</div>
+          </div>
+          <div style="font-size:12px;color:#A8B3CF;margin-top:3px;">github.com/dev/compose-lib</div>
+          <div style="display:flex;gap:6px;margin-top:8px;">
+            <div class="chip" style="font-size:11px;padding:2px 8px;">Kotlin</div>
+            <div class="chip" style="font-size:11px;padding:2px 8px;">Compose</div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px solid #2A2E42;">
+        <span style="font-size:12px;color:#546E7A;">Synced 1d ago</span>
+        <div style="display:flex;gap:12px;">
+          <span style="font-size:12px;color:#FFCB6B;">⚠ 2</span>
+          <span style="font-size:12px;color:#A8B3CF;">🔀 2 PRs</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div style="display:flex;align-items:flex-start;gap:12px;">
+        <div style="width:48px;height:48px;border-radius:12px;background:#252840;display:flex;align-items:center;justify-content:center;font-size:22px;">🔧</div>
+        <div style="flex:1;">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+            <div style="font-size:16px;font-weight:600;color:#E2E8F0;">SDK Tools</div>
+            <div class="badge badge-error">1 Critical</div>
+          </div>
+          <div style="font-size:12px;color:#A8B3CF;margin-top:3px;">github.com/dev/sdk-tools</div>
+          <div style="display:flex;gap:6px;margin-top:8px;">
+            <div class="chip" style="font-size:11px;padding:2px 8px;">Kotlin MP</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="height:16px;"></div>
+  </div>
+  <!-- FAB -->
+  <div style="position:absolute;bottom:96px;right:16px;width:56px;height:56px;border-radius:16px;background:#82AAFF;display:flex;align-items:center;justify-content:center;font-size:22px;color:#001E6E;font-weight:700;box-shadow:0 4px 16px rgba(130,170,255,.4);">＋</div>
+  <div class="bottom-nav">
+    <div class="nav-item"><div class="nav-icon">🏠</div><div class="nav-label">Home</div></div>
+    <div class="nav-item active"><div class="nav-icon">📁</div><div class="nav-label">Projects</div></div>
+    <div class="nav-item"><div class="nav-icon">✨</div><div class="nav-label">AI</div></div>
+    <div class="nav-item"><div class="nav-icon">🎓</div><div class="nav-label">Learn</div></div>
+    <div class="nav-item"><div class="nav-icon">☰</div><div class="nav-label">More</div></div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════ PROJECT OVERVIEW ══ -->
+<div id="s-project-overview" class="screen-wrap">
+<div class="phone-frame">
+<div class="phone-screen" style="min-height:812px;position:relative;">
+  <div class="status-bar"><span>9:41</span><div class="status-right">📶 🔋</div></div>
+  <div class="top-bar">
+    <div class="icon-btn">←</div>
+    <div class="title" style="font-size:18px;">DevOS AI</div>
+    <div class="icon-btn">⋯</div>
+  </div>
+  <!-- Header card -->
+  <div style="margin:0 16px 0;background:#1A1C2E;border-radius:12px;border:1px solid #3A3F58;padding:16px;">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+      <span style="font-size:24px;">📱</span>
+      <div>
+        <div style="font-size:18px;font-weight:700;color:#E2E8F0;">DevOS AI</div>
+        <div style="font-size:12px;color:#A8B3CF;">github.com/dev/devos-ai</div>
+      </div>
+      <div class="badge badge-success" style="margin-left:auto;">Healthy</div>
+    </div>
+    <div class="lang-bar">
+      <div class="lang-seg" style="flex:7;background:#82AAFF;" title="Kotlin 70%"></div>
+      <div class="lang-seg" style="flex:2;background:#C3E88D;" title="XML 20%"></div>
+      <div class="lang-seg" style="flex:1;background:#FFCB6B;" title="Other 10%"></div>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;">
+      <div class="chip" style="font-size:11px;padding:2px 8px;">Kotlin</div>
+      <div class="chip" style="font-size:11px;padding:2px 8px;">Android</div>
+      <div class="chip" style="font-size:11px;padding:2px 8px;">Compose</div>
+      <div class="chip" style="font-size:11px;padding:2px 8px;">MVVM</div>
+    </div>
+  </div>
+  <!-- Quick actions -->
+  <div style="display:flex;gap:8px;overflow-x:auto;padding:12px 16px;">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;">
+      <div style="width:52px;height:52px;background:#252840;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;border:1px solid #3A3F58;">✨</div>
+      <span style="font-size:10px;color:#A8B3CF;white-space:nowrap;">Ask AI</span>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;">
+      <div style="width:52px;height:52px;background:#252840;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;border:1px solid #3A3F58;">📂</div>
+      <span style="font-size:10px;color:#A8B3CF;white-space:nowrap;">Explore</span>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;">
+      <div style="width:52px;height:52px;background:#252840;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;border:1px solid #3A3F58;">🏗</div>
+      <span style="font-size:10px;color:#A8B3CF;white-space:nowrap;">Arch</span>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;">
+      <div style="width:52px;height:52px;background:#252840;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;border:1px solid #3A3F58;">🌿</div>
+      <span style="font-size:10px;color:#A8B3CF;white-space:nowrap;">Git</span>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;">
+      <div style="width:52px;height:52px;background:#252840;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;border:1px solid #3A3F58;">🔒</div>
+      <span style="font-size:10px;color:#A8B3CF;white-space:nowrap;">Security</span>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;">
+      <div style="width:52px;height:52px;background:#252840;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;border:1px solid #3A3F58;">🧪</div>
+      <span style="font-size:10px;color:#A8B3CF;white-space:nowrap;">Tests</span>
+    </div>
+  </div>
+  <!-- Tabs -->
+  <div class="tab-row">
+    <div class="tab-item active">Overview</div>
+    <div class="tab-item">Repos</div>
+    <div class="tab-item">Issues</div>
+    <div class="tab-item">PRs</div>
+    <div class="tab-item">Security</div>
+    <div class="tab-item">Tests</div>
+  </div>
+  <div class="screen-body" style="padding-bottom:80px;">
+    <div class="health-grid" style="margin-top:12px;">
+      <div class="health-cell"><div class="hc-label">Security</div><div class="hc-value" style="color:#C3E88D;">✓</div><div class="hc-sub">No issues</div></div>
+      <div class="health-cell"><div class="hc-label">Coverage</div><div class="hc-value" style="color:#FFCB6B;">67%</div><div class="hc-sub">Target: 80%</div></div>
+      <div class="health-cell"><div class="hc-label">Open PRs</div><div class="hc-value" style="color:#82AAFF;">5</div><div class="hc-sub">2 need review</div></div>
+      <div class="health-cell"><div class="hc-label">Issues</div><div class="hc-value" style="color:#89DDFF;">12</div><div class="hc-sub">3 high priority</div></div>
+    </div>
+    <div class="section-header"><h3>Recent Activity</h3></div>
+    <div class="list-item">
+      <div class="li-icon" style="font-size:14px;">🔀</div>
+      <div class="li-body"><div class="li-title">feat: add AI chat context selector</div><div class="li-sub">by dev · 2 hours ago</div></div>
+    </div>
+    <div class="divider"></div>
+    <div class="list-item">
+      <div class="li-icon" style="font-size:14px;">🐛</div>
+      <div class="li-body"><div class="li-title">fix: navigation back stack memory leak</div><div class="li-sub">by dev · yesterday</div></div>
+    </div>
+  </div>
+  <div class="bottom-nav">
+    <div class="nav-item"><div class="nav-icon">🏠</div><div class="nav-label">Home</div></div>
+    <div class="nav-item active"><div class="nav-icon">📁</div><div class="nav-label">Projects</div></div>
+    <div class="nav-item"><div class="nav-icon">✨</div><div class="nav-label">AI</div></div>
+    <div class="nav-item"><div class="nav-icon">🎓</div><div class="nav-label">Learn</div></div>
+    <div class="nav-item"><div class="nav-icon">☰</div><div class="nav-label">More</div></div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════ REPO IMPORT ══ -->
+<div id="s-repo-import" class="screen-wrap">
+<div class="phone-frame">
+<div class="phone-screen" style="min-height:812px;">
+  <div class="status-bar"><span>9:41</span><div class="status-right">📶 🔋</div></div>
+  <div class="top-bar"><div class="icon-btn">←</div><div class="title">Import Repository</div></div>
+  <div class="screen-body">
+    <div style="padding:16px 16px 8px;font-size:13px;color:#A8B3CF;">SELECT SOURCE</div>
+    <div style="display:flex;gap:8px;padding:0 16px 16px;">
+      <div style="flex:1;background:#003298;border:1.5px solid #82AAFF;border-radius:10px;padding:12px;text-align:center;cursor:pointer;">
+        <div style="font-size:20px;margin-bottom:4px;">🐙</div>
+        <div style="font-size:12px;font-weight:600;color:#D6E2FF;">GitHub</div>
+      </div>
+      <div style="flex:1;background:#1A1C2E;border:1px solid #3A3F58;border-radius:10px;padding:12px;text-align:center;cursor:pointer;">
+        <div style="font-size:20px;margin-bottom:4px;">🦊</div>
+        <div style="font-size:12px;color:#A8B3CF;">GitLab</div>
+      </div>
+      <div style="flex:1;background:#1A1C2E;border:1px solid #3A3F58;border-radius:10px;padding:12px;text-align:center;cursor:pointer;">
+        <div style="font-size:20px;margin-bottom:4px;">💾</div>
+        <div style="font-size:12px;color:#A8B3CF;">Local</div>
+      </div>
+    </div>
+    <div style="padding:0 16px 8px;font-size:13px;color:#A8B3CF;">REPOSITORY URL</div>
+    <div style="margin:0 16px 16px;background:#1A1C2E;border:1px solid #82AAFF;border-radius:8px;padding:14px 16px;display:flex;align-items:center;gap:8px;">
+      <span style="font-size:14px;color:#82AAFF;">🔗</span>
+      <input value="https://github.com/dev/my-android-app" style="flex:1;background:none;border:none;outline:none;color:#E2E8F0;font-size:14px;"/>
+    </div>
+    <!-- Preview card -->
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+        <div style="width:40px;height:40px;border-radius:10px;background:#252840;display:flex;align-items:center;justify-content:center;font-size:18px;">📦</div>
+        <div>
+          <div style="font-size:15px;font-weight:600;color:#E2E8F0;">my-android-app</div>
+          <div style="font-size:12px;color:#A8B3CF;">dev / 24 contributors</div>
+        </div>
+        <div class="badge badge-success" style="margin-left:auto;">Valid</div>
+      </div>
+      <div style="display:flex;gap:16px;">
+        <div><div style="font-size:11px;color:#546E7A;">STARS</div><div style="font-size:14px;color:#E2E8F0;">2.4k</div></div>
+        <div><div style="font-size:11px;color:#546E7A;">FILES</div><div style="font-size:14px;color:#E2E8F0;">847</div></div>
+        <div><div style="font-size:11px;color:#546E7A;">SIZE</div><div style="font-size:14px;color:#E2E8F0;">12 MB</div></div>
+        <div><div style="font-size:11px;color:#546E7A;">BRANCH</div><div style="font-size:14px;color:#E2E8F0;">main</div></div>
+      </div>
+    </div>
+    <div style="padding:16px 16px 8px;font-size:13px;color:#A8B3CF;">IMPORT OPTIONS</div>
+    <div class="settings-row" style="margin:0 16px;">
+      <span class="sr-icon">🌿</span>
+      <div class="sr-body"><div class="sr-label">Branch</div><div class="sr-sub">main</div></div>
+      <span style="color:#82AAFF;font-size:12px;">Change</span>
+    </div>
+    <div class="settings-row" style="margin:0 16px;">
+      <span class="sr-icon">🤖</span>
+      <div class="sr-body"><div class="sr-label">Build AI Index</div><div class="sr-sub">Symbol table + RAG embeddings</div></div>
+      <div class="toggle on"></div>
+    </div>
+    <div style="padding:24px 16px 16px;">
+      <button class="btn btn-primary btn-full" style="font-size:15px;">Import Repository</button>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════ REPO SYNC ══ -->
+<div id="s-repo-sync" class="screen-wrap">
+<div class="phone-frame">
+<div class="phone-screen" style="min-height:812px;">
+  <div class="status-bar"><span>9:41</span><div class="status-right">📶 🔋</div></div>
+  <div class="top-bar"><div class="icon-btn">←</div><div class="title">Syncing Repository</div></div>
+  <div class="screen-body">
+    <div style="padding:24px 16px 16px;text-align:center;">
+      <div style="font-size:18px;font-weight:600;color:#E2E8F0;">DevOS AI</div>
+      <div style="font-size:13px;color:#A8B3CF;margin-top:4px;">Syncing from GitHub · main</div>
+      <div style="margin:20px auto;width:80px;height:80px;border-radius:40px;border:3px solid #252840;border-top-color:#82AAFF;animation:spin 1s linear infinite;"></div>
+      <div style="font-size:14px;color:#82AAFF;font-weight:500;">Indexing files…</div>
+    </div>
+    <div style="padding:0 16px;">
+      <div class="step">
+        <div class="step-icon done">✓</div>
+        <div class="step-body"><div class="step-title">Fetch remote</div><div class="step-sub">847 files · 2.3s</div></div>
+        <div class="badge badge-success">Done</div>
+      </div>
+      <div style="width:2px;height:16px;background:#2D5000;margin-left:29px;"></div>
+      <div class="step">
+        <div class="step-icon active">⟳</div>
+        <div class="step-body"><div class="step-title">Index files</div><div class="step-sub">247 / 847 files indexed</div></div>
+      </div>
+      <div style="width:2px;height:16px;background:#3A3F58;margin-left:29px;"></div>
+      <div class="step">
+        <div class="step-icon pending">○</div>
+        <div class="step-body"><div class="step-title">Build symbol table</div><div class="step-sub">Pending</div></div>
+      </div>
+      <div style="width:2px;height:16px;background:#3A3F58;margin-left:29px;"></div>
+      <div class="step">
+        <div class="step-icon pending">○</div>
+        <div class="step-body"><div class="step-title">Build code graph</div><div class="step-sub">Pending</div></div>
+      </div>
+      <div style="width:2px;height:16px;background:#3A3F58;margin-left:29px;"></div>
+      <div class="step">
+        <div class="step-icon pending">○</div>
+        <div class="step-body"><div class="step-title">Update RAG embeddings</div><div class="step-sub">Pending</div></div>
+      </div>
+    </div>
+    <div style="margin:16px 16px 0;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+        <span style="font-size:12px;color:#A8B3CF;">Overall progress</span>
+        <span style="font-size:12px;color:#82AAFF;font-weight:600;">29%</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:29%;"></div></div>
+    </div>
+    <div style="padding:24px 16px 0;">
+      <button class="btn btn-outlined btn-full">Cancel Sync</button>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════ REPO OVERVIEW ══ -->
+<div id="s-repo-overview" class="screen-wrap">
+<div class="phone-frame">
+<div class="phone-screen" style="min-height:812px;position:relative;">
+  <div class="status-bar"><span>9:41</span><div class="status-right">📶 🔋</div></div>
+  <div class="top-bar"><div class="icon-btn">←</div><div class="title" style="font-size:17px;">devos-ai</div><div class="icon-btn">🔄</div><div class="icon-btn">⋯</div></div>
+  <div style="padding:0 16px 12px;background:#0F111A;">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+      <div class="badge badge-primary">main</div>
+      <span style="font-size:12px;color:#546E7A;">Last sync: 2h ago</span>
+      <div class="badge badge-success" style="margin-left:auto;">✓ Indexed</div>
+    </div>
+    <div class="lang-bar">
+      <div class="lang-seg" style="flex:7;background:#82AAFF;"></div>
+      <div class="lang-seg" style="flex:2;background:#C3E88D;"></div>
+      <div class="lang-seg" style="flex:1;background:#FFCB6B;"></div>
+    </div>
+    <div style="display:flex;gap:16px;margin-top:10px;">
+      <div style="text-align:center;"><div style="font-size:14px;font-weight:600;color:#E2E8F0;">2.4k</div><div style="font-size:10px;color:#546E7A;">Stars</div></div>
+      <div style="text-align:center;"><div style="font-size:14px;font-weight:600;color:#E2E8F0;">847</div><div style="font-size:10px;color:#546E7A;">Files</div></div>
+      <div style="text-align:center;"><div style="font-size:14px;font-weight:600;color:#E2E8F0;">12</div><div style="font-size:10px;color:#546E7A;">Open Issues</div></div>
+      <div style="text-align:center;"><div style="font-size:14px;font-weight:600;color:#E2E8F0;">5</div><div style="font-size:10px;color:#546E7A;">Open PRs</div></div>
+      <div style="text-align:center;"><div style="font-size:14px;font-weight:600;color:#C3E88D;">87%</div><div style="font-size:10px;color:#546E7A;">CI</div></div>
+    </div>
+  </div>
+  <div class="tab-row">
+    <div class="tab-item active">Overview</div>
+    <div class="tab-item">Files</div>
+    <div class="tab-item">Search</div>
+    <div class="tab-item">Symbols</div>
+    <div class="tab-item">Graph</div>
+    <div class="tab-item">Git</div>
+    <div class="tab-item">AI</div>
+  </div>
+  <div class="screen-body" style="padding-bottom:80px;">
+    <div class="section-header"><h3>AI Insights</h3></div>
+    <div class="card" style="border-left:3px solid #82AAFF;">
+      <div style="font-size:13px;color:#E2E8F0;line-height:1.5;">📐 <strong>MVVM + Clean Architecture</strong> detected. Well-separated layers with good dependency injection via Hilt.</div>
+    </div>
+    <div class="section-header" style="margin-top:4px;"><h3>Recent Commits</h3><span class="see-all">Git →</span></div>
+    <div class="list-item">
+      <div class="avatar" style="width:32px;height:32px;font-size:12px;">D</div>
+      <div class="li-body"><div class="li-title">feat: AI chat context selector</div><div class="li-sub">a4f2c3d · 2 hours ago</div></div>
+      <div style="font-size:12px;color:#546E7A;">+127 -23</div>
+    </div>
+    <div class="divider"></div>
+    <div class="list-item">
+      <div class="avatar" style="width:32px;height:32px;font-size:12px;">D</div>
+      <div class="li-body"><div class="li-title">fix: navigation memory leak</div><div class="li-sub">e8c1f9a · yesterday</div></div>
+      <div style="font-size:12px;color:#546E7A;">+12 -45</div>
+    </div>
+  </div>
+  <div class="bottom-nav">
+    <div class="nav-item"><div class="nav-icon">🏠</div><div class="nav-label">Home</div></div>
+    <div class="nav-item active"><div class="nav-icon">📁</div><div class="nav-label">Projects</div></div>
+    <div class="nav-item"><div class="nav-icon">✨</div><div class="nav-label">AI</div></div>
+    <div class="nav-item"><div class="nav-icon">🎓</div><div class="nav-label">Learn</div></div>
+    <div class="nav-item"><div class="nav-icon">☰</div><div class="nav-label">More</div></div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════ FILE EXPLORER ══ -->
+<div id="s-file-explorer" class="screen-wrap">
+<div class="phone-frame">
+<div class="phone-screen" style="min-height:812px;position:relative;">
+  <div class="status-bar"><span>9:41</span><div class="status-right">📶 🔋</div></div>
+  <div class="top-bar"><div class="icon-btn">←</div><div class="title" style="font-size:16px;">File Explorer</div><div class="icon-btn">🔍</div></div>
+  <!-- Breadcrumb -->
+  <div style="padding:8px 16px;display:flex;gap:4px;align-items:center;overflow-x:auto;font-size:12px;color:#A8B3CF;">
+    <span style="color:#82AAFF;">devos-ai</span><span>/</span><span style="color:#82AAFF;">app</span><span>/</span><span style="color:#82AAFF;">src</span><span>/</span><span style="color:#E2E8F0;">main</span>
+  </div>
+  <!-- Filter chips -->
+  <div class="chip-scroll">
+    <div class="chip active">All</div>
+    <div class="chip">Kotlin</div>
+    <div class="chip">XML</div>
+    <div class="chip">Gradle</div>
+  </div>
+  <div class="screen-body" style="padding-bottom:80px;">
+    <!-- Folders -->
+    <div class="list-item">
+      <div class="li-icon" style="background:#003298;">📁</div>
+      <div class="li-body"><div class="li-title">kotlin</div><div class="li-sub">24 files</div></div>
+      <div style="color:#546E7A;">›</div>
+    </div>
+    <div class="divider"></div>
+    <div class="list-item">
+      <div class="li-icon" style="background:#003298;">📁</div>
+      <div class="li-body"><div class="li-title">res</div><div class="li-sub">12 files</div></div>
+      <div style="color:#546E7A;">›</div>
+    </div>
+    <div class="divider"></div>
+    <!-- Files -->
+    <div class="list-item">
+      <div class="li-icon" style="background:#2D5000;">🇰</div>
+      <div class="li-body"><div class="li-title">AndroidManifest.xml</div><div class="li-sub">4.2 KB · 3 days ago</div></div>
+      <div class="li-end"><div class="icon-btn" style="width:32px;height:32px;font-size:14px;">✨</div></div>
+    </div>
+    <div class="divider"></div>
+    <div class="list-item">
+      <div class="li-icon" style="background:#2D5000;font-size:14px;font-weight:700;color:#82AAFF;">kt</div>
+      <div class="li-body"><div class="li-title">MainActivity.kt</div><div class="li-sub">2.1 KB · 2h ago</div></div>
+      <div class="li-end"><div class="icon-btn" style="width:32px;height:32px;font-size:14px;">✨</div></div>
+    </div>
+    <div class="divider"></div>
+    <div class="list-item">
+      <div class="li-icon" style="background:#2D5000;font-size:14px;font-weight:700;color:#82AAFF;">kt</div>
+      <div class="li-body"><div class="li-title">DevOSApp.kt</div><div class="li-sub">1.4 KB · 5d ago</div></div>
+      <div class="li-end"><div class="icon-btn" style="width:32px;height:32px;font-size:14px;">✨</div></div>
+    </div>
+    <div class="divider"></div>
+    <div class="list-item">
+      <div class="li-icon" style="background:#3d2c00;font-size:14px;font-weight:700;color:#FFCB6B;">gr</div>
+      <div class="li-body"><div class="li-title">build.gradle.kts</div><div class="li-sub">3.8 KB · 1 week ago</div></div>
+    </div>
+  </div>
+  <div class="bottom-nav">
+    <div class="nav-item"><div class="nav-icon">🏠</div><div class="nav-label">Home</div></div>
+    <div class="nav-item active"><div class="nav-icon">📁</div><div class="nav-label">Projects</div></div>
+    <div class="nav-item"><div class="nav-icon">✨</div><div class="nav-label">AI</div></div>
+    <div class="nav-item"><div class="nav-icon">🎓</div><div class="nav-label">Learn</div></div>
+    <div class="nav-item"><div class="nav-icon">☰</div><div class="nav-label">More</div></div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════ CODE VIEWER ══ -->
+<div id="s-code-viewer" class="screen-wrap">
+<div class="phone-frame">
+<div class="phone-screen" style="min-height:812px;position:relative;">
+  <div class="status-bar"><span>9:41</span><div class="status-right">📶 🔋</div></div>
+  <div class="top-bar" style="background:#1E1E2E;border-bottom:1px solid #3A3F58;">
+    <div class="icon-btn">←</div>
+    <div style="flex:1;padding:0 4px;">
+      <div style="font-size:12px;color:#A8B3CF;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">app/src/main/kotlin/com/devos/ai/</div>
+      <div style="font-size:13px;font-weight:600;color:#82AAFF;">AIChatViewModel.kt</div>
+    </div>
+    <div class="icon-btn" style="font-size:16px;">🔍</div>
+    <div class="icon-btn" style="font-size:16px;">⋯</div>
+  </div>
+  <div class="screen-body" style="padding-bottom:110px;background:#1E1E2E;">
+    <div class="code-block" style="border-radius:0;border:none;margin:0;padding:8px 4px;">
+<pre><span style="color:#4A5568;">  1 </span><span class="kw">package</span> <span style="color:#E2E8F0;">com.devos.ai.chat</span>
+<span style="color:#4A5568;">  2 </span>
+<span style="color:#4A5568;">  3 </span><span class="kw">import</span> <span style="color:#E2E8F0;">androidx.lifecycle.ViewModel</span>
+<span style="color:#4A5568;">  4 </span><span class="kw">import</span> <span style="color:#E2E8F0;">dagger.hilt.android.lifecycle.HiltViewModel</span>
+<span style="color:#4A5568;">  5 </span><span class="kw">import</span> <span style="color:#E2E8F0;">kotlinx.coroutines.flow.StateFlow</span>
+<span style="color:#4A5568;">  6 </span>
+<span style="color:#4A5568;">  7 </span><span class="kw">@HiltViewModel</span>
+<span style="color:#4A5568;">  8 </span><span class="kw">class</span> <span class="ty">AIChatViewModel</span> <span class="kw">@Inject</span> <span class="kw">constructor</span>(
+<span style="color:#4A5568;">  9 </span>    <span class="kw">private val</span> <span style="color:#89DDFF;">sendMessage</span>: <span class="ty">SendMessageUseCase</span>,
+<span style="color:#4A5568;"> 10 </span>    <span class="kw">private val</span> <span style="color:#89DDFF;">getHistory</span>: <span class="ty">GetChatHistoryUseCase</span>,
+<span style="color:#4A5568;background:#2d3748;"> 11 </span><span style="background:#2d3748;">): <span class="ty">ViewModel</span>() {</span>
+<span style="color:#4A5568;"> 12 </span>
+<span style="color:#4A5568;"> 13 </span>    <span class="kw">private val</span> <span style="color:#89DDFF;">_uiState</span> = <span class="fn">MutableStateFlow</span>(
+<span style="color:#4A5568;"> 14 </span>        <span class="ty">AIChatUiState</span>.<span class="fn">Idle</span>
+<span style="color:#4A5568;"> 15 </span>    )
+<span style="color:#4A5568;"> 16 </span>    <span class="kw">val</span> <span style="color:#89DDFF;">uiState</span>: <span class="ty">StateFlow</span>&lt;<span class="ty">AIChatUiState</span>&gt;
+<span style="color:#4A5568;"> 17 </span>        <span class="kw">get</span>() = <span style="color:#89DDFF;">_uiState</span>.<span class="fn">asStateFlow</span>()
+<span style="color:#4A5568;"> 18 </span>
+<span style="color:#4A5568;"> 19 </span>    <span class="kw">fun</span> <span class="fn">send</span>(<span style="color:#89DDFF;">message</span>: <span class="ty">String</span>) {
+<span style="color:#4A5568;"> 20 </span>        <span class="fn">viewModelScope</span>.<span class="fn">launch</span> {
+</pre>
+    </div>
+    <!-- Line tooltip -->
+    <div style="background:#003298;border:1px solid #82AAFF;border-radius:8px;padding:8px 12px;margin:8px 12px;font-size:12px;color:#D6E2FF;">
+      <strong>AIChatViewModel</strong> · ViewModel class<br/>
+      <span style="color:#A8B3CF;">Tap to see all usages (12 references)</span>
+    </div>
+  </div>
+  <!-- AI action bar -->
+  <div style="position:absolute;bottom:0;left:0;right:0;background:#1A1C2E;border-top:1px solid #3A3F58;padding:8px 8px 24px;">
+    <div style="display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;">
+      <div class="chip active" style="font-size:12px;padding:6px 12px;">✨ Explain</div>
+      <div class="chip" style="font-size:12px;padding:6px 12px;">🐛 Debug</div>
+      <div class="chip" style="font-size:12px;padding:6px 12px;">🔍 Usages</div>
+      <div class="chip" style="font-size:12px;padding:6px 12px;">🧪 Gen Tests</div>
+      <div class="chip" style="font-size:12px;padding:6px 12px;">💬 Ask AI</div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════ CODE SEARCH ══ -->
+<div id="s-code-search" class="screen-wrap">
+<div class="phone-frame">
+<div class="phone-screen" style="min-height:812px;">
+  <div class="status-bar"><span>9:41</span><div class="status-right">📶 🔋</div></div>
+  <div class="top-bar"><div class="icon-btn">←</div><div class="title">Code Search</div></div>
+  <div style="padding:8px 16px 0;">
+    <div style="background:#1A1C2E;border:1.5px solid #82AAFF;border-radius:8px;padding:12px 16px;display:flex;align-items:center;gap:10px;">
+      <span style="color:#82AAFF;">🔍</span>
+      <input value="StateFlow" style="flex:1;background:none;border:none;outline:none;color:#E2E8F0;font-size:15px;font-family:monospace;"/>
+      <span style="font-size:11px;color:#546E7A;">12 hits</span>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">
+      <div class="chip" style="font-size:11px;">Aa Case</div>
+      <div class="chip" style="font-size:11px;">.* Regex</div>
+      <div class="chip active" style="font-size:11px;">✨ Semantic</div>
+      <div class="chip" style="font-size:11px;">📁 Scope: All</div>
+    </div>
+  </div>
+  <div style="flex:1;overflow-y:auto;margin-top:8px;">
+    <!-- Result item -->
+    <div style="padding:12px 16px;border-bottom:1px solid #2A2E42;cursor:pointer;">
+      <div style="font-size:11px;color:#82AAFF;font-family:monospace;margin-bottom:4px;">AIChatViewModel.kt · line 16</div>
+      <div class="code-block" style="padding:8px;font-size:12px;">    <span class="kw">val</span> uiState: <span style="background:#003298;color:#D6E2FF;border-radius:2px;padding:0 2px;"><b>StateFlow</b></span>&lt;AIChatUiState&gt;</div>
+    </div>
+    <div style="padding:12px 16px;border-bottom:1px solid #2A2E42;cursor:pointer;">
+      <div style="font-size:11px;color:#82AAFF;font-family:monospace;margin-bottom:4px;">HomeViewModel.kt · line 24</div>
+      <div class="code-block" style="padding:8px;font-size:12px;">    <span class="kw">val</span> state: <span style="background:#003298;color:#D6E2FF;border-radius:2px;padding:0 2px;"><b>StateFlow</b></span>&lt;HomeUiState&gt;</div>
+    </div>
+    <div style="padding:12px 16px;border-bottom:1px solid #2A2E42;cursor:pointer;">
+      <div style="font-size:11px;color:#82AAFF;font-family:monospace;margin-bottom:4px;">SearchViewModel.kt · line 8</div>
+      <div class="code-block" style="padding:8px;font-size:12px;">    <span class="kw">private val</span> _query = MutableStateFlow&lt;<span style="background:#003298;color:#D6E2FF;border-radius:2px;padding:0 2px;"><b>StateFlow</b></span>&gt;("")</div>
+    </div>
+    <div style="padding:10px 16px;">
+      <div style="font-size:13px;color:#A8B3CF;text-align:center;">+ 9 more results</div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════ SYMBOL DETAILS ══ -->
+<div id="s-symbol-details" class="screen-wrap">
+<div class="phone-frame">
+<div class="phone-screen" style="min-height:812px;">
+  <div class="status-bar"><span>9:41</span><div class="status-right">📶 🔋</div></div>
+  <div class="top-bar"><div class="icon-btn">←</div><div class="title">Symbol Details</div></div>
+  <div class="screen-body">
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+        <div style="background:#003298;border-radius:8px;padding:6px 10px;font-size:12px;color:#D6E2FF;font-weight:700;">class</div>
+        <div style="font-size:18px;font-weight:700;color:#82AAFF;font-family:monospace;">AIChatViewModel</div>
+      </div>
+      <div style="font-size:12px;color:#A8B3CF;font-family:monospace;">com.devos.ai.features.chat</div>
+      <div style="font-size:12px;color:#82AAFF;margin-top:4px;font-family:monospace;">AIChatViewModel.kt · line 8</div>
+    </div>
+    <div class="section-header"><h3>Signature</h3></div>
+    <div style="margin:0 16px 12px;" class="code-block">
+<span class="kw">@HiltViewModel</span>
+<span class="kw">class</span> <span class="ty">AIChatViewModel</span> <span class="kw">@Inject</span> <span class="kw">constructor</span>(
+    <span class="kw">private val</span> sendMessage: <span class="ty">SendMessageUseCase</span>,
+    <span class="kw">private val</span> getHistory: <span class="ty">GetChatHistoryUseCase</span>,
+) : <span class="ty">ViewModel</span>()</div>
+    <div class="section-header"><h3>AI Explanation</h3></div>
+    <div class="card" style="border-left:3px solid #82AAFF;">
+      <div style="font-size:13px;color:#E2E8F0;line-height:1.6;">Manages the AI chat screen state. Uses Hilt for dependency injection. Exposes <code style="color:#89DDFF;">uiState</code> as a <code style="color:#89DDFF;">StateFlow</code> for composable observation.</div>
+    </div>
+    <div class="section-header"><h3>References (12)</h3><span class="see-all">All →</span></div>
+    <div class="list-item">
+      <div class="li-icon" style="font-size:12px;font-weight:700;color:#82AAFF;background:#003298;">kt</div>
+      <div class="li-body"><div class="li-title">AIChatScreen.kt</div><div class="li-sub">line 34 · viewModel()</div></div>
+    </div>
+    <div class="divider"></div>
+    <div class="list-item">
+      <div class="li-icon" style="font-size:12px;font-weight:700;color:#82AAFF;background:#003298;">kt</div>
+      <div class="li-body"><div class="li-title">AppModule.kt</div><div class="li-sub">line 18 · @Provides</div></div>
+    </div>
+    <div class="section-header"><h3>Methods (5)</h3></div>
+    <div class="list-item">
+      <div class="li-icon" style="font-size:12px;background:#004D64;color:#89DDFF;font-weight:700;">fn</div>
+      <div class="li-body"><div class="li-title">send(message: String)</div><div class="li-sub">Sends user message to AI</div></div>
+    </div>
+    <div class="divider"></div>
+    <div class="list-item">
+      <div class="li-icon" style="font-size:12px;background:#004D64;color:#89DDFF;font-weight:700;">fn</div>
+      <div class="li-body"><div class="li-title">clearHistory()</div><div class="li-sub">Clears chat session</div></div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════ DEP GRAPH ══ -->
+<div id="s-dep-graph" class="screen-wrap">
+<div class="phone-frame">
+<div class="phone-screen" style="min-height:812px;">
+  <div class="status-bar"><span>9:41</span><div class="status-right">📶 🔋</div></div>
+  <div class="top-bar"><div class="icon-btn">←</div><div class="title">Dependency Graph</div><div class="icon-btn">📤</div></div>
+  <div class="chip-scroll">
+    <div class="chip active">All</div><div class="chip">Cycles</div><div class="chip">Hotspots</div><div class="chip">Data</div>
+  </div>
+  <!-- Graph canvas placeholder -->
+  <div style="margin:8px 16px;background:#1A1C2E;border-radius:12px;border:1px solid #3A3F58;height:320px;position:relative;overflow:hidden;">
+    <!-- Nodes -->
+    <div style="position:absolute;top:40px;left:50%;transform:translateX(-50%);background:#003298;border:2px solid #82AAFF;border-radius:8px;padding:6px 12px;font-size:12px;color:#D6E2FF;white-space:nowrap;">:app</div>
+    <div style="position:absolute;top:120px;left:20px;background:#252840;border:1px solid #3A3F58;border-radius:8px;padding:5px 10px;font-size:11px;color:#A8B3CF;">:feature-chat</div>
+    <div style="position:absolute;top:120px;left:45%;background:#252840;border:1px solid #3A3F58;border-radius:8px;padding:5px 10px;font-size:11px;color:#A8B3CF;">:feature-repo</div>
+    <div style="position:absolute;top:120px;right:16px;background:#252840;border:1px solid #3A3F58;border-radius:8px;padding:5px 10px;font-size:11px;color:#A8B3CF;">:feature-learn</div>
+    <div style="position:absolute;top:210px;left:30%;background:#004D64;border:1px solid #89DDFF;border-radius:8px;padding:5px 10px;font-size:11px;color:#89DDFF;">:data-ai</div>
+    <div style="position:absolute;top:210px;right:24px;background:#004D64;border:1px solid #89DDFF;border-radius:8px;padding:5px 10px;font-size:11px;color:#89DDFF;">:core-network</div>
+    <div style="position:absolute;top:270px;left:50%;transform:translateX(-50%);background:#252840;border:1px solid #C3E88D;border-radius:8px;padding:5px 10px;font-size:11px;color:#C3E88D;">:designsystem</div>
+    <!-- Edges (SVG) -->
+    <svg style="position:absolute;inset:0;width:100%;height:100%;" xmlns="http://www.w3.org/2000/svg">
+      <line x1="50%" y1="68" x2="20%" y2="120" stroke="#3A3F58" stroke-width="1.5"/>
+      <line x1="50%" y1="68" x2="60%" y2="120" stroke="#3A3F58" stroke-width="1.5"/>
+      <line x1="50%" y1="68" x2="82%" y2="120" stroke="#3A3F58" stroke-width="1.5"/>
+      <line x1="60%" y1="148" x2="44%" y2="210" stroke="#3A3F58" stroke-width="1" stroke-dasharray="4"/>
+      <line x1="80%" y1="148" x2="78%" y2="210" stroke="#3A3F58" stroke-width="1" stroke-dasharray="4"/>
+    </svg>
+    <div style="position:absolute;bottom:8px;right:12px;display:flex;gap:8px;">
+      <div style="background:#252840;border-radius:4px;padding:4px 8px;font-size:20px;color:#A8B3CF;cursor:pointer;">+</div>
+      <div style="background:#252840;border-radius:4px;padding:4px 8px;font-size:20px;color:#A8B3CF;cursor:pointer;">-</div>
+    </div>
+  </div>
+  <!-- Detail panel -->
+  <div class="card">
+    <div style="font-size:14px;font-weight:600;color:#82AAFF;">:feature-chat</div>
+    <div style="font-size:12px;color:#A8B3CF;margin-top:4px;">12 dependencies · 3 dependents</div>
+    <div style="display:flex;gap:8px;margin-top:10px;">
+      <div class="badge badge-info">Module</div>
+      <div class="badge badge-primary">Feature</div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:12px;">
+      <button class="btn btn-outlined" style="flex:1;height:36px;font-size:12px;">View code</button>
+      <button class="btn btn-primary" style="flex:1;height:36px;font-size:12px;">Ask AI</button>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════ ARCHITECTURE ══ -->
+<div id="s-architecture" class="screen-wrap">
+<div class="phone-frame">
+<div class="phone-screen" style="min-height:812px;">
+  <div class="status-bar"><span>9:41</span><div class="status-right">📶 🔋</div></div>
+  <div class="top-bar"><div class="icon-btn">←</div><div class="title">Architecture</div><div class="icon-btn">✨</div></div>
+  <div class="screen-body">
+    <!-- Style detected -->
+    <div class="card" style="border-left:3px solid #82AAFF;margin-top:12px;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="font-size:24px;">🏗</div>
+        <div>
+          <div style="font-size:14px;font-weight:600;color:#E2E8F0;">Clean Architecture + MVVM</div>
+          <div style="font-size:12px;color:#A8B3CF;margin-top:2px;">Confidence: 94% · Well-structured</div>
+        </div>
+        <div class="badge badge-success" style="margin-left:auto;">A</div>
+      </div>
+    </div>
+    <!-- Layer diagram -->
+    <div class="section-header"><h3>Layer Diagram</h3></div>
+    <div style="margin:0 16px;background:#1A1C2E;border-radius:12px;border:1px solid #3A3F58;overflow:hidden;">
+      <div style="background:#003298;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-size:13px;color:#D6E2FF;font-weight:600;">Presentation Layer</span>
+        <span style="font-size:11px;color:#82AAFF;">:feature-*, :app</span>
+      </div>
+      <div style="padding:6px 16px;text-align:center;color:#546E7A;font-size:20px;">↓</div>
+      <div style="background:#004D64;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-size:13px;color:#C4E7FF;font-weight:600;">Domain Layer</span>
+        <span style="font-size:11px;color:#89DDFF;">UseCases, Models</span>
+      </div>
+      <div style="padding:6px 16px;text-align:center;color:#546E7A;font-size:20px;">↓</div>
+      <div style="background:#2D5000;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-size:13px;color:#DFF5A7;font-weight:600;">Data Layer</span>
+        <span style="font-size:11px;color:#C3E88D;">:data-*, Repos</span>
+      </div>
+      <div style="padding:6px 16px;text-align:center;color:#546E7A;font-size:20px;">↓</div>
+      <div style="background:#252840;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-size:13px;color:#A8B3CF;font-weight:600;">Core Layer</span>
+        <span style="font-size:11px;color:#546E7A;">:core-network, :core-db</span>
+      </div>
+    </div>
+    <!-- Hotspots -->
+    <div class="section-header" style="margin-top:12px;"><h3>Hotspot Analysis</h3></div>
+    <div class="list-item">
+      <div class="li-icon" style="background:#930000;color:#FF5370;font-size:16px;">🔥</div>
+      <div class="li-body"><div class="li-title">AIChatViewModel.kt</div><div class="li-sub">Complexity: 42 · High coupling</div></div>
+      <div class="badge badge-error">High</div>
+    </div>
+    <div class="divider"></div>
+    <div class="list-item">
+      <div class="li-icon" style="background:#3d2c00;color:#FFCB6B;font-size:16px;">⚡</div>
+      <div class="li-body"><div class="li-title">RepositoryRepository.kt</div><div class="li-sub">Complexity: 28 · Moderate</div></div>
+      <div class="badge badge-warning">Med</div>
+    </div>
+    <!-- AI insights -->
+    <div class="section-header" style="margin-top:4px;"><h3>AI Insights</h3></div>
+    <div class="card" style="border-left:3px solid #82AAFF;">
+      <div style="font-size:13px;color:#E2E8F0;line-height:1.6;">Consider splitting <code style="color:#89DDFF;">AIChatViewModel</code> into separate contexts for streaming and history management to reduce coupling.</div>
+      <button class="btn btn-ghost" style="height:32px;font-size:12px;margin-top:8px;color:#82AAFF;padding:0;">Ask AI for details →</button>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════ AI CHAT ══ -->
+<div id="s-ai-chat" class="screen-wrap">
+<div class="phone-frame">
+<div class="phone-screen" style="min-height:812px;position:relative;">
+  <div class="status-bar"><span>9:41</span><div class="status-right">📶 🔋</div></div>
+  <div class="top-bar">
+    <div class="icon-btn">←</div>
+    <div style="flex:1;padding:0 4px;">
+      <div style="font-size:16px;font-weight:700;color:#E2E8F0;">DevOS AI</div>
+    </div>
+    <div style="background:#003298;border-radius:12px;padding:4px 10px;font-size:11px;color:#D6E2FF;display:flex;align-items:center;gap:4px;">📱 devos-ai</div>
+    <div class="icon-btn">🗑</div>
+  </div>
+  <!-- Context selector -->
+  <div style="padding:8px 16px;display:flex;gap:6px;overflow-x:auto;">
+    <div class="chip active" style="font-size:11px;">📁 devos-ai</div>
+    <div class="chip" style="font-size:11px;">📂 feature-chat</div>
+    <div class="chip" style="font-size:11px;">📄 AIChatViewModel.kt</div>
+  </div>
+  <!-- Chat messages -->
+  <div class="screen-body" style="padding-bottom:120px;padding-top:4px;">
+    <!-- Action chips -->
+    <div style="display:flex;gap:6px;overflow-x:auto;padding:0 16px 12px;">
+      <div class="chip" style="font-size:11px;padding:5px 10px;">✨ Explain</div>
+      <div class="chip" style="font-size:11px;padding:5px 10px;">🔍 Find</div>
+      <div class="chip" style="font-size:11px;padding:5px 10px;">🐛 Debug</div>
+      <div class="chip" style="font-size:11px;padding:5px 10px;">🏗 Analyze</div>
+      <div class="chip" style="font-size:11px;padding:5px 10px;">👀 Review</div>
+    </div>
+    <!-- Messages -->
+    <div class="user-bubble">Explain the architecture of AIChatViewModel and its dependencies</div>
+    <div style="display:flex;align-items:flex-start;gap:8px;padding:0 8px 0 8px;">
+      <div style="width:32px;height:32px;background:linear-gradient(135deg,#82AAFF,#89DDFF);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;margin-top:8px;">🤖</div>
+      <div class="ai-bubble" style="margin:8px 0 8px 0;flex:1;">
+        <strong>AIChatViewModel</strong> is a Hilt-injected ViewModel that follows Clean Architecture:<br/><br/>
+        <div style="margin:6px 0;padding:8px;background:#1E1E2E;border-radius:6px;font-family:monospace;font-size:12px;"><span class="ty">AIChatViewModel</span><br/>├── <span class="ty">SendMessageUseCase</span> → <span class="ty">AIRepository</span><br/>└── <span class="ty">GetChatHistoryUseCase</span> → <span class="ty">ChatDatabase</span></div>
+        It exposes state via <code style="color:#89DDFF;">StateFlow&lt;AIChatUiState&gt;</code> and handles streaming responses with Kotlin coroutines.
+        <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;">
+          <div style="background:#003298;border-radius:6px;padding:4px 10px;font-size:11px;color:#D6E2FF;cursor:pointer;">📄 AIChatViewModel.kt</div>
+          <div style="background:#003298;border-radius:6px;padding:4px 10px;font-size:11px;color:#D6E2FF;cursor:pointer;">📄 SendMessageUseCase.kt</div>
+        </div>
+      </div>
+    </div>
+    <div class="user-bubble">How does it handle streaming?</div>
+    <div style="display:flex;align-items:flex-start;gap:8px;padding:0 8px 0 8px;">
+      <div style="width:32px;height:32px;background:linear-gradient(135deg,#82AAFF,#89DDFF);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;margin-top:8px;">🤖</div>
+      <div class="ai-bubble" style="margin:8px 0 8px 0;flex:1;">
+        <div style="display:flex;gap:4px;align-items:center;">
+          <div style="width:6px;height:6px;background:#82AAFF;border-radius:3px;animation:pulse 1s infinite;"></div>
+          <div style="width:6px;height:6px;background:#82AAFF;border-radius:3px;animation:pulse 1s 0.2s infinite;"></div>
+          <div style="width:6px;height:6px;background:#82AAFF;border-radius:3px;animation:pulse 1s 0.4s infinite;"></div>
+          <span style="font-size:12px;color:#A8B3CF;margin-left:4px;">Thinking…</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Input bar -->
+  <div style="position:absolute;bottom:0;left:0;right:0;background:#1A1C2E;border-top:1px solid #3A3F58;padding:8px 12px 24px;display:flex;align-items:flex-end;gap:8px;">
+    <div class="icon-btn" style="width:36px;height:36px;margin-bottom:4px;">📎</div>
+    <div style="flex:1;background:#252840;border-radius:20px;border:1px solid #3A3F58;padding:10px 16px;min-height:40px;font-size:14px;color:#546E7A;">Message DevOS AI…</div>
+    <div class="icon-btn" style="width:36px;height:36px;margin-bottom:4px;">🎤</div>
+    <div style="width:40px;height:40px;background:#82AAFF;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:18px;">↑</div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════ AI ANSWER DETAIL ══ -->
+<div id="s-ai-answer" class="screen-wrap">
+<div class="phone-frame">
+<div class="phone-screen" style="min-height:812px;">
+  <div class="status-bar"><span>9:41</span><div class="status-right">📶 🔋</div></div>
+  <div class="top-bar"><div class="icon-btn">←</div><div class="title">AI Answer</div><div class="icon-btn">📋</div></div>
+  <div class="screen-body">
+    <div class="card">
+      <div style="font-size:13px;color:#A8B3CF;margin-bottom:8px;">Your question:</div>
+      <div style="font-size:14px;color:#E2E8F0;font-weight:500;">Explain AIChatViewModel and its dependencies</div>
+    </div>
+    <div style="padding:16px 16px 8px;">
+      <div style="font-size:14px;color:#E2E8F0;line-height:1.7;">
+        <strong>AIChatViewModel</strong> is the UI-layer brain for the chat screen. It's a Hilt-injected ViewModel that:<br/><br/>
+        • Collects streaming AI responses via <code style="color:#89DDFF;">Flow</code><br/>
+        • Manages chat history persistence<br/>
+        • Handles context switching (repo / file / symbol)<br/><br/>
+        <strong>Dependencies:</strong>
+      </div>
+      <div class="code-block" style="margin-top:10px;">
+<span class="ty">AIChatViewModel</span>
+├── <span class="fn">SendMessageUseCase</span>
+│   └── <span class="ty">AIProviderRepository</span> (OpenAI / Anthropic)
+├── <span class="fn">GetChatHistoryUseCase</span>
+│   └── <span class="ty">ChatDatabase</span> (Room)
+└── <span class="fn">SetContextUseCase</span>
+    └── <span class="ty">ContextRepository</span></div>
+    </div>
+    <!-- Evidence section -->
+    <div class="section-header"><h3>Source Evidence (4)</h3></div>
+    <div style="margin:0 16px 8px;background:#1A1C2E;border-radius:8px;border:1px solid #3A3F58;overflow:hidden;">
+      <div style="padding:10px 14px;border-bottom:1px solid #2A2E42;">
+        <div style="font-size:11px;color:#82AAFF;font-family:monospace;">AIChatViewModel.kt · lines 8–17</div>
+        <div style="font-size:12px;color:#A8B3CF;margin-top:3px;">Relevance: 98%</div>
+      </div>
+      <div style="padding:10px 14px;border-bottom:1px solid #2A2E42;">
+        <div style="font-size:11px;color:#82AAFF;font-family:monospace;">SendMessageUseCase.kt · lines 1–42</div>
+        <div style="font-size:12px;color:#A8B3CF;margin-top:3px;">Relevance: 91%</div>
+      </div>
+      <div style="padding:10px 14px;">
+        <div style="font-size:11px;color:#82AAFF;font-family:monospace;">AIProviderRepository.kt · lines 12–28</div>
+        <div style="font-size:12px;color:#A8B3CF;margin-top:3px;">Relevance: 84%</div>
+      </div>
+    </div>
+    <div style="padding:16px;display:flex;gap:8px;">
+      <button class="btn btn-outlined" style="flex:1;height:40px;font-size:13px;">📄 View Sources</button>
+      <button class="btn btn-primary" style="flex:1;height:40px;font-size:13px;">💬 Ask Follow-up</button>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════ AI EVIDENCE ══ -->
+<div id="s-ai-evidence" class="screen-wrap">
+<div class="phone-frame">
+<div class="phone-screen" style="min-height:812px;">
+  <div class="status-bar"><span>9:41</span><div class="status-right">📶 🔋</div></div>
+  <div class="top-bar"><div class="icon-btn">←</div><div class="title">Source Evidence</div></div>
+  <div class="screen-body">
+    <div style="padding:12px 16px;font-size:13px;color:#A8B3CF;">Grounding sources for this AI answer</div>
+    <!-- Evidence item 1 -->
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+        <div style="font-size:12px;color:#82AAFF;font-family:monospace;">AIChatViewModel.kt</div>
+        <div class="badge badge-primary">98% relevant</div>
+      </div>
+      <div style="font-size:11px;color:#546E7A;margin-bottom:6px;">Lines 8–17 · com.devos.ai.features.chat</div>
+      <div class="code-block" style="font-size:11px;">
+<span class="kw">@HiltViewModel</span>
+<span class="kw">class</span> <span class="ty">AIChatViewModel</span> <span class="kw">@Inject</span> <span class="kw">constructor</span>(
+    <span class="kw">private val</span> sendMessage: <span class="ty">SendMessageUseCase</span>,
+    <span class="kw">private val</span> getHistory: <span class="ty">GetChatHistoryUseCase</span>,
+) : <span class="ty">ViewModel</span>()</div>
+      <button class="btn btn-ghost" style="height:32px;font-size:12px;color:#82AAFF;padding:0;margin-top:8px;">Open in Code Viewer →</button>
+    </div>
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+        <div style="font-size:12px;color:#82AAFF;font-family:monospace;">SendMessageUseCase.kt</div>
+        <div class="badge badge-info">91% relevant</div>
+      </div>
+      <div style="font-size:11px;color:#546E7A;margin-bottom:6px;">Lines 1–42 · com.devos.ai.domain.usecase</div>
+      <div class="code-block" style="font-size:11px;">
+<span class="kw">class</span> <span class="ty">SendMessageUseCase</span> <span class="kw">@Inject</span> <span class="kw">constructor</span>(
+    <span class="kw">private val</span> provider: <span class="ty">AIProviderRepository</span>
+) {
+    <span class="kw">suspend fun</span> <span class="fn">invoke</span>(msg: <span class="ty">String</span>): <span class="ty">Flow</span>&lt;<span class="ty">String</span>&gt;</div>
+      <button class="btn btn-ghost" style="height:32px;font-size:12px;color:#82AAFF;padding:0;margin-top:8px;">Open in Code Viewer →</button>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════ AGENT RUN ══ -->
+<div id="s-agent-run" class="screen-wrap">
+<div class="phone-frame">
+<div class="phone-screen" style="min-height:812px;">
+  <div class="status-bar"><span>9:41</span><div class="status-right">📶 🔋</div></div>
+  <div class="top-bar"><div class="icon-btn">←</div><div class="title">Agent Run</div><div style="background:#2D5000;border-radius:8px;padding:4px 10px;font-size:11px;color:#C3E88D;">● Running</div></div>
+  <div style="padding:12px 16px;background:#1A1C2E;border-bottom:1px solid #3A3F58;">
+    <div style="font-size:13px;font-weight:600;color:#E2E8F0;">🤖 Code Review Agent</div>
+    <div style="font-size:12px;color:#A8B3CF;margin-top:4px;">Goal: Review PR #47 — feat: add AI chat context selector</div>
+    <div style="display:flex;justify-content:space-between;margin-top:8px;">
+      <span style="font-size:11px;color:#546E7A;">Step 3 of 6</span>
+      <span style="font-size:11px;color:#82AAFF;">47s elapsed</span>
+    </div>
+    <div class="progress-bar" style="margin-top:6px;"><div class="progress-fill" style="width:50%;background:#82AAFF;"></div></div>
+  </div>
+  <div class="screen-body">
+    <div style="padding:12px 0;">
+      <div class="step">
+        <div class="step-icon done">✓</div>
+        <div class="step-body"><div class="step-title">Fetch PR diff</div><div class="step-sub">+247 -89 lines across 8 files · 3.2s</div></div>
+      </div>
+      <div style="width:2px;height:20px;background:linear-gradient(#2D5000,#82AAFF);margin-left:29px;"></div>
+      <div class="step">
+        <div class="step-icon done">✓</div>
+        <div class="step-body"><div class="step-title">Index changed symbols</div><div class="step-sub">12 symbols analyzed · 8.1s</div></div>
+      </div>
+      <div style="width:2px;height:20px;background:linear-gradient(#2D5000,#82AAFF);margin-left:29px;"></div>
+      <div class="step">
+        <div class="step-icon active">⟳</div>
+        <div class="step-body">
+          <div class="step-title">Analyze code quality</div>
+          <div class="step-sub">Running static analysis…</div>
+          <!-- Expanding tool call -->
+          <div style="margin-top:8px;background:#252840;border-radius:8px;padding:8px 12px;border:1px solid #3A3F58;">
+            <div style="font-size:11px;color:#FFCB6B;font-weight:600;margin-bottom:4px;">🔧 TOOL: search_code</div>
+            <div style="font-size:11px;color:#A8B3CF;font-family:monospace;">query: "StateFlow" scope: "changed files"</div>
+          </div>
+        </div>
+      </div>
+      <div style="width:2px;height:20px;background:#3A3F58;margin-left:29px;"></div>
+      <div class="step">
+        <div class="step-icon pending">○</div>
+        <div class="step-body"><div class="step-title">Check test coverage</div><div class="step-sub">Pending</div></div>
+      </div>
+      <div style="width:2px;height:20px;background:#3A3F58;margin-left:29px;"></div>
+      <div class="step">
+        <div class="step-icon pending">○</div>
+        <div class="step-body"><div class="step-title">Security scan</div><div class="step-sub">Pending</div></div>
+      </div>
+      <div style="width:2px;height:20px;background:#3A3F58;margin-left:29px;"></div>
+      <div class="step">
+        <div class="step-icon pending">○</div>
+        <div class="step-body"><div class="step-title">Generate review summary</div><div class="step-sub">Pending</div></div>
+      </div>
+    </div>
+    <div style="padding:0 16px 16px;">
+      <button class="btn btn-outlined btn-full" style="color:#FF5370;border-color:#FF5370;">Cancel Agent</button>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════ AGENT TOOL EXEC ══ -->
+<div id="s-agent-tool" class="screen-wrap">
+<div class="phone-frame">
+<div class="phone-screen" style="min-height:812px;">
+  <div class="status-bar"><span>9:41</span><div class="status-right">📶 🔋</div></div>
+  <div class="top-bar"><div class="icon-btn">←</div><div class="title">Tool Execution</div></div>
+  <div class="screen-body">
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+        <div style="width:40px;height:40px;background:#3d2c00;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;">🔧</div>
+        <div>
+          <div style="font-size:15px;font-weight:600;color:#FFCB6B;">search_code</div>
+          <div style="font-size:12px;color:#A8B3CF;">Code search tool</div>
+        </div>
+        <div class="badge badge-success" style="margin-left:auto;">✓ Done</div>
+      </div>
+      <div style="display:flex;gap:16px;padding:10px 0;border-top:1px solid #2A2E42;border-bottom:1px solid #2A2E42;margin-bottom:10px;">
+        <div><div style="font-size:10px;color:#546E7A;">DURATION</div><div style="font-size:13px;color:#E2E8F0;">1.24s</div></div>
+        <div><div style="font-size:10px;color:#546E7A;">TOKENS</div><div style="font-size:13px;color:#E2E8F0;">247</div></div>
+        <div><div style="font-size:10px;color:#546E7A;">RESULTS</div><div style="font-size:13px;color:#E2E8F0;">12</div></div>
+      </div>
+    </div>
+    <div class="section-header"><h3>Input Parameters</h3></div>
+    <div style="margin:0 16px 12px;" class="code-block" style="font-size:12px;">
+{
+  <span class="str">"query"</span>: <span class="str">"StateFlow"</span>,
+  <span class="str">"scope"</span>: <span class="str">"changed_files"</span>,
+  <span class="str">"caseSensitive"</span>: <span class="kw">false</span>,
+  <span class="str">"maxResults"</span>: <span class="num">50</span>
+}</div>
+    <div class="section-header"><h3>Output</h3></div>
+    <div style="margin:0 16px 12px;" class="code-block" style="font-size:12px;">
+{
+  <span class="str">"results"</span>: [
+    {
+      <span class="str">"file"</span>: <span class="str">"AIChatViewModel.kt"</span>,
+      <span class="str">"line"</span>: <span class="num">16</span>,
+      <span class="str">"match"</span>: <span class="str">"StateFlow&lt;AIChatUiState&gt;"</span>
+    },
+    <span class="cmt">// ... 11 more</span>
+  ],
+  <span class="str">"total"</span>: <span class="num">12</span>
+}</div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════ MCP TOOLS ══ -->
+<div id="s-mcp-tools" class="screen-wrap">
+<div class="phone-frame">
+<div class="phone-screen" style="min-height:812px;position:relative;">
+  <div class="status-bar"><span>9:41</span><div class="status-right">📶 🔋</div></div>
+  <div class="top-bar"><div class="icon-btn">←</div><div class="title">MCP Tools</div></div>
+  <div class="screen-body" style="padding-bottom:32px;">
+    <!-- Server -->
+    <div class="section-header"><h3>Connected Servers</h3></div>
+    <div class="card" style="margin-bottom:0;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="width:8px;height:8px;border-radius:4px;background:#C3E88D;"></div>
+        <div style="font-size:15px;font-weight:600;color:#E2E8F0;flex:1;">GitHub MCP</div>
+        <div class="badge badge-success">Connected</div>
+      </div>
+      <div style="font-size:12px;color:#A8B3CF;margin-top:6px;">8 tools available</div>
+    </div>
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="width:8px;height:8px;border-radius:4px;background:#FFCB6B;"></div>
+        <div style="font-size:15px;font-weight:600;color:#E2E8F0;flex:1;">AWS Docs</div>
+        <div class="badge badge-warning">Idle</div>
+      </div>
+      <div style="font-size:12px;color:#A8B3CF;margin-top:6px;">3 tools available</div>
+    </div>
+    <!-- Tools list -->
+    <div class="section-header" style="margin-top:4px;"><h3>GitHub MCP — Tools</h3></div>
+    <div class="list-item">
+      <div class="li-icon" style="background:#3d2c00;font-size:16px;">🔧</div>
+      <div class="li-body"><div class="li-title">search_repositories</div><div class="li-sub">Search GitHub repositories by query</div></div>
+      <button class="btn btn-outlined" style="height:32px;font-size:11px;padding:0 10px;">Run</button>
+    </div>
+    <div class="divider"></div>
+    <div class="list-item">
+      <div class="li-icon" style="background:#3d2c00;font-size:16px;">🔧</div>
+      <div class="li-body"><div class="li-title">get_file_contents</div><div class="li-sub">Fetch file from repo at path</div></div>
+      <button class="btn btn-outlined" style="height:32px;font-size:11px;padding:0 10px;">Run</button>
+    </div>
+    <div class="divider"></div>
+    <div class="list-item">
+      <div class="li-icon" style="background:#3d2c00;font-size:16px;">🔧</div>
+      <div class="li-body"><div class="li-title">create_issue</div><div class="li-sub">Create a new GitHub issue</div></div>
+      <button class="btn btn-outlined" style="height:32px;font-size:11px;padding:0 10px;">Run</button>
+    </div>
+    <div class="divider"></div>
+    <div class="list-item">
+      <div class="li-icon" style="background:#3d2c00;font-size:16px;">⚠</div>
+      <div class="li-body"><div class="li-title">merge_pull_request</div><div class="li-sub">⚠ Destructive — requires confirmation</div></div>
+      <button class="btn" style="height:32px;font-size:11px;padding:0 10px;background:#930000;color:#FF5370;border-radius:6px;">Run</button>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════ GIT HISTORY ══ -->
+<div id="s-git-history" class="screen-wrap">
+<div class="phone-frame">
+<div class="phone-screen" style="min-height:812px;position:relative;">
+  <div class="status-bar"><span>9:41</span><div class="status-right">📶 🔋</div></div>
+  <div class="top-bar"><div class="icon-btn">←</div><div class="title">Git History</div><div class="icon-btn">✨</div></div>
+  <div class="chip-scroll">
+    <div class="chip active" style="font-size:11px;">🌿 main</div>
+    <div class="chip" style="font-size:11px;">feature/ai-chat</div>
+    <div class="chip" style="font-size:11px;">fix/nav-leak</div>
+  </div>
+  <div style="margin:8px 16px;background:#1A1C2E;border-radius:8px;padding:12px;border:1px solid #82AAFF;">
+    <div style="font-size:12px;color:#A8B3CF;margin-bottom:4px;">✨ AI Summary</div>
+    <div style="font-size:13px;color:#E2E8F0;line-height:1.5;">Last 7 days: 14 commits. Main focus on AI chat feature and bug fixes. Test coverage improved from 58% → 67%.</div>
+  </div>
+  <div class="screen-body" style="padding-bottom:24px;">
+    <!-- Commit group -->
+    <div style="padding:8px 16px 4px;font-size:11px;font-weight:700;color:#546E7A;text-transform:uppercase;letter-spacing:0.5px;">TODAY</div>
+    <div class="list-item">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+        <div style="width:10px;height:10px;border-radius:5px;background:#82AAFF;"></div>
+        <div style="width:2px;height:32px;background:#3A3F58;"></div>
+      </div>
+      <div class="li-body">
+        <div class="li-title">feat: AI chat context selector</div>
+        <div style="font-size:11px;color:#A8B3CF;margin-top:2px;">a4f2c3d · dev · 2h ago</div>
+        <div style="display:flex;gap:8px;margin-top:4px;font-size:11px;">
+          <span style="color:#C3E88D;">+127</span><span style="color:#FF5370;">-23</span>
+        </div>
+      </div>
+    </div>
+    <div class="list-item">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+        <div style="width:10px;height:10px;border-radius:5px;background:#3A3F58;border:2px solid #A8B3CF;"></div>
+        <div style="width:2px;height:32px;background:#3A3F58;"></div>
+      </div>
+      <div class="li-body">
+        <div class="li-title">test: add AIChatViewModel tests</div>
+        <div style="font-size:11px;color:#A8B3CF;margin-top:2px;">b7d8e1f · dev · 4h ago</div>
+        <div style="display:flex;gap:8px;margin-top:4px;font-size:11px;">
+          <span style="color:#C3E88D;">+89</span><span style="color:#FF5370;">-0</span>
+        </div>
+      </div>
+    </div>
+    <div style="padding:8px 16px 4px;font-size:11px;font-weight:700;color:#546E7A;text-transform:uppercase;letter-spacing:0.5px;">YESTERDAY</div>
+    <div class="list-item">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+        <div style="width:10px;height:10px;border-radius:5px;background:#3A3F58;border:2px solid #A8B3CF;"></div>
+        <div style="width:2px;height:32px;background:#3A3F58;"></div>
+      </div>
+      <div class="li-body">
+        <div class="li-title">fix: navigation back stack memory leak</div>
+        <div style="font-size:11px;color:#A8B3CF;margin-top:2px;">e8c1f9a · dev · 1d ago</div>
+        <div style="display:flex;gap:8px;margin-top:4px;font-size:11px;">
+          <span style="color:#C3E88D;">+12</span><span style="color:#FF5370;">-45</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════ ISSUES ══ -->
+<div id="s-issues" class="screen-wrap">
+<div class="phone-frame">
+<div class="phone-screen" style="min-height:812px;position:relative;">
+  <div class="status-bar"><span>9:41</span><div class="status-right">📶 🔋</div></div>
+  <div class="top-bar"><div class="icon-btn">←</div><div class="title">Issues</div><div class="icon-btn">＋</div></div>
+  <div class="chip-scroll">
+    <div class="chip active">Open (12)</div><div class="chip">Closed</div><div class="chip">My Issues</div><div class="chip">Bug</div><div class="chip">Feature</div>
+  </div>
+  <div class="screen-body" style="padding-bottom:24px;">
+    <div class="list-item" style="align-items:flex-start;">
+      <div style="width:8px;height:8px;border-radius:4px;background:#C3E88D;margin-top:6px;flex-shrink:0;"></div>
+      <div class="li-body">
+        <div class="li-title">#47 · feat: add AI chat context selector</div>
+        <div style="font-size:12px;color:#A8B3CF;margin-top:3px;">opened 2h ago by dev</div>
+        <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;">
+          <div class="badge badge-primary">enhancement</div>
+          <div class="badge badge-info">AI</div>
+        </div>
+        <div style="font-size:12px;color:#FFCB6B;margin-top:6px;">🤖 AI priority: High · 3 related files</div>
+      </div>
+      <div style="font-size:12px;color:#546E7A;">💬 3</div>
+    </div>
+    <div class="divider"></div>
+    <div class="list-item" style="align-items:flex-start;">
+      <div style="width:8px;height:8px;border-radius:4px;background:#FF5370;margin-top:6px;flex-shrink:0;"></div>
+      <div class="li-body">
+        <div class="li-title">#45 · Navigation back stack causes memory leak</div>
+        <div style="font-size:12px;color:#A8B3CF;margin-top:3px;">opened 1d ago by dev</div>
+        <div style="display:flex;gap:6px;margin-top:6px;">
+          <div class="badge badge-error">bug</div>
+          <div class="badge badge-warning">P1</div>
+        </div>
+        <div style="font-size:12px;color:#82AAFF;margin-top:6px;">🤖 AI fix: Likely in NavBackStackEntry handling</div>
+      </div>
+      <div style="font-size:12px;color:#546E7A;">💬 7</div>
+    </div>
+    <div class="divider"></div>
+    <div class="list-item" style="align-items:flex-start;">
+      <div style="width:8px;height:8px;border-radius:4px;background:#C3E88D;margin-top:6px;flex-shrink:0;"></div>
+      <div class="li-body">
+        <div class="li-title">#44 · Add streaming response UI indicator</div>
+        <div style="font-size:12px;color:#A8B3CF;margin-top:3px;">opened 3d ago by dev</div>
+        <div style="display:flex;gap:6px;margin-top:6px;">
+          <div class="badge badge-primary">enhancement</div>
+        </div>
+      </div>
+      <div style="font-size:12px;color:#546E7A;">💬 1</div>
+    </div>
+    <div class="divider"></div>
+    <div class="list-item" style="align-items:flex-start;">
+      <div style="width:8px;height:8px;border-radius:4px;background:#C3E88D;margin-top:6px;flex-shrink:0;"></div>
+      <div class="li-body">
+        <div class="li-title">#43 · Code block syntax highlighting flickers</div>
+        <div style="font-size:12px;color:#A8B3CF;margin-top:3px;">opened 5d ago by dev</div>
+        <div style="display:flex;gap:6px;margin-top:6px;">
+          <div class="badge badge-error">bug</div><div class="badge" style="background:#252840;color:#A8B3CF;">performance</div>
+        </div>
+      </div>
+      <div style="font-size:12px;color:#546E7A;">💬 2</div>
+    </div>
+  </div>
+  <!-- FAB -->
+  <div style="position:absolute;bottom:24px;right:16px;width:56px;height:56px;border-radius:16px;background:#82AAFF;display:flex;align-items:center;justify-content:center;font-size:22px;color:#001E6E;font-weight:700;box-shadow:0 4px 16px rgba(130,170,255,.4);">＋</div>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════ ISSUE DETAIL ══ -->
+<div id="s-issue-detail" class="screen-wrap">
+<div class="phone-frame">
+<div class="phone-screen" style="min-height:812px;">
+  <div class="status-bar"><span>9:41</span><div class="status-right">📶 🔋</div></div>
+  <div class="top-bar"><div class="icon-btn">←</div><div class="title">#45 Bug</div><div class="icon-btn">⋯</div></div>
+  <div class="screen-body">
+    <div style="padding:16px;">
+      <div style="font-size:18px;font-weight:700;color:#E2E8F0;line-height:1.3;margin-bottom:10px;">Navigation back stack causes memory leak on screen rotation</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;">
+        <div class="badge badge-error">bug</div>
+        <div class="badge badge-warning">P1</div>
+        <div class="badge" style="background:#252840;color:#A8B3CF;">navigation</div>
+      </div>
+      <div style="display:flex;gap:16px;font-size:12px;color:#A8B3CF;">
+        <span>Opened 1d ago</span><span>by dev</span><span>💬 7 comments</span>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div style="padding:16px;font-size:14px;color:#E2E8F0;line-height:1.7;">
+      When navigating back after screen rotation, the NavBackStack does not properly release ViewModel references, causing a memory leak of approximately 2–3MB per rotation cycle.
+    </div>
+    <!-- AI summary -->
+    <div class="card" style="border-left:3px solid #82AAFF;">
+      <div style="font-size:12px;color:#82AAFF;font-weight:600;margin-bottom:6px;">🤖 AI Analysis</div>
+      <div style="font-size:13px;color:#E2E8F0;line-height:1.5;">Root cause likely in <code style="color:#89DDFF;">NavHostController</code> not clearing ViewModelStore on config change. Suggest checking <code style="color:#89DDFF;">rememberNavController()</code> lifecycle.</div>
+      <button class="btn btn-ghost" style="height:32px;font-size:12px;color:#82AAFF;padding:0;margin-top:8px;">Get AI fix suggestion →</button>
+    </div>
+    <!-- Related code -->
+    <div class="section-header"><h3>Related Code (2)</h3></div>
+    <div class="list-item">
+      <div class="li-icon" style="font-size:12px;font-weight:700;color:#82AAFF;background:#003298;">kt</div>
+      <div class="li-body"><div class="li-title">DevOSNavGraph.kt</div><div class="li-sub">line 24 · NavHostController usage</div></div>
+    </div>
+    <div class="divider"></div>
+    <div class="list-item">
+      <div class="li-icon" style="font-size:12px;font-weight:700;color:#82AAFF;background:#003298;">kt</div>
+      <div class="li-body"><div class="li-title">MainActivity.kt</div><div class="li-sub">line 38 · NavController retain</div></div>
+    </div>
+    <!-- Actions -->
+    <div style="display:flex;gap:8px;padding:16px;">
+      <button class="btn btn-outlined" style="flex:1;height:40px;font-size:13px;">Assign</button>
+      <button class="btn btn-primary" style="flex:1;height:40px;font-size:13px;">Close Issue</button>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════ PULL REQUESTS ══ -->
+<div id="s-pull-requests" class="screen-wrap">
+<div class="phone-frame">
+<div class="phone-screen" style="min-height:812px;">
+  <div class="status-bar"><span>9:41</span><div class="status-right">📶 🔋</div></div>
+  <div class="top-bar"><div class="icon-btn">←</div><div class="title">Pull Requests</div></div>
+  <div class="chip-scroll">
+    <div class="chip active">Open (5)</div><div class="chip">Draft (2)</div><div class="chip">My PRs</div><div class="chip">Needs Review</div>
+  </div>
+  <div class="screen-body" style="padding-bottom:24px;">
+    <!-- PR item with AI score -->
+    <div style="padding:12px 16px;border-bottom:1px solid #2A2E42;cursor:pointer;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;">
+        <div style="font-size:14px;font-weight:500;color:#E2E8F0;flex:1;margin-right:8px;">#47 · feat: add AI chat context selector</div>
+        <div style="background:#2D5000;border-radius:6px;padding:3px 8px;font-size:12px;color:#C3E88D;white-space:nowrap;font-weight:600;">AI: 94</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:#A8B3CF;flex-wrap:wrap;">
+        <span>feature/ai-context → main</span>
+        <span>·</span><span>dev</span><span>·</span><span>2h ago</span>
+      </div>
+      <div style="display:flex;gap:6px;margin-top:8px;align-items:center;">
+        <div class="badge badge-success">✓ CI Passed</div>
+        <div class="badge" style="background:#3d2c00;color:#FFCB6B;">2 reviews needed</div>
+      </div>
+      <div style="font-size:12px;color:#82AAFF;margin-top:6px;">🤖 AI: LGTM — clean implementation, good test coverage</div>
+    </div>
+    <div style="padding:12px 16px;border-bottom:1px solid #2A2E42;cursor:pointer;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;">
+        <div style="font-size:14px;font-weight:500;color:#E2E8F0;flex:1;margin-right:8px;">#45 · fix: navigation memory leak</div>
+        <div style="background:#930000;border-radius:6px;padding:3px 8px;font-size:12px;color:#FF5370;white-space:nowrap;font-weight:600;">AI: 61</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:#A8B3CF;">
+        <span>fix/nav-leak → main</span><span>·</span><span>2d ago</span>
+      </div>
+      <div style="display:flex;gap:6px;margin-top:8px;">
+        <div class="badge badge-error">✗ CI Failed</div>
+        <div class="badge" style="background:#252840;color:#A8B3CF;">Draft</div>
+      </div>
+      <div style="font-size:12px;color:#FF5370;margin-top:6px;">🤖 AI: Changes requested — 2 issues found</div>
+    </div>
+    <div style="padding:12px 16px;border-bottom:1px solid #2A2E42;cursor:pointer;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;">
+        <div style="font-size:14px;font-weight:500;color:#E2E8F0;flex:1;margin-right:8px;">#44 · feat: streaming response indicator</div>
+        <div style="background:#2D5000;border-radius:6px;padding:3px 8px;font-size:12px;color:#C3E88D;white-space:nowrap;font-weight:600;">AI: 88</div>
+      </div>
+      <div style="font-size:12px;color:#A8B3CF;">feature/streaming → main · 4d ago</div>
+      <div style="display:flex;gap:6px;margin-top:8px;">
+        <div class="badge badge-success">✓ CI</div>
+        <div class="badge badge-primary">1 approval</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════ PR REVIEW ══ -->
+<div id="s-pr-review" class="screen-wrap">
+<div class="phone-frame">
+<div class="phone-screen" style="min-height:812px;">
+  <div class="status-bar"><span>9:41</span><div class="status-right">📶 🔋</div></div>
+  <div class="top-bar"><div class="icon-btn">←</div><div class="title">AI Review</div><div class="icon-btn">📋</div></div>
+  <div class="screen-body">
+    <!-- PR header -->
+    <div class="card">
+      <div style="font-size:15px;font-weight:600;color:#E2E8F0;margin-bottom:6px;">#47 — feat: add AI chat context selector</div>
+      <div style="font-size:12px;color:#A8B3CF;">feature/ai-context → main · +247 -89 · 8 files</div>
+      <div style="display:flex;align-items:center;gap:10px;margin-top:10px;padding-top:10px;border-top:1px solid #2A2E42;">
+        <div style="font-size:28px;font-weight:800;color:#C3E88D;">94</div>
+        <div>
+          <div style="font-size:13px;font-weight:600;color:#C3E88D;">AI Score: Excellent</div>
+          <div style="font-size:12px;color:#A8B3CF;">Recommend: Approve ✓</div>
+        </div>
+      </div>
+    </div>
+    <!-- Summary -->
+    <div class="section-header"><h3>AI Review Summary</h3></div>
+    <div class="card" style="border-left:3px solid #C3E88D;">
+      <div style="font-size:13px;color:#E2E8F0;line-height:1.6;">
+        ✅ Clean implementation following MVVM patterns<br/>
+        ✅ Proper StateFlow usage for UI state<br/>
+        ✅ Good test coverage (89% on new code)<br/>
+        ⚠️ Minor: Consider adding `@TestOnly` annotation to internal functions<br/>
+        ℹ️ Consider extracting context switching logic to a UseCase
+      </div>
+    </div>
+    <!-- File review -->
+    <div class="section-header"><h3>File Review (8)</h3></div>
+    <div style="padding:10px 16px;border-bottom:1px solid #2A2E42;cursor:pointer;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+        <div style="font-size:13px;color:#82AAFF;font-family:monospace;">AIChatViewModel.kt</div>
+        <div class="badge badge-success">No issues</div>
+      </div>
+      <div style="font-size:12px;color:#A8B3CF;">+127 -23 · Context selector implementation</div>
+    </div>
+    <div style="padding:10px 16px;border-bottom:1px solid #2A2E42;cursor:pointer;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+        <div style="font-size:13px;color:#82AAFF;font-family:monospace;">AIChatScreen.kt</div>
+        <div class="badge badge-warning">1 suggestion</div>
+      </div>
+      <div style="font-size:12px;color:#A8B3CF;">+84 -12 · UI composable</div>
+    </div>
+    <!-- Actions -->
+    <div style="display:flex;gap:8px;padding:16px;">
+      <button class="btn btn-outlined" style="flex:1;height:40px;font-size:13px;">Copy Review</button>
+      <button class="btn btn-primary" style="flex:1;height:40px;font-size:13px;">Post to GitHub</button>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════ SECURITY ══ -->
+<div id="s-security" class="screen-wrap">
+<div class="phone-frame">
+<div class="phone-screen" style="min-height:812px;position:relative;">
+  <div class="status-bar"><span>9:41</span><div class="status-right">📶 🔋</div></div>
+  <div class="top-bar"><div class="icon-btn">←</div><div class="title">Security Findings</div></div>
+  <!-- Summary row -->
+  <div style="display:flex;gap:8px;padding:12px 16px;background:#1A1C2E;border-bottom:1px solid #3A3F58;">
+    <div style="flex:1;text-align:center;padding:10px;background:#930000;border-radius:10px;">
+      <div style="font-size:22px;font-weight:800;color:#FF5370;">2</div>
+      <div style="font-size:10px;color:#FF5370;font-weight:600;margin-top:2px;">CRITICAL</div>
+    </div>
+    <div style="flex:1;text-align:center;padding:10px;background:#3d2c00;border-radius:10px;">
+      <div style="font-size:22px;font-weight:800;color:#FFCB6B;">3</div>
+      <div style="font-size:10px;color:#FFCB6B;font-weight:600;margin-top:2px;">HIGH</div>
+    </div>
+    <div style="flex:1;text-align:center;padding:10px;background:#003547;border-radius:10px;">
+      <div style="font-size:22px;font-weight:800;color:#89DDFF;">5</div>
+      <div style="font-size:10px;color:#89DDFF;font-weight:600;margin-top:2px;">MEDIUM</div>
+    </div>
+    <div style="flex:1;text-align:center;padding:10px;background:#2D5000;border-radius:10px;">
+      <div style="font-size:22px;font-weight:800;color:#C3E88D;">8</div>
+      <div style="font-size:10px;color:#C3E88D;font-weight:600;margin-top:2px;">LOW</div>
+    </div>
+  </div>
+  <div class="chip-scroll">
+    <div class="chip active">All (18)</div><div class="chip error">Critical (2)</div><div class="chip">OWASP A03</div><div class="chip">Open</div>
+  </div>
+  <div class="screen-body" style="padding-bottom:24px;">
+    <div class="finding">
+      <div class="sev sev-critical"></div>
+      <div style="flex:1;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+          <div style="font-size:14px;font-weight:600;color:#E2E8F0;">SQL Injection Risk</div>
+          <div class="badge badge-error">CRITICAL</div>
+        </div>
+        <div style="font-size:12px;color:#A8B3CF;">DatabaseHelper.kt · line 84</div>
+        <div style="font-size:12px;color:#A8B3CF;margin-top:4px;">OWASP A03:2021 · Injection</div>
+        <div style="font-size:12px;color:#82AAFF;margin-top:6px;">🤖 AI: Use parameterized queries to fix</div>
+        <div style="display:flex;gap:8px;margin-top:8px;">
+          <button class="btn btn-outlined" style="height:30px;font-size:11px;padding:0 10px;">Mark Fixed</button>
+          <button class="btn btn-primary" style="height:30px;font-size:11px;padding:0 10px;">Ask AI</button>
+        </div>
+      </div>
+    </div>
+    <div class="finding">
+      <div class="sev sev-critical"></div>
+      <div style="flex:1;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+          <div style="font-size:14px;font-weight:600;color:#E2E8F0;">Hardcoded API Key</div>
+          <div class="badge badge-error">CRITICAL</div>
+        </div>
+        <div style="font-size:12px;color:#A8B3CF;">Config.kt · line 12</div>
+        <div style="font-size:12px;color:#A8B3CF;margin-top:4px;">OWASP A02:2021 · Crypto Failures</div>
+        <div style="font-size:12px;color:#82AAFF;margin-top:6px;">🤖 AI: Move to BuildConfig or EncryptedSharedPreferences</div>
+      </div>
+    </div>
+    <div class="finding">
+      <div class="sev sev-high"></div>
+      <div style="flex:1;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+          <div style="font-size:14px;font-weight:600;color:#E2E8F0;">Missing HTTPS enforcement</div>
+          <div class="badge badge-warning">HIGH</div>
+        </div>
+        <div style="font-size:12px;color:#A8B3CF;">NetworkModule.kt · line 31</div>
+        <div style="font-size:12px;color:#A8B3CF;margin-top:4px;">OWASP A02:2021 · Network</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════ TEST INTELLIGENCE ══ -->
+<div id="s-test-intel" class="screen-wrap">
+<div class="phone-frame">
+<div class="phone-screen" style="min-height:812px;">
+  <div class="status-bar"><span>9:41</span><div class="status-right">📶 🔋</div></div>
+  <div class="top-bar"><div class="icon-btn">←</div><div class="title">Test Intelligence</div></div>
+  <div class="screen-body">
+    <!-- Coverage gauge -->
+    <div class="card" style="text-align:center;margin-top:12px;">
+      <div style="position:relative;width:100px;height:100px;margin:0 auto 12px;">
+        <svg viewBox="0 0 100 100" style="width:100px;height:100px;transform:rotate(-90deg);">
+          <circle cx="50" cy="50" r="40" fill="none" stroke="#252840" stroke-width="10"/>
+          <circle cx="50" cy="50" r="40" fill="none" stroke="#FFCB6B" stroke-width="10" stroke-dasharray="168 252" stroke-linecap="round"/>
+        </svg>
+        <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+          <div style="font-size:22px;font-weight:800;color:#FFCB6B;">67%</div>
+          <div style="font-size:10px;color:#546E7A;">Coverage</div>
+        </div>
+      </div>
+      <div style="font-size:13px;color:#A8B3CF;">Target: 80% · Gap: 13%</div>
+    </div>
+    <!-- Stats -->
+    <div style="display:flex;gap:8px;padding:0 16px 12px;">
+      <div style="flex:1;background:#2D5000;border-radius:10px;padding:12px;text-align:center;">
+        <div style="font-size:18px;font-weight:700;color:#C3E88D;">234</div>
+        <div style="font-size:10px;color:#C3E88D;">Passing</div>
+      </div>
+      <div style="flex:1;background:#930000;border-radius:10px;padding:12px;text-align:center;">
+        <div style="font-size:18px;font-weight:700;color:#FF5370;">8</div>
+        <div style="font-size:10px;color:#FF5370;">Failing</div>
+      </div>
+      <div style="flex:1;background:#3d2c00;border-radius:10px;padding:12px;text-align:center;">
+        <div style="font-size:18px;font-weight:700;color:#FFCB6B;">5</div>
+        <div style="font-size:10px;color:#FFCB6B;">Flaky</div>
+      </div>
+    </div>
+    <!-- AI suggestions -->
+    <div class="section-header"><h3>AI Suggestions</h3></div>
+    <div class="card" style="border-left:3px solid #82AAFF;">
+      <div style="font-size:13px;color:#E2E8F0;line-height:1.5;">Add tests for <code style="color:#89DDFF;">AuthViewModel</code> — 0% coverage on 6 functions</div>
+      <button class="btn btn-primary" style="height:32px;font-size:12px;margin-top:10px;padding:0 14px;">Generate Tests with AI</button>
+    </div>
+    <div class="section-header" style="margin-top:4px;"><h3>Uncovered Files (12)</h3></div>
+    <div class="list-item">
+      <div class="li-icon" style="font-size:12px;font-weight:700;background:#003298;color:#82AAFF;">kt</div>
+      <div class="li-body"><div class="li-title">AuthViewModel.kt</div><div class="li-sub">0% · 6 functions untested</div></div>
+      <div class="badge badge-error">0%</div>
+    </div>
+    <div class="divider"></div>
+    <div class="list-item">
+      <div class="li-icon" style="font-size:12px;font-weight:700;background:#003298;color:#82AAFF;">kt</div>
+      <div class="li-body"><div class="li-title">SecurityRepository.kt</div><div class="li-sub">12% · 4 functions untested</div></div>
+      <div class="badge badge-error">12%</div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════ LEARNING DASHBOARD ══ -->
+<div id="s-learning-dashboard" class="screen-wrap">
+<div class="phone-frame">
+<div class="phone-screen" style="min-height:812px;position:relative;">
+  <div class="status-bar"><span>9:41</span><div class="status-right">📶 🔋</div></div>
+  <div class="top-bar"><div class="title">Learn</div><div class="icon-btn">🔍</div></div>
+  <div class="screen-body" style="padding-bottom:80px;">
+    <!-- Daily goal + streak -->
+    <div style="display:flex;gap:10px;padding:12px 16px;">
+      <div style="flex:1;background:#1A1C2E;border-radius:12px;border:1px solid #3A3F58;padding:14px;text-align:center;">
+        <div style="font-size:22px;font-weight:800;color:#82AAFF;">3/5</div>
+        <div style="font-size:11px;color:#A8B3CF;margin-top:2px;">Lessons today</div>
+        <div class="progress-bar" style="margin-top:8px;"><div class="progress-fill" style="width:60%;"></div></div>
+      </div>
+      <div style="flex:1;background:#1A1C2E;border-radius:12px;border:1px solid #3A3F58;padding:14px;text-align:center;">
+        <div style="font-size:28px;">🔥</div>
+        <div style="font-size:22px;font-weight:800;color:#FFCB6B;">12</div>
+        <div style="font-size:11px;color:#A8B3CF;">Day streak</div>
+      </div>
+    </div>
+    <!-- Current course -->
+    <div class="section-header"><h3>Continue Learning</h3></div>
+    <div class="card" style="background:linear-gradient(135deg,#003298,#001E6E);border-color:#82AAFF;">
+      <div style="font-size:11px;color:#82AAFF;font-weight:600;margin-bottom:6px;">IN PROGRESS · Lesson 4 of 8</div>
+      <div style="font-size:16px;font-weight:700;color:#E2E8F0;margin-bottom:4px;">Kotlin Coroutines & Flow</div>
+      <div style="font-size:12px;color:#A8B3CF;margin-bottom:12px;">Based on patterns in DevOS AI repo</div>
+      <div class="progress-bar"><div class="progress-fill" style="width:50%;"></div></div>
+      <div style="display:flex;justify-content:space-between;margin-top:4px;">
+        <span style="font-size:11px;color:#A8B3CF;">50% complete</span>
+        <span style="font-size:11px;color:#82AAFF;">~20 min left</span>
+      </div>
+      <button class="btn btn-primary btn-full" style="margin-top:12px;">Continue →</button>
+    </div>
+    <!-- Recommendations -->
+    <div class="section-header"><h3>Recommended for You</h3></div>
+    <div class="list-item">
+      <div class="li-icon" style="background:#003547;font-size:20px;">📐</div>
+      <div class="li-body"><div class="li-title">Clean Architecture for Android</div><div class="li-sub">8 lessons · 45 min · Based on your code</div></div>
+      <div class="badge badge-info">New</div>
+    </div>
+    <div class="divider"></div>
+    <div class="list-item">
+      <div class="li-icon" style="background:#2D5000;font-size:20px;">🧪</div>
+      <div class="li-body"><div class="li-title">Testing Jetpack Compose</div><div class="li-sub">6 lessons · 35 min · Fill coverage gaps</div></div>
+    </div>
+    <div class="divider"></div>
+    <div class="list-item">
+      <div class="li-icon" style="background:#003298;font-size:20px;">🤖</div>
+      <div class="li-body"><div class="li-title">Building AI Apps with Kotlin</div><div class="li-sub">10 lessons · 60 min</div></div>
+    </div>
+    <!-- Quiz scores -->
+    <div class="section-header"><h3>Recent Scores</h3></div>
+    <div class="card card-sm">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+        <span style="font-size:13px;color:#E2E8F0;">Kotlin Flows quiz</span>
+        <span style="font-size:14px;font-weight:700;color:#C3E88D;">9/10</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-size:13px;color:#E2E8F0;">Dependency Injection</span>
+        <span style="font-size:14px;font-weight:700;color:#FFCB6B;">7/10</span>
+      </div>
+    </div>
+  </div>
+  <div class="bottom-nav">
+    <div class="nav-item"><div class="nav-icon">🏠</div><div class="nav-label">Home</div></div>
+    <div class="nav-item"><div class="nav-icon">📁</div><div class="nav-label">Projects</div></div>
+    <div class="nav-item"><div class="nav-icon">✨</div><div class="nav-label">AI</div></div>
+    <div class="nav-item active"><div class="nav-icon">🎓</div><div class="nav-label">Learn</div></div>
+    <div class="nav-item"><div class="nav-icon">☰</div><div class="nav-label">More</div></div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════ COURSE DETAILS ══ -->
+<div id="s-course-details" class="screen-wrap">
+<div class="phone-frame">
+<div class="phone-screen" style="min-height:812px;">
+  <div class="status-bar"><span>9:41</span><div class="status-right">📶 🔋</div></div>
+  <div class="top-bar"><div class="icon-btn">←</div><div class="title">Course</div></div>
+  <div style="padding:16px;background:#1A1C2E;border-bottom:1px solid #3A3F58;">
+    <div style="font-size:11px;color:#82AAFF;font-weight:600;margin-bottom:4px;">KOTLIN · 8 LESSONS · 45 MIN</div>
+    <div style="font-size:22px;font-weight:700;color:#E2E8F0;margin-bottom:6px;">Kotlin Coroutines &amp; Flow</div>
+    <div style="font-size:13px;color:#A8B3CF;margin-bottom:12px;">Master async programming patterns used throughout the DevOS AI codebase.</div>
+    <div class="progress-bar"><div class="progress-fill" style="width:50%;"></div></div>
+    <div style="display:flex;justify-content:space-between;margin-top:4px;margin-bottom:12px;">
+      <span style="font-size:11px;color:#A8B3CF;">4 of 8 lessons done</span>
+      <span style="font-size:11px;color:#82AAFF;">50%</span>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;">
+      <div class="chip" style="font-size:11px;padding:3px 8px;">Kotlin</div>
+      <div class="chip" style="font-size:11px;padding:3px 8px;">Intermediate</div>
+      <div class="chip success" style="font-size:11px;padding:3px 8px;">📱 In your repo</div>
+    </div>
+    <button class="btn btn-primary btn-full">Continue Lesson 5 →</button>
+  </div>
+  <div class="screen-body">
+    <div class="section-header"><h3>Lessons</h3></div>
+    <div class="list-item">
+      <div class="li-icon" style="background:#2D5000;color:#C3E88D;font-size:16px;">✓</div>
+      <div class="li-body"><div class="li-title">1. Introduction to Coroutines</div><div class="li-sub">Completed · 5 min</div></div>
+    </div>
+    <div class="divider"></div>
+    <div class="list-item">
+      <div class="li-icon" style="background:#2D5000;color:#C3E88D;font-size:16px;">✓</div>
+      <div class="li-body"><div class="li-title">2. launch vs async</div><div class="li-sub">Completed · 8 min</div></div>
+    </div>
+    <div class="divider"></div>
+    <div class="list-item">
+      <div class="li-icon" style="background:#2D5000;color:#C3E88D;font-size:16px;">✓</div>
+      <div class="li-body"><div class="li-title">3. Coroutine Scopes</div><div class="li-sub">Completed · 6 min</div></div>
+    </div>
+    <div class="divider"></div>
+    <div class="list-item">
+      <div class="li-icon" style="background:#2D5000;color:#C3E88D;font-size:16px;">✓</div>
+      <div class="li-body"><div class="li-title">4. Flows & StateFlow</div><div class="li-sub">Completed · 10 min · Quiz 9/10</div></div>
+    </div>
+    <div class="divider"></div>
+    <div class="list-item" style="background:rgba(130,170,255,.05);">
+      <div class="li-icon" style="background:#003298;color:#82AAFF;font-size:16px;">▶</div>
+      <div class="li-body"><div class="li-title">5. SharedFlow & Hot Streams</div><div class="li-sub">Up next · 8 min</div></div>
+    </div>
+    <div class="divider"></div>
+    <div class="list-item">
+      <div class="li-icon" style="background:#252840;color:#546E7A;font-size:16px;">○</div>
+      <div class="li-body"><div class="li-title">6. Error Handling</div><div class="li-sub">Locked · 7 min</div></div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════ LESSON ══ -->
+<div id="s-lesson" class="screen-wrap">
+<div class="phone-frame">
+<div class="phone-screen" style="min-height:812px;">
+  <div class="status-bar"><span>9:41</span><div class="status-right">📶 🔋</div></div>
+  <div class="top-bar"><div class="icon-btn">←</div><div style="flex:1;"><div style="font-size:13px;font-weight:600;color:#E2E8F0;">Lesson 5 of 8</div></div><div class="icon-btn">⋯</div></div>
+  <div style="padding:0 16px 8px;"><div class="progress-bar"><div class="progress-fill" style="width:40%;"></div></div></div>
+  <div class="screen-body">
+    <div style="padding:16px;">
+      <div style="font-size:20px;font-weight:700;color:#E2E8F0;margin-bottom:12px;">SharedFlow &amp; Hot Streams</div>
+      <div style="font-size:14px;color:#E2E8F0;line-height:1.7;margin-bottom:16px;">
+        A <strong>SharedFlow</strong> is a hot stream that emits values to all active collectors. Unlike StateFlow, it doesn't have a fixed current value.
+      </div>
+      <div style="font-size:14px;color:#E2E8F0;line-height:1.7;margin-bottom:12px;">Here's how it's used in DevOS AI:</div>
+      <div class="code-block">
+<span class="kw">private val</span> <span style="color:#89DDFF;">_events</span> = <span class="fn">MutableSharedFlow</span>&lt;<span class="ty">ChatEvent</span>&gt;()
+<span class="kw">val</span> <span style="color:#89DDFF;">events</span> = _events.<span class="fn">asSharedFlow</span>()
+
+<span class="kw">fun</span> <span class="fn">emitScrollToBottom</span>() {
+    <span class="fn">viewModelScope</span>.<span class="fn">launch</span> {
+        _events.<span class="fn">emit</span>(<span class="ty">ChatEvent</span>.<span class="fn">ScrollToBottom</span>)
+    }
+}</div>
+      <div style="margin-top:16px;padding:12px;background:#2D5000;border-radius:8px;border:1px solid #C3E88D;">
+        <div style="font-size:12px;color:#C3E88D;font-weight:600;margin-bottom:4px;">📱 In Your Code</div>
+        <div style="font-size:12px;color:#DFF5A7;">Found in <code style="color:#89DDFF;">AIChatViewModel.kt</code> — the same pattern you're learning is used for chat events!</div>
+      </div>
+    </div>
+  </div>
+  <!-- Bottom nav -->
+  <div style="position:absolute;bottom:0;left:0;right:0;background:#1A1C2E;border-top:1px solid #3A3F58;padding:12px 16px 24px;display:flex;gap:10px;">
+    <button class="btn btn-secondary" style="flex:1;height:44px;font-size:14px;">← Previous</button>
+    <button class="btn btn-primary" style="flex:1;height:44px;font-size:14px;">Next →</button>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════ QUIZ ══ -->
+<div id="s-quiz" class="screen-wrap">
+<div class="phone-frame">
+<div class="phone-screen" style="min-height:812px;">
+  <div class="status-bar"><span>9:41</span><div class="status-right">📶 🔋</div></div>
+  <div class="top-bar"><div class="icon-btn">✕</div><div style="flex:1;text-align:center;font-size:15px;font-weight:600;color:#E2E8F0;">Question 3 / 5</div><div style="font-size:14px;color:#FFCB6B;font-weight:600;padding:0 8px;">2/2 ✓</div></div>
+  <div style="padding:0 16px 12px;"><div class="progress-bar"><div class="progress-fill" style="width:60%;background:#C3E88D;"></div></div></div>
+  <div class="screen-body">
+    <div style="padding:16px 16px 0;">
+      <div style="font-size:17px;font-weight:600;color:#E2E8F0;line-height:1.5;margin-bottom:20px;">What is the key difference between <code style="color:#89DDFF;">StateFlow</code> and <code style="color:#89DDFF;">SharedFlow</code>?</div>
+      <!-- Options -->
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="background:#1A1C2E;border:1.5px solid #C3E88D;border-radius:12px;padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:12px;">
+          <div style="width:24px;height:24px;border-radius:12px;background:#2D5000;border:2px solid #C3E88D;display:flex;align-items:center;justify-content:center;font-size:12px;color:#C3E88D;font-weight:700;">✓</div>
+          <div style="font-size:14px;color:#C3E88D;">StateFlow always has a current value; SharedFlow does not</div>
+        </div>
+        <div style="background:#1A1C2E;border:1.5px solid #3A3F58;border-radius:12px;padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:12px;opacity:0.6;">
+          <div style="width:24px;height:24px;border-radius:12px;background:#252840;border:2px solid #3A3F58;display:flex;align-items:center;justify-content:center;font-size:12px;color:#546E7A;">B</div>
+          <div style="font-size:14px;color:#A8B3CF;">StateFlow is cold, SharedFlow is hot</div>
+        </div>
+        <div style="background:#1A1C2E;border:1.5px solid #3A3F58;border-radius:12px;padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:12px;opacity:0.6;">
+          <div style="width:24px;height:24px;border-radius:12px;background:#252840;border:2px solid #3A3F58;display:flex;align-items:center;justify-content:center;font-size:12px;color:#546E7A;">C</div>
+          <div style="font-size:14px;color:#A8B3CF;">They are identical except for naming</div>
+        </div>
+        <div style="background:#1A1C2E;border:1.5px solid #3A3F58;border-radius:12px;padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:12px;opacity:0.6;">
+          <div style="width:24px;height:24px;border-radius:12px;background:#252840;border:2px solid #3A3F58;display:flex;align-items:center;justify-content:center;font-size:12px;color:#546E7A;">D</div>
+          <div style="font-size:14px;color:#A8B3CF;">SharedFlow is for UI state only</div>
+        </div>
+      </div>
+      <!-- Correct feedback -->
+      <div style="margin-top:16px;padding:12px;background:#2D5000;border-radius:8px;border:1px solid #C3E88D;">
+        <div style="font-size:13px;color:#C3E88D;font-weight:600;margin-bottom:4px;">✓ Correct!</div>
+        <div style="font-size:13px;color:#DFF5A7;line-height:1.5;">StateFlow holds a current state value and replays it to new collectors. SharedFlow is for events that shouldn't be replayed.</div>
+      </div>
+      <button class="btn btn-primary btn-full" style="margin-top:16px;">Next Question →</button>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════ DEVELOPER MEMORY ══ -->
+<div id="s-memory" class="screen-wrap">
+<div class="phone-frame">
+<div class="phone-screen" style="min-height:812px;">
+  <div class="status-bar"><span>9:41</span><div class="status-right">📶 🔋</div></div>
+  <div class="top-bar"><div class="icon-btn">←</div><div class="title">Developer Memory</div><div class="icon-btn">🔍</div></div>
+  <div class="screen-body">
+    <div style="padding:12px 16px;font-size:13px;color:#A8B3CF;line-height:1.5;">AI remembers your preferences, decisions, and patterns from past sessions.</div>
+    <div class="search-bar"><span class="si">🔍</span><input placeholder="Search memories…"/></div>
+    <div class="section-header"><h3>Code Preferences</h3></div>
+    <div class="card card-sm">
+      <div style="display:flex;align-items:flex-start;gap:10px;">
+        <span style="font-size:16px;">⚙️</span>
+        <div>
+          <div style="font-size:13px;font-weight:500;color:#E2E8F0;">Prefers Kotlin coroutines over RxJava</div>
+          <div style="font-size:11px;color:#546E7A;margin-top:3px;">Learned from DevOS AI · 15 interactions</div>
+        </div>
+        <div class="icon-btn" style="width:28px;height:28px;font-size:14px;margin-left:auto;">✕</div>
+      </div>
+    </div>
+    <div class="card card-sm">
+      <div style="display:flex;align-items:flex-start;gap:10px;">
+        <span style="font-size:16px;">🎨</span>
+        <div>
+          <div style="font-size:13px;font-weight:500;color:#E2E8F0;">Uses MVVM + Clean Architecture consistently</div>
+          <div style="font-size:11px;color:#546E7A;margin-top:3px;">Learned from code patterns · 8 projects</div>
+        </div>
+        <div class="icon-btn" style="width:28px;height:28px;font-size:14px;margin-left:auto;">✕</div>
+      </div>
+    </div>
+    <div class="section-header" style="margin-top:4px;"><h3>Recent Decisions</h3></div>
+    <div class="card card-sm">
+      <div style="display:flex;align-items:flex-start;gap:10px;">
+        <span style="font-size:16px;">💡</span>
+        <div>
+          <div style="font-size:13px;font-weight:500;color:#E2E8F0;">Decided to use Room over SQLDelight</div>
+          <div style="font-size:11px;color:#546E7A;margin-top:3px;">DevOS AI · 3d ago</div>
+        </div>
+      </div>
+    </div>
+    <div class="card card-sm">
+      <div style="display:flex;align-items:flex-start;gap:10px;">
+        <span style="font-size:16px;">💡</span>
+        <div>
+          <div style="font-size:13px;font-weight:500;color:#E2E8F0;">Using Hilt for dependency injection across all modules</div>
+          <div style="font-size:11px;color:#546E7A;margin-top:3px;">DevOS AI · 1 week ago</div>
+        </div>
+      </div>
+    </div>
+    <div style="padding:16px;">
+      <button class="btn btn-outlined btn-full" style="color:#FF5370;border-color:#FF5370;height:44px;">Clear All Memories</button>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════ AI SETTINGS ══ -->
+<div id="s-ai-settings" class="screen-wrap">
+<div class="phone-frame">
+<div class="phone-screen" style="min-height:812px;">
+  <div class="status-bar"><span>9:41</span><div class="status-right">📶 🔋</div></div>
+  <div class="top-bar"><div class="icon-btn">←</div><div class="title">AI Settings</div></div>
+  <div class="screen-body">
+    <!-- Token usage -->
+    <div class="card" style="margin-top:12px;">
+      <div style="font-size:13px;color:#A8B3CF;margin-bottom:8px;">TOKEN USAGE THIS MONTH</div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+        <span style="font-size:14px;color:#E2E8F0;">248,420 / 500,000</span>
+        <span style="font-size:14px;color:#82AAFF;font-weight:600;">50%</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:50%;"></div></div>
+    </div>
+    <div style="padding:8px 0;">
+      <div style="padding:8px 16px;font-size:12px;font-weight:700;color:#546E7A;text-transform:uppercase;letter-spacing:0.5px;">MODEL</div>
+      <div class="settings-row">
+        <span class="sr-icon">🤖</span>
+        <div class="sr-body"><div class="sr-label">Default Model</div><div class="sr-sub">claude-sonnet-4.5</div></div>
+        <span class="sr-arrow">›</span>
+      </div>
+      <div class="settings-row">
+        <span class="sr-icon">🔑</span>
+        <div class="sr-body"><div class="sr-label">API Providers</div><div class="sr-sub">OpenAI, Anthropic configured</div></div>
+        <span class="sr-arrow">›</span>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div style="padding:8px 0;">
+      <div style="padding:8px 16px;font-size:12px;font-weight:700;color:#546E7A;text-transform:uppercase;letter-spacing:0.5px;">RAG</div>
+      <div class="settings-row">
+        <span class="sr-icon">🗂</span>
+        <div class="sr-body"><div class="sr-label">Top-K Results</div><div class="sr-sub">10 chunks per query</div></div>
+        <span style="font-size:13px;color:#82AAFF;">10 ›</span>
+      </div>
+      <div class="settings-row">
+        <span class="sr-icon">📏</span>
+        <div class="sr-body"><div class="sr-label">Chunk Size</div><div class="sr-sub">512 tokens</div></div>
+        <span style="font-size:13px;color:#82AAFF;">512 ›</span>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div style="padding:8px 0;">
+      <div style="padding:8px 16px;font-size:12px;font-weight:700;color:#546E7A;text-transform:uppercase;letter-spacing:0.5px;">AGENT</div>
+      <div class="settings-row">
+        <span class="sr-icon">🔢</span>
+        <div class="sr-body"><div class="sr-label">Max Steps</div><div class="sr-sub">25 steps per run</div></div>
+        <span style="font-size:13px;color:#82AAFF;">25 ›</span>
+      </div>
+      <div class="settings-row">
+        <span class="sr-icon">✅</span>
+        <div class="sr-body"><div class="sr-label">Auto-approve safe tools</div><div class="sr-sub">Read-only tools run without confirmation</div></div>
+        <div class="toggle on"></div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div style="padding:8px 0;">
+      <div style="padding:8px 16px;font-size:12px;font-weight:700;color:#546E7A;text-transform:uppercase;letter-spacing:0.5px;">MEMORY</div>
+      <div class="settings-row">
+        <span class="sr-icon">🧠</span>
+        <div class="sr-body"><div class="sr-label">Enable Developer Memory</div><div class="sr-sub">AI learns your preferences</div></div>
+        <div class="toggle on"></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════ PROVIDER SETTINGS ══ -->
+<div id="s-provider-settings" class="screen-wrap">
+<div class="phone-frame">
+<div class="phone-screen" style="min-height:812px;">
+  <div class="status-bar"><span>9:41</span><div class="status-right">📶 🔋</div></div>
+  <div class="top-bar"><div class="icon-btn">←</div><div class="title">AI Providers</div></div>
+  <div class="screen-body">
+    <div style="padding:12px 16px;background:#3d2c00;margin:12px 16px;border-radius:8px;border:1px solid #FFCB6B;">
+      <div style="font-size:12px;color:#FFCB6B;">🔒 API keys are stored in the system EncryptedSharedPreferences keystore and never transmitted to third parties.</div>
+    </div>
+    <!-- Provider cards -->
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+        <div style="width:36px;height:36px;background:#2D5000;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;">🤖</div>
+        <div style="flex:1;"><div style="font-size:15px;font-weight:600;color:#E2E8F0;">Anthropic</div></div>
+        <div class="badge badge-success">Connected</div>
+      </div>
+      <div style="background:#252840;border-radius:8px;padding:10px 14px;margin-bottom:10px;display:flex;align-items:center;gap:8px;">
+        <span style="font-size:12px;color:#546E7A;font-family:monospace;">sk-ant-api03-••••••••••••••••••••••••</span>
+        <span style="font-size:12px;color:#82AAFF;margin-left:auto;">Edit</span>
+      </div>
+      <div style="font-size:12px;color:#A8B3CF;">Model: claude-sonnet-4.5 · All features</div>
+    </div>
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+        <div style="width:36px;height:36px;background:#2D5000;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;">⚡</div>
+        <div style="flex:1;"><div style="font-size:15px;font-weight:600;color:#E2E8F0;">OpenAI</div></div>
+        <div class="badge badge-success">Connected</div>
+      </div>
+      <div style="background:#252840;border-radius:8px;padding:10px 14px;margin-bottom:10px;display:flex;align-items:center;gap:8px;">
+        <span style="font-size:12px;color:#546E7A;font-family:monospace;">sk-proj-••••••••••••••••••••••••••</span>
+        <span style="font-size:12px;color:#82AAFF;margin-left:auto;">Edit</span>
+      </div>
+      <div style="font-size:12px;color:#A8B3CF;">Model: gpt-4o · Chat + Embeddings</div>
+    </div>
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+        <div style="width:36px;height:36px;background:#252840;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;">🦙</div>
+        <div style="flex:1;"><div style="font-size:15px;font-weight:600;color:#A8B3CF;">Ollama (Local)</div></div>
+        <div class="badge" style="background:#252840;color:#546E7A;">Not configured</div>
+      </div>
+      <button class="btn btn-outlined btn-full" style="height:38px;font-size:13px;">Configure Ollama</button>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════ NOTIFICATIONS ══ -->
+<div id="s-notifications" class="screen-wrap">
+<div class="phone-frame">
+<div class="phone-screen" style="min-height:812px;">
+  <div class="status-bar"><span>9:41</span><div class="status-right">📶 🔋</div></div>
+  <div class="top-bar"><div class="icon-btn">←</div><div class="title">Notifications</div><div style="font-size:13px;color:#82AAFF;padding:0 8px;">Mark all read</div></div>
+  <div class="chip-scroll">
+    <div class="chip active">All (8)</div><div class="chip">AI (3)</div><div class="chip">PRs (2)</div><div class="chip">Security</div><div class="chip">Tests</div>
+  </div>
+  <div class="screen-body">
+    <div class="notif-item unread">
+      <div class="notif-dot"></div>
+      <div style="flex:1;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
+          <div style="font-size:13px;font-weight:600;color:#E2E8F0;">🔒 Security: Critical finding</div>
+          <div style="font-size:11px;color:#546E7A;">2h ago</div>
+        </div>
+        <div style="font-size:12px;color:#A8B3CF;">SQL Injection risk found in DatabaseHelper.kt · DevOS AI</div>
+      </div>
+    </div>
+    <div class="notif-item unread">
+      <div class="notif-dot"></div>
+      <div style="flex:1;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
+          <div style="font-size:13px;font-weight:600;color:#E2E8F0;">🤖 AI Review completed</div>
+          <div style="font-size:11px;color:#546E7A;">3h ago</div>
+        </div>
+        <div style="font-size:12px;color:#A8B3CF;">PR #47 reviewed · Score 94 · Ready to merge</div>
+      </div>
+    </div>
+    <div class="notif-item unread">
+      <div class="notif-dot" style="background:#C3E88D;"></div>
+      <div style="flex:1;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
+          <div style="font-size:13px;font-weight:600;color:#E2E8F0;">🎓 Daily goal complete!</div>
+          <div style="font-size:11px;color:#546E7A;">5h ago</div>
+        </div>
+        <div style="font-size:12px;color:#A8B3CF;">You finished 5 lessons today · 12-day streak 🔥</div>
+      </div>
+    </div>
+    <div class="notif-item">
+      <div style="width:8px;flex-shrink:0;"></div>
+      <div style="flex:1;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
+          <div style="font-size:13px;font-weight:600;color:#E2E8F0;">🔀 PR #45 CI failed</div>
+          <div style="font-size:11px;color:#546E7A;">1d ago</div>
+        </div>
+        <div style="font-size:12px;color:#A8B3CF;">fix/nav-leak · 2 tests failing · fix/nav-leak branch</div>
+      </div>
+    </div>
+    <div class="notif-item">
+      <div style="width:8px;flex-shrink:0;"></div>
+      <div style="flex:1;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
+          <div style="font-size:13px;font-weight:600;color:#E2E8F0;">🧪 Coverage dropped</div>
+          <div style="font-size:11px;color:#546E7A;">2d ago</div>
+        </div>
+        <div style="font-size:12px;color:#A8B3CF;">Test coverage fell from 72% to 67% · DevOS AI</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════ SEARCH ══ -->
+<div id="s-search" class="screen-wrap">
+<div class="phone-frame">
+<div class="phone-screen" style="min-height:812px;">
+  <div class="status-bar"><span>9:41</span><div class="status-right">📶 🔋</div></div>
+  <div class="top-bar">
+    <div class="icon-btn">←</div>
+    <div style="flex:1;background:#252840;border-radius:24px;height:40px;display:flex;align-items:center;padding:0 14px;gap:8px;border:1px solid #82AAFF;">
+      <span style="color:#82AAFF;font-size:16px;">🔍</span>
+      <input value="AuthViewModel" style="flex:1;background:none;border:none;outline:none;color:#E2E8F0;font-size:15px;"/>
+      <span style="color:#546E7A;font-size:14px;">✕</span>
+    </div>
+  </div>
+  <div class="chip-scroll">
+    <div class="chip active">All</div><div class="chip">Code</div><div class="chip">Issues</div><div class="chip">PRs</div><div class="chip">Learn</div>
+  </div>
+  <div class="screen-body">
+    <!-- Code results -->
+    <div class="section-header"><h3>Code (3)</h3></div>
+    <div class="list-item">
+      <div class="li-icon" style="font-size:12px;font-weight:700;background:#003298;color:#82AAFF;">kt</div>
+      <div class="li-body"><div class="li-title" style="color:#82AAFF;">AuthViewModel.kt</div><div class="li-sub">app/src/main/kotlin/… · Class definition</div></div>
+    </div>
+    <div class="divider"></div>
+    <div class="list-item">
+      <div class="li-icon" style="font-size:12px;font-weight:700;background:#003298;color:#82AAFF;">kt</div>
+      <div class="li-body"><div class="li-title">LoginScreen.kt · line 34</div><div class="li-sub"><span style="background:#003298;color:#D6E2FF;padding:0 3px;border-radius:2px;">AuthViewModel</span> = hiltViewModel()</div></div>
+    </div>
+    <!-- Issue results -->
+    <div class="section-header" style="margin-top:8px;"><h3>Issues (1)</h3></div>
+    <div class="list-item">
+      <div class="li-icon" style="background:#930000;color:#FF5370;font-size:14px;">!</div>
+      <div class="li-body"><div class="li-title">#39 · AuthViewModel login state not persisted</div><div class="li-sub">Open · bug · 3d ago</div></div>
+    </div>
+    <!-- Learning results -->
+    <div class="section-header" style="margin-top:8px;"><h3>Learning (1)</h3></div>
+    <div class="list-item">
+      <div class="li-icon" style="background:#003298;font-size:20px;">📖</div>
+      <div class="li-body"><div class="li-title">ViewModel & LiveData Patterns</div><div class="li-sub">Clean Architecture course · Lesson 3</div></div>
+    </div>
+    <!-- Semantic AI -->
+    <div style="margin:8px 16px;background:#1A1C2E;border-radius:10px;padding:12px;border:1px solid #82AAFF;">
+      <div style="font-size:11px;color:#82AAFF;font-weight:600;margin-bottom:6px;">✨ AI Semantic Match</div>
+      <div style="font-size:13px;color:#E2E8F0;line-height:1.5;">"AuthViewModel handles user authentication state and token management via LoginUseCase."</div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════ PROFILE ══ -->
+<div id="s-profile" class="screen-wrap">
+<div class="phone-frame">
+<div class="phone-screen" style="min-height:812px;">
+  <div class="status-bar"><span>9:41</span><div class="status-right">📶 🔋</div></div>
+  <div class="top-bar"><div class="icon-btn">←</div><div class="title">Profile</div><div class="icon-btn">✏️</div></div>
+  <div class="screen-body">
+    <!-- Avatar section -->
+    <div style="padding:24px 16px 16px;text-align:center;">
+      <div style="width:80px;height:80px;border-radius:40px;background:linear-gradient(135deg,#82AAFF,#89DDFF);margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:700;color:#001E6E;">D</div>
+      <div style="font-size:20px;font-weight:700;color:#E2E8F0;">Developer Dev</div>
+      <div style="font-size:13px;color:#A8B3CF;margin-top:4px;">dev@example.com</div>
+      <div style="display:flex;justify-content:center;gap:12px;margin-top:10px;">
+        <div class="badge badge-info">🐙 @dev-github</div>
+        <div class="badge badge-info">🦊 @dev-gitlab</div>
+      </div>
+    </div>
+    <!-- Stats -->
+    <div style="display:flex;gap:0;border:1px solid #3A3F58;border-radius:12px;margin:0 16px 16px;overflow:hidden;">
+      <div style="flex:1;padding:14px;text-align:center;border-right:1px solid #3A3F58;">
+        <div style="font-size:20px;font-weight:700;color:#82AAFF;">247</div>
+        <div style="font-size:11px;color:#546E7A;">AI Sessions</div>
+      </div>
+      <div style="flex:1;padding:14px;text-align:center;border-right:1px solid #3A3F58;">
+        <div style="font-size:20px;font-weight:700;color:#C3E88D;">12</div>
+        <div style="font-size:11px;color:#546E7A;">Day Streak</div>
+      </div>
+      <div style="flex:1;padding:14px;text-align:center;">
+        <div style="font-size:20px;font-weight:700;color:#89DDFF;">4</div>
+        <div style="font-size:11px;color:#546E7A;">Projects</div>
+      </div>
+    </div>
+    <!-- Settings rows -->
+    <div class="settings-row"><span class="sr-icon">🏆</span><div class="sr-body"><div class="sr-label">Plan</div><div class="sr-sub">Pro · Renews Nov 1, 2026</div></div><div class="badge badge-primary">Pro</div></div>
+    <div class="divider"></div>
+    <div class="settings-row"><span class="sr-icon">🔗</span><div class="sr-body"><div class="sr-label">Connected Accounts</div><div class="sr-sub">GitHub, GitLab</div></div><span class="sr-arrow">›</span></div>
+    <div class="divider"></div>
+    <div class="settings-row"><span class="sr-icon">📊</span><div class="sr-body"><div class="sr-label">Usage Stats</div><div class="sr-sub">248k tokens used this month</div></div><span class="sr-arrow">›</span></div>
+    <div class="divider"></div>
+    <div style="padding:20px 16px 0;">
+      <button class="btn btn-outlined btn-full" style="color:#FF5370;border-color:#FF5370;height:48px;font-size:15px;">Sign Out</button>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════ SETTINGS ══ -->
+<div id="s-settings" class="screen-wrap">
+<div class="phone-frame">
+<div class="phone-screen" style="min-height:812px;position:relative;">
+  <div class="status-bar"><span>9:41</span><div class="status-right">📶 🔋</div></div>
+  <div class="top-bar"><div class="icon-btn">←</div><div class="title">Settings</div></div>
+  <div class="screen-body" style="padding-bottom:32px;">
+    <div style="padding:8px 0;">
+      <div style="padding:8px 16px;font-size:12px;font-weight:700;color:#546E7A;text-transform:uppercase;letter-spacing:0.5px;">AI</div>
+      <div class="settings-row"><span class="sr-icon">🤖</span><div class="sr-body"><div class="sr-label">AI Configuration</div><div class="sr-sub">Models, RAG, Agent settings</div></div><span class="sr-arrow">›</span></div>
+      <div class="settings-row"><span class="sr-icon">🔑</span><div class="sr-body"><div class="sr-label">API Providers</div><div class="sr-sub">OpenAI, Anthropic, Ollama</div></div><span class="sr-arrow">›</span></div>
+      <div class="settings-row"><span class="sr-icon">🧠</span><div class="sr-body"><div class="sr-label">Developer Memory</div><div class="sr-sub">Manage AI preferences</div></div><span class="sr-arrow">›</span></div>
+    </div>
+    <div class="divider"></div>
+    <div style="padding:8px 0;">
+      <div style="padding:8px 16px;font-size:12px;font-weight:700;color:#546E7A;text-transform:uppercase;letter-spacing:0.5px;">APPEARANCE</div>
+      <div class="settings-row">
+        <span class="sr-icon">🌙</span>
+        <div class="sr-body"><div class="sr-label">Dark Mode</div><div class="sr-sub">Always on (developer default)</div></div>
+        <div class="toggle on"></div>
+      </div>
+      <div class="settings-row"><span class="sr-icon">🔠</span><div class="sr-body"><div class="sr-label">Font Scale</div><div class="sr-sub">System default</div></div><span class="sr-arrow">›</span></div>
+    </div>
+    <div class="divider"></div>
+    <div style="padding:8px 0;">
+      <div style="padding:8px 16px;font-size:12px;font-weight:700;color:#546E7A;text-transform:uppercase;letter-spacing:0.5px;">ACCOUNT</div>
+      <div class="settings-row"><span class="sr-icon">👤</span><div class="sr-body"><div class="sr-label">Profile</div><div class="sr-sub">dev@example.com</div></div><span class="sr-arrow">›</span></div>
+      <div class="settings-row"><span class="sr-icon">🔔</span><div class="sr-body"><div class="sr-label">Notifications</div><div class="sr-sub">Enabled · 5 types</div></div><span class="sr-arrow">›</span></div>
+    </div>
+    <div class="divider"></div>
+    <div style="padding:8px 0;">
+      <div style="padding:8px 16px;font-size:12px;font-weight:700;color:#546E7A;text-transform:uppercase;letter-spacing:0.5px;">ABOUT</div>
+      <div class="settings-row"><span class="sr-icon">ℹ️</span><div class="sr-body"><div class="sr-label">Version</div><div class="sr-sub">1.0.0 (build 2026.10.07)</div></div></div>
+      <div class="settings-row"><span class="sr-icon">💬</span><div class="sr-body"><div class="sr-label">Send Feedback</div></div><span class="sr-arrow">›</span></div>
+      <div class="settings-row"><span class="sr-icon">📋</span><div class="sr-body"><div class="sr-label">Privacy Policy</div></div><span class="sr-arrow">›</span></div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════ PROJECT SETTINGS ══ -->
+<div id="s-project-settings" class="screen-wrap">
+<div class="phone-frame">
+<div class="phone-screen" style="min-height:812px;">
+  <div class="status-bar"><span>9:41</span><div class="status-right">📶 🔋</div></div>
+  <div class="top-bar"><div class="icon-btn">←</div><div class="title">Project Settings</div></div>
+  <div class="screen-body">
+    <div style="padding:16px;display:flex;flex-direction:column;gap:10px;">
+      <div style="font-size:13px;color:#A8B3CF;">PROJECT NAME</div>
+      <div style="background:#1A1C2E;border:1px solid #82AAFF;border-radius:8px;padding:14px 16px;">
+        <input value="DevOS AI" style="width:100%;background:none;border:none;outline:none;color:#E2E8F0;font-size:16px;font-weight:500;"/>
+      </div>
+      <div style="font-size:13px;color:#A8B3CF;margin-top:4px;">DESCRIPTION</div>
+      <div style="background:#1A1C2E;border:1px solid #3A3F58;border-radius:8px;padding:14px 16px;">
+        <textarea style="width:100%;background:none;border:none;outline:none;color:#E2E8F0;font-size:14px;resize:none;height:64px;">AI-powered Android developer command center</textarea>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div style="padding:8px 0;">
+      <div style="padding:8px 16px;font-size:12px;font-weight:700;color:#546E7A;text-transform:uppercase;letter-spacing:0.5px;">REPOSITORY</div>
+      <div class="settings-row"><span class="sr-icon">🔗</span><div class="sr-body"><div class="sr-label">GitHub Repository</div><div class="sr-sub">github.com/dev/devos-ai</div></div><span class="sr-arrow">›</span></div>
+      <div class="settings-row"><span class="sr-icon">🌿</span><div class="sr-body"><div class="sr-label">Default Branch</div><div class="sr-sub">main</div></div><span class="sr-arrow">›</span></div>
+    </div>
+    <div class="divider"></div>
+    <div style="padding:8px 0;">
+      <div style="padding:8px 16px;font-size:12px;font-weight:700;color:#546E7A;text-transform:uppercase;letter-spacing:0.5px;">AI CONTEXT</div>
+      <div class="settings-row">
+        <span class="sr-icon">📂</span>
+        <div class="sr-body"><div class="sr-label">Auto-include in AI context</div><div class="sr-sub">Load repo summary for every AI session</div></div>
+        <div class="toggle on"></div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <!-- Danger zone -->
+    <div style="padding:8px 0;">
+      <div style="padding:8px 16px;font-size:12px;font-weight:700;color:#FF5370;text-transform:uppercase;letter-spacing:0.5px;">DANGER ZONE</div>
+      <div style="padding:12px 16px;">
+        <button class="btn btn-full" style="background:#930000;color:#FF5370;border-radius:8px;height:46px;font-size:14px;font-weight:600;">Delete Project</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+</main><!-- /#main -->
+
+<!-- ═══════════════════════════════ JS ═══ -->
+<script>
+function show(id) {
+  // hide all
+  document.querySelectorAll('.screen-wrap').forEach(el => el.classList.remove('visible'));
+  // update sidebar active
+  document.querySelectorAll('#sidebar a').forEach(el => el.classList.remove('active'));
+
+  // show target
+  const target = document.getElementById('s-' + id);
+  if (target) {
+    target.classList.add('visible');
+    // scroll main to top
+    document.getElementById('main').scrollTo({top:0, behavior:'smooth'});
+  }
+
+  // mark sidebar link active
+  const links = document.querySelectorAll('#sidebar a');
+  links.forEach(link => {
+    if (link.getAttribute('onclick') && link.getAttribute('onclick').includes("'" + id + "'")) {
+      link.classList.add('active');
+    }
+  });
+
+  // update page title
+  const titleEl = document.getElementById('screen-title');
+  if (titleEl && target) titleEl.textContent = '';
+
+  return false;
+}
+
+// Prevent sidebar href navigation
+document.querySelectorAll('#sidebar a').forEach(a => {
+  a.addEventListener('click', e => e.preventDefault());
+});
+
+// Show first screen active in sidebar
+document.querySelector('#sidebar a').classList.add('active');
+
+// Add spin animation
+const style = document.createElement('style');
+style.textContent = '@keyframes spin { to { transform: rotate(360deg); } } @keyframes loading { 0%,100% { transform: translateX(-100%); } 50% { transform: translateX(100%); } }';
+document.head.appendChild(style);
+</script>
+</body>
+</html>
