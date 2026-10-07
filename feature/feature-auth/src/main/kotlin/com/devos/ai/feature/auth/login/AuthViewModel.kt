@@ -41,8 +41,10 @@ private const val GITLAB_TOKEN_URL = "https://gitlab.com/oauth/token"
 class AuthViewModel @Inject constructor(
     private val secureTokenRepository: SecureTokenRepository,
     @ApplicationContext private val context: Context,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : ViewModel() {
+
+    // Use Dispatchers.IO directly; not injected to avoid Hilt binding requirement.
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 
     private val _uiState = MutableStateFlow<LoginUiState>(LoginUiState.Idle)
     val uiState: StateFlow<LoginUiState> = _uiState.asStateFlow()

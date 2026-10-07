@@ -40,7 +40,7 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 | 🟢 | DEVOS-008 | DA-20 | Navigation graph | Firoj | 4/4 | All routes wired with PlaceholderScreen; NavHost compiles |
 | 🟢 | DEVOS-009 | DA-21 | Splash screen | Firoj | 4/4 | SplashScreen animated logo + SplashViewModel + 1500ms delay; NavGraph wired |
 | 🟢 | DEVOS-010 | DA-22 | Onboarding flow | Firoj | 5/5 | HorizontalPager 4 pages, StepDot, OnboardingViewModel, DataStore flag; NavGraph wired |
-| 🟡 | DEVOS-011 | DA-23 | Login — GitHub/GitLab OAuth | Firoj | 0/8 | In Progress — resumed workflow building LoginScreen + AuthViewModel |
+| 🟢 | DEVOS-011 | DA-23 | Login — GitHub/GitLab OAuth | Firoj | 8/8 | Done — LoginScreen (full-screen no-chrome, gradient logo, email/password fallback, OR divider, inline error, footer), AuthViewModel (Custom Tabs OAuth, OkHttp token exchange), loginNavigation wired, deep link registered. Build ✅ |
 | 🟢 | DEVOS-012 | DA-24 | Secure token storage | JetpackCompose | 6/6 | Done — `SecureTokenRepository`/`Impl`/`TokenKey` committed (`feat(security): ...`) |
 
 ## Phase 2 — Repository Intelligence (DEVOS-E02 / DA-2)
@@ -169,7 +169,7 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 | 2025-01-01 | DEVOS-005/006 | Design system component library (FEAT-001) | 7/7 ACs |
 | 2025-01-02 | DEVOS-007/008 | Bottom nav + NavGraph wired (FEAT-002) | 5/5 ACs |
 | 2025-01-03 | DEVOS-009/010 | Splash + Onboarding screens (FEAT-003) | 10/10 ACs |
-| 2026-10-07 | — | **Jira sync:** all 122 tickets (12 epics + 70 feature + 40 screen-mirror) assigned across Firoj Mohammad (68) and JetpackCompose (42, excl. 12 unassigned epics); 10 tickets transitioned to Done, 2 to In Progress in Jira project `DA`. Split rationale posted as comment on DA-1. | — |
+| 2026-10-07 | DEVOS-011 | Login screen — GitHub/GitLab OAuth + email/password fallback | 8/8 ACs | all 122 tickets (12 epics + 70 feature + 40 screen-mirror) assigned across Firoj Mohammad (68) and JetpackCompose (42, excl. 12 unassigned epics); 10 tickets transitioned to Done, 2 to In Progress in Jira project `DA`. Split rationale posted as comment on DA-1. | — |
 
 ---
 
