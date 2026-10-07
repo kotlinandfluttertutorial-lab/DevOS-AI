@@ -80,3 +80,26 @@ Recommendation: remove package="com.devos.ai.domain.repository" from the source 
 > Task :domain:domain-repository:parseDebugLocalResources
 > Task :domain:domain-repository:generateDebugRFile
 > Task :domain:domain-repository:compileDebugKotlin
+> Task :domain:domain-repository:compileDebugJavaWithJavac NO-SOURCE
+> Task :domain:domain-repository:mergeDebugGeneratedProguardFiles
+> Task :domain:domain-repository:mergeDebugConsumerProguardFiles
+> Task :domain:domain-repository:processDebugJavaRes
+> Task :domain:domain-repository:mergeDebugJavaResource
+> Task :domain:domain-repository:extractDebugAnnotations
+> Task :domain:domain-repository:syncDebugLibJars
+> Task :domain:domain-repository:bundleDebugAar
+> Task :domain:domain-repository:assembleDebug
+
+[Incubating] Problems report is available at: file:///F:/Android/AndroidStudioProjects/Kiro/DevOS-AI/build/reports/problems/problems-report.html
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/9.3.0/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD SUCCESSFUL in 5m 17s
+23 actionable tasks: 23 executed
+Configuration cache entry stored.
+EXIT=0
+=== data-repo ===
