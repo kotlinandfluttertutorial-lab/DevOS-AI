@@ -40,7 +40,7 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 | 🟢 | DEVOS-008 | DA-20 | Navigation graph | Firoj | 4/4 | All routes wired with PlaceholderScreen; NavHost compiles |
 | 🟢 | DEVOS-009 | DA-21 | Splash screen | Firoj | 4/4 | SplashScreen animated logo + SplashViewModel + 1500ms delay; NavGraph wired |
 | 🟢 | DEVOS-010 | DA-22 | Onboarding flow | Firoj | 5/5 | HorizontalPager 4 pages, StepDot, OnboardingViewModel, DataStore flag; NavGraph wired |
-| 🟢 | DEVOS-011 | DA-23 | Login — GitHub/GitLab OAuth | Firoj | 5/5 | Done — LoginScreen (2 DevOSButton: primary GitHub, secondary GitLab; DevOSErrorState on error), AuthViewModel (Custom Tabs OAuth, ExchangeCodeForTokenUseCase, SharedFlow nav), loginNavigation wired, deep link devos://auth/callback registered. Build ✅. Tests: AuthViewModelTest 6/6, ExchangeCodeForTokenTest 4/4 |
+| 🟢 | DEVOS-011 | DA-23 | Login — GitHub/GitLab OAuth | Firoj | 9/9 | Done — LoginScreen redesigned per #s-login mockup (no TopBar, gradient logo box, "Sign in to DevOS AI", left-aligned OAuth buttons, email/password fields, OR divider, inline error text, footer with Terms/Privacy links). OAuthProvider implements TokenKey. AuthModule converted to abstract class with @Binds. IoDispatcher qualifier added to core-common. Deep link devos://auth/callback wired. Build ✅. Tests pass. |
 | 🟢 | DEVOS-012 | DA-24 | Secure token storage | Firoj | 3/3 | Done — `SecureTokenRepository` interface + `SecureTokenRepositoryImpl` (EncryptedSharedPreferences AES256-GCM) + `SecurityModule` (@Binds) in core-security. TokenKey interface. OAuthProvider implements TokenKey. CheckAuthStateUseCase wired to SecureTokenRepository. Build ✅ |
 
 ## Phase 2 — Repository Intelligence (DEVOS-E02 / DA-2)
