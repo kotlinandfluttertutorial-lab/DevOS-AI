@@ -1,8 +1,8 @@
 # DevOS AI — Implementation Status
 
-**Last Updated:** 2025-01-01  
-**Build Status:** � BUILD SUCCESSFUL (`./gradlew assembleDebug`)  
-**Overall Progress:** 2 / 70 tickets complete
+**Last Updated:** 2025-01-02  
+**Build Status:** ✅ BUILD SUCCESSFUL (`./gradlew assembleDebug`)  
+**Overall Progress:** 3 / 70 tickets complete
 
 ---
 
@@ -18,14 +18,14 @@
 
 | Status | Ticket | Summary | ACs | Notes |
 |--------|--------|---------|-----|-------|
-| � | DEVOS-001 | Android project setup | 5/5 | Gradle stubs complete; all modules compile |
-| � | DEVOS-002 | Color tokens | 3/3 | `Color.kt` exists with brand + syntax colors |
-| � | DEVOS-003 | Typography scale | 3/3 | `Typography.kt` with JetBrains Mono (real TTFs) |
-| � | DEVOS-004 | Shape and spacing tokens | 3/3 | `Shape.kt`, `Spacing.kt` complete |
-| � | DEVOS-005 | Core component library | 8/8 | All P0+P1 components created; build passes |
-| � | DEVOS-006 | Code rendering components | 4/4 | DevOSCodeBlock + DevOSMarkdownText complete |
-| � | DEVOS-007 | Bottom navigation | 5/5 | DevOSBottomBar with 5 tabs |
-| 🔴 | DEVOS-008 | Navigation graph | 0/4 | Routes defined; graph needs wiring |
+| ✅ | DEVOS-001 | Android project setup | 5/5 | Gradle stubs complete; all modules compile |
+| ✅ | DEVOS-002 | Color tokens | 3/3 | `Color.kt` exists with brand + syntax colors |
+| ✅ | DEVOS-003 | Typography scale | 3/3 | `Typography.kt` with JetBrains Mono (real TTFs) |
+| ✅ | DEVOS-004 | Shape and spacing tokens | 3/3 | `Shape.kt`, `Spacing.kt` complete |
+| ✅ | DEVOS-005 | Core component library | 8/8 | All P0+P1 components created; build passes |
+| ✅ | DEVOS-006 | Code rendering components | 4/4 | DevOSCodeBlock + DevOSMarkdownText complete |
+| ✅ | DEVOS-007 | Bottom navigation | 5/5 | DevOSBottomBar wired into MainActivity Scaffold; hidden on SPLASH/ONBOARDING/LOGIN |
+| ✅ | DEVOS-008 | Navigation graph | 4/4 | All routes wired with PlaceholderScreen; NavHost compiles |
 | 🔴 | DEVOS-009 | Splash screen | 0/4 | themes.xml created; activity needs installSplashScreen |
 | 🔴 | DEVOS-010 | Onboarding flow | 0/5 | Needs DEVOS-009 |
 | 🔴 | DEVOS-011 | Login — GitHub/GitLab OAuth | 0/5 | Needs core-security |
@@ -151,6 +151,7 @@
 | Date | Ticket | Summary | ACs Passed |
 |------|--------|---------|------------|
 | 2025-01-01 | DEVOS-005/006 | Design system component library (FEAT-001) | 7/7 ACs |
+| 2025-01-02 | DEVOS-007/008 | Bottom nav + NavGraph wired (FEAT-002) | 5/5 ACs |
 
 ---
 
@@ -158,8 +159,8 @@
 
 | Check | Status |
 |-------|--------|
-| `./gradlew :designsystem:assembleDebug` | � PASS |
-| `./gradlew assembleDebug` | � PASS |
+| `./gradlew :designsystem:assembleDebug` | ✅ PASS |
+| `./gradlew assembleDebug` | ✅ PASS |
 | Dark mode verified | 🔴 Not started |
 | Accessibility scan | 🔴 Not started |
 
