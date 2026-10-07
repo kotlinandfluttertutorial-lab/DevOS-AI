@@ -9,6 +9,7 @@ import com.devos.ai.core.security.SecureTokenRepository
 import com.devos.ai.feature.auth.model.OAuthProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -40,6 +41,7 @@ private const val GITLAB_TOKEN_URL = "https://gitlab.com/oauth/token"
 class AuthViewModel @Inject constructor(
     private val secureTokenRepository: SecureTokenRepository,
     @ApplicationContext private val context: Context,
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<LoginUiState>(LoginUiState.Idle)
@@ -69,8 +71,7 @@ class AuthViewModel @Inject constructor(
                 val token = exchangeCodeForToken(code, provider)
                 if (token != null) {
                     secureTokenRepository.saveToken(provider, token)
-                    // SECURITY: token already masked inside SecureTokenRepositoryImpl;
-                    // log only confirmation here
+                    // SECURITY: token already masked inside SecureTokenRepositoryImpl
                     Timber.d("Auth callback handled successfully for ${provider.name}")
                     _navEvent.emit(LoginNavEvent.ToHome)
                 } else {
@@ -90,7 +91,7 @@ class AuthViewModel @Inject constructor(
      * Returns null on any HTTP or parsing failure.
      */
     internal suspend fun exchangeCodeForToken(code: String, provider: OAuthProvider): String? =
-        withContext(Dispatchers.IO) {
+        withContext(ioDispatcher) {
             val tokenUrl = when (provider) {
                 OAuthProvider.GITHUB -> GITHUB_TOKEN_URL
                 OAuthProvider.GITLAB -> GITLAB_TOKEN_URL
