@@ -1,10 +1,12 @@
 package com.devos.ai.core.database.dao
 
+import android.content.Context
 import androidx.room.Room
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import app.cash.turbine.test
 import com.devos.ai.core.database.DevOSDatabase
 import com.devos.ai.core.database.entity.RepositoryEntity
+import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -17,7 +19,8 @@ import org.junit.jupiter.api.Test
  * Integration tests for [RepositoryDao] using an in-memory [DevOSDatabase].
  *
  * Uses Turbine for Flow assertions. [BundledSQLiteDriver] ships its own SQLite
- * binary, so these tests run as pure JVM tests with no Android runtime required.
+ * binary so it never calls [Context.getCacheDir] or any filesystem method —
+ * the context mock requires no stubs.
  */
 class RepositoryDaoTest {
 
@@ -26,7 +29,10 @@ class RepositoryDaoTest {
 
     @BeforeEach
     fun setUp() {
-        db = Room.inMemoryDatabaseBuilder<DevOSDatabase>()
+        db = Room.inMemoryDatabaseBuilder(
+            mockk<Context>(relaxed = true),
+            DevOSDatabase::class.java,
+        )
             .setDriver(BundledSQLiteDriver())
             .build()
         dao = db.repositoryDao()
