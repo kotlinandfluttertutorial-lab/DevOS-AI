@@ -4,6 +4,9 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
+import com.devos.ai.core.security.SecureTokenRepository
+import com.devos.ai.core.security.SecureTokenRepositoryImpl
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,18 +20,27 @@ private val Context.authDataStore: DataStore<Preferences> by preferencesDataStor
 )
 
 /**
- * Hilt module that provides DataStore<Preferences> for the auth feature.
+ * Hilt module that provides DataStore<Preferences> and binds SecureTokenRepository
+ * for the auth feature.
  *
- * SecureTokenRepository binding will be added in DEVOS-012 once core-security
- * provides the implementation.
+ * Converted to abstract class (required for @Binds); @Provides methods moved to
+ * a companion object so they can coexist with @Binds methods in the same module.
  */
 @Module
 @InstallIn(SingletonComponent::class)
-object AuthModule {
+abstract class AuthModule {
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideDataStore(
-        @ApplicationContext context: Context,
-    ): DataStore<Preferences> = context.authDataStore
+    abstract fun bindSecureTokenRepository(
+        impl: SecureTokenRepositoryImpl,
+    ): SecureTokenRepository
+
+    companion object {
+        @Provides
+        @Singleton
+        fun provideDataStore(
+            @ApplicationContext context: Context,
+        ): DataStore<Preferences> = context.authDataStore
+    }
 }

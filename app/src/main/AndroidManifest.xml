@@ -25,12 +25,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
-            <!-- Deep links -->
+            <!-- Deep links: handles devos://auth/callback?code=XXX&provider=github -->
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="devos" />
+                <data android:scheme="devos" android:host="auth" android:path="/callback" />
             </intent-filter>
         </activity>
 

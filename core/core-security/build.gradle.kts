@@ -21,6 +21,7 @@ dependencies {
     implementation(libs.androidx.security.crypto)
     implementation(libs.hilt.android)
     implementation(libs.kotlinx.coroutines)
+    implementation(libs.timber)
     ksp(libs.hilt.compiler)
     testImplementation(libs.bundles.test.unit)
     testRuntimeOnly(libs.test.junit5.engine)

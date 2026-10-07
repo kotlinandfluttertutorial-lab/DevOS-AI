@@ -116,6 +116,8 @@ coil                    = { group = "io.coil-kt", name = "coil-compose", version
 
 # Markdown
 commonmark              = { group = "org.commonmark", name = "commonmark", version.ref = "commonmark" }
+# Logging
+timber                  = { group = "com.jakewharton.timber", name = "timber", version = "5.0.1" }
 
 # Paging
 paging-runtime          = { group = "androidx.paging", name = "paging-runtime-ktx", version = "3.3.2" }
