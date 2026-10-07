@@ -35,10 +35,10 @@ jobs:
       # libs.versions.toml — lint/format step intentionally omitted.
 
       - name: Run unit tests
-        run: ./gradlew testDebugUnitTest
+        run: bash ./gradlew testDebugUnitTest
 
       - name: Assemble debug APK
-        run: ./gradlew assembleDebug
+        run: bash ./gradlew assembleDebug
 
       - name: Upload test results (on failure)
         if: failure()

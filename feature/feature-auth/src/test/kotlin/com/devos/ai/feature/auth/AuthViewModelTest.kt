@@ -44,10 +44,16 @@ class AuthViewModelTest {
         ioDispatcher = testDispatcher,
     )
 
+    @Test
+    fun `initial uiState is Idle`() = runTest {
+        val viewModel = createViewModel()
+        assertThat(viewModel.uiState.value).isEqualTo(LoginUiState.Idle)
+    }
+
     /**
      * loginWithGitHub/GitLab set Loading synchronously before attempting
-     * Chrome Custom Tab launch. CCT uses Android framework (Intent) which is not
-     * available in JVM unit tests, so we wrap the call and verify state was set.
+     * Chrome Custom Tab launch. CCT uses Android framework which is not available
+     * in JVM unit tests, so we wrap the call and verify state was set.
      */
     @Test
     fun `loginWithGitHub sets uiState to Loading before CCT launch`() = runTest {
@@ -68,7 +74,6 @@ class AuthViewModelTest {
         coJustRun { mockTokenRepository.saveToken(any(), any()) }
         val viewModel = createViewModel()
         viewModel.handleAuthCallback("some_code", OAuthProvider.GITHUB)
-        // Let all coroutines (including ioDispatcher work) complete
         advanceUntilIdle()
         assertThat(viewModel.uiState.value).isInstanceOf(LoginUiState.Error::class)
     }
@@ -80,11 +85,5 @@ class AuthViewModelTest {
         viewModel.handleAuthCallback("", OAuthProvider.GITHUB)
         advanceUntilIdle()
         assertThat(viewModel.uiState.value).isInstanceOf(LoginUiState.Error::class)
-    }
-
-    @Test
-    fun `initial uiState is Idle`() = runTest {
-        val viewModel = createViewModel()
-        assertThat(viewModel.uiState.value).isEqualTo(LoginUiState.Idle)
     }
 }

@@ -5,12 +5,12 @@ import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.devos.ai.core.common.di.IoDispatcher
 import com.devos.ai.core.security.SecureTokenRepository
 import com.devos.ai.feature.auth.model.OAuthProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -41,10 +41,8 @@ private const val GITLAB_TOKEN_URL = "https://gitlab.com/oauth/token"
 class AuthViewModel @Inject constructor(
     private val secureTokenRepository: SecureTokenRepository,
     @ApplicationContext private val context: Context,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) : ViewModel() {
-
-    // Use Dispatchers.IO directly; not injected to avoid Hilt binding requirement.
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 
     private val _uiState = MutableStateFlow<LoginUiState>(LoginUiState.Idle)
     val uiState: StateFlow<LoginUiState> = _uiState.asStateFlow()

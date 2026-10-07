@@ -1,21 +1,32 @@
 package com.devos.ai.di
 
+import com.devos.ai.core.common.di.DefaultDispatcher
+import com.devos.ai.core.common.di.IoDispatcher
+import com.devos.ai.core.common.di.MainDispatcher
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import javax.inject.Singleton
 
-/**
- * App-level Hilt module.
- *
- * Database, DAOs, and WorkManager are provided by dedicated modules in their
- * respective core modules so the app module stays thin:
- *
- * - Database + DAOs  → :core:core-database  (DatabaseModule)
- * - WorkManager init → :app AndroidManifest <provider> (auto-init via HiltWorkerFactory)
- *
- * Add app-level singleton bindings here only when they have no natural home in
- * a core or feature module.
- */
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule
+object AppModule {
+
+    @Provides
+    @Singleton
+    @IoDispatcher
+    fun provideIoDispatcher(): CoroutineDispatcher = Dispatchers.IO
+
+    @Provides
+    @Singleton
+    @DefaultDispatcher
+    fun provideDefaultDispatcher(): CoroutineDispatcher = Dispatchers.Default
+
+    @Provides
+    @Singleton
+    @MainDispatcher
+    fun provideMainDispatcher(): CoroutineDispatcher = Dispatchers.Main
+}
