@@ -34,6 +34,8 @@ dependencies {
     testImplementation(libs.bundles.test.unit)
     testImplementation(libs.test.room)
     testImplementation(libs.test.android.junit)
+    // BundledSQLiteDriver — self-contained SQLite for JVM unit tests (no Robolectric needed)
+    testImplementation(libs.test.sqlite.bundled)
     testRuntimeOnly(libs.test.junit5.engine)
     testRuntimeOnly(libs.test.junit5.launcher)
 }

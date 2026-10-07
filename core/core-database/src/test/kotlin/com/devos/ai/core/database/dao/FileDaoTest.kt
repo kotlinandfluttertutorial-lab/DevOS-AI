@@ -1,10 +1,10 @@
 package com.devos.ai.core.database.dao
 
 import androidx.room.Room
+import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import com.devos.ai.core.database.DevOSDatabase
 import com.devos.ai.core.database.entity.FileEntity
 import com.devos.ai.core.database.entity.RepositoryEntity
-import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -16,7 +16,8 @@ import org.junit.jupiter.api.Test
 /**
  * Integration tests for [FileDao] using an in-memory [DevOSDatabase].
  *
- * Room's in-memory builder accepts a relaxed [mockk] Context — no Robolectric needed.
+ * [BundledSQLiteDriver] ships its own SQLite binary, so these tests run as
+ * pure JVM tests with no Android runtime or Robolectric required.
  */
 class FileDaoTest {
 
@@ -26,11 +27,8 @@ class FileDaoTest {
 
     @BeforeEach
     fun setUp() {
-        db = Room.inMemoryDatabaseBuilder(
-            mockk(relaxed = true),
-            DevOSDatabase::class.java,
-        )
-            .allowMainThreadQueries()
+        db = Room.inMemoryDatabaseBuilder<DevOSDatabase>()
+            .setDriver(BundledSQLiteDriver())
             .build()
         fileDao = db.fileDao()
         repoDao = db.repositoryDao()
