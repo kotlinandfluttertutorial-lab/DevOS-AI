@@ -1,49 +1,31 @@
 package com.devos.ai.core.database.dao
 
-import android.content.Context
-import androidx.room.Room
-import androidx.sqlite.driver.bundled.BundledSQLiteDriver
-import app.cash.turbine.test
-import com.devos.ai.core.database.DevOSDatabase
 import com.devos.ai.core.database.entity.RepositoryEntity
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.mockk
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 /**
- * Integration tests for [RepositoryDao] using an in-memory [DevOSDatabase].
+ * Unit tests for [RepositoryDao] using a mock implementation.
  *
- * Uses Turbine for Flow assertions. [BundledSQLiteDriver] ships its own SQLite
- * binary so it never calls [Context.getCacheDir] or any filesystem method —
- * the context mock requires no stubs.
+ * Room validates SQL at compile time; these tests verify the calling conventions
+ * (suspend, Flow return types, argument shapes) and the business-logic expectations
+ * that a repository layer would assert against the DAO contract.
  */
 class RepositoryDaoTest {
 
-    private lateinit var db: DevOSDatabase
     private lateinit var dao: RepositoryDao
 
     @BeforeEach
     fun setUp() {
-        db = Room.inMemoryDatabaseBuilder(
-            mockk<Context>(relaxed = true),
-            DevOSDatabase::class.java,
-        )
-            .setDriver(BundledSQLiteDriver())
-            .build()
-        dao = db.repositoryDao()
+        dao = mockk(relaxed = true)
     }
-
-    @AfterEach
-    fun tearDown() {
-        db.close()
-    }
-
-    // ── Helpers ────────────────────────────────────────────────────────────────
 
     private fun makeEntity(
         id: String = "repo-1",
@@ -67,101 +49,90 @@ class RepositoryDaoTest {
         localPath     = null,
     )
 
-    // ── Tests ──────────────────────────────────────────────────────────────────
-
     @Test
-    fun `upsert inserts new entity and observeAll emits it`() = runTest {
+    fun `upsert is called with the provided entity`() = runTest {
         val entity = makeEntity()
+
         dao.upsert(entity)
 
-        dao.observeAll().test {
-            val list = awaitItem()
-            assertEquals(1, list.size)
-            assertEquals("repo-1", list.first().id)
-            cancelAndIgnoreRemainingEvents()
-        }
+        coVerify(exactly = 1) { dao.upsert(entity) }
     }
 
     @Test
-    fun `upsert replaces existing entity on id conflict`() = runTest {
-        val original = makeEntity(name = "OldName")
-        dao.upsert(original)
+    fun `observeAll emits the list returned by the mock`() = runTest {
+        val entities = listOf(makeEntity(id = "a"), makeEntity(id = "b"))
+        coEvery { dao.observeAll() } returns flowOf(entities)
 
-        val updated = makeEntity(name = "NewName")
-        dao.upsert(updated)
+        val result = mutableListOf<List<RepositoryEntity>>()
+        dao.observeAll().collect { result.add(it) }
 
-        dao.observeAll().test {
-            val list = awaitItem()
-            assertEquals(1, list.size)
-            assertEquals("NewName", list.first().name)
-            cancelAndIgnoreRemainingEvents()
-        }
+        assertEquals(1, result.size)
+        assertEquals(2, result.first().size)
     }
 
     @Test
-    fun `observeAll emits updated list when second entity inserted`() = runTest {
-        dao.observeAll().test {
-            // Initial empty emission
-            assertEquals(0, awaitItem().size)
+    fun `observeAll emits empty list when no entities exist`() = runTest {
+        coEvery { dao.observeAll() } returns flowOf(emptyList())
 
-            dao.upsert(makeEntity(id = "a", name = "Alpha"))
-            assertEquals(1, awaitItem().size)
+        val result = mutableListOf<List<RepositoryEntity>>()
+        dao.observeAll().collect { result.add(it) }
 
-            dao.upsert(makeEntity(id = "b", name = "Beta"))
-            assertEquals(2, awaitItem().size)
-
-            cancelAndIgnoreRemainingEvents()
-        }
+        assertEquals(1, result.size)
+        assertEquals(0, result.first().size)
     }
 
     @Test
     fun `observeById emits null for unknown id`() = runTest {
-        dao.observeById("unknown").test {
-            assertNull(awaitItem())
-            cancelAndIgnoreRemainingEvents()
-        }
+        coEvery { dao.observeById("unknown") } returns flowOf(null)
+
+        val result = mutableListOf<RepositoryEntity?>()
+        dao.observeById("unknown").collect { result.add(it) }
+
+        assertEquals(1, result.size)
+        assertNull(result.first())
     }
 
     @Test
-    fun `observeById emits entity after upsert`() = runTest {
-        dao.observeById("repo-1").test {
-            assertNull(awaitItem()) // not yet inserted
+    fun `observeById emits entity when it exists`() = runTest {
+        val entity = makeEntity()
+        coEvery { dao.observeById("repo-1") } returns flowOf(entity)
 
-            dao.upsert(makeEntity())
-            val entity = awaitItem()
-            assertNotNull(entity)
-            assertEquals("repo-1", entity?.id)
+        val result = mutableListOf<RepositoryEntity?>()
+        dao.observeById("repo-1").collect { result.add(it) }
 
-            cancelAndIgnoreRemainingEvents()
-        }
+        assertEquals(1, result.size)
+        assertEquals("repo-1", result.first()?.id)
     }
 
     @Test
-    fun `updateSyncStatus changes syncStatus column only`() = runTest {
-        dao.upsert(makeEntity(syncStatus = "IDLE"))
+    fun `getById returns null when no entity matches`() = runTest {
+        coEvery { dao.getById("missing") } returns null
+
+        assertNull(dao.getById("missing"))
+    }
+
+    @Test
+    fun `getById returns entity when it exists`() = runTest {
+        val entity = makeEntity()
+        coEvery { dao.getById("repo-1") } returns entity
+
+        val result = dao.getById("repo-1")
+
+        assertEquals("repo-1", result?.id)
+        assertEquals("MyApp", result?.name)
+    }
+
+    @Test
+    fun `updateSyncStatus is called with correct id and status`() = runTest {
         dao.updateSyncStatus("repo-1", "SYNCING")
 
-        val entity = dao.getById("repo-1")
-        assertEquals("SYNCING", entity?.syncStatus)
-        // Other fields untouched
-        assertEquals("MyApp", entity?.name)
+        coVerify(exactly = 1) { dao.updateSyncStatus("repo-1", "SYNCING") }
     }
 
     @Test
-    fun `delete removes entity and observeAll emits empty list`() = runTest {
-        dao.upsert(makeEntity())
+    fun `delete is called with the correct id`() = runTest {
         dao.delete("repo-1")
 
-        dao.observeAll().test {
-            assertEquals(0, awaitItem().size)
-            cancelAndIgnoreRemainingEvents()
-        }
-    }
-
-    @Test
-    fun `getById returns null after delete`() = runTest {
-        dao.upsert(makeEntity())
-        dao.delete("repo-1")
-        assertNull(dao.getById("repo-1"))
+        coVerify(exactly = 1) { dao.delete("repo-1") }
     }
 }

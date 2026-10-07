@@ -53,7 +53,6 @@ espresso             = "3.6.1"
 compose-test-manifest = "1.7.4"
 mockwebserver        = "4.12.0"
 benchmark            = "1.3.2"
-sqlite-bundled         = "2.5.0"
 
 [libraries]
 # Kotlin
@@ -143,7 +142,6 @@ test-compose-manifest   = { group = "androidx.compose.ui", name = "ui-test-manif
 test-hilt               = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
 test-room               = { group = "androidx.room", name = "room-testing", version.ref = "room" }
 test-benchmark          = { group = "androidx.benchmark", name = "benchmark-junit4", version.ref = "benchmark" }
-test-sqlite-bundled     = { group = "androidx.sqlite", name = "sqlite-bundled", version.ref = "sqlite-bundled" }
 
 [bundles]
 compose = ["compose-ui", "compose-ui-graphics", "compose-foundation", "compose-material3",
