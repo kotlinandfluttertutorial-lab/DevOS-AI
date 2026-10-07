@@ -171,6 +171,7 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 | 2025-01-03 | DEVOS-009/010 | Splash + Onboarding screens (FEAT-003) | 10/10 ACs |
 | 2026-10-08 | DEVOS-011 | Login screen — GitHub/GitLab OAuth (FEAT-004) | 5/5 ACs — `./gradlew :feature:feature-auth:testDebugUnitTest` PASS (26 tests); `./gradlew assembleDebug` PASS |
 | 2026-10-08 | DEVOS-012 | Secure token storage — EncryptedSharedPreferences AES256-GCM (FEAT-004) | 3/3 ACs — `./gradlew :core:core-security:assembleDebug` PASS; `./gradlew testDebugUnitTest` PASS |
+| 2026-10-08 | DEVOS-011/012 | Review fix (feat-004-review): OAuth client IDs loaded from SecureTokenRepository via OAuthClientIdKey enum; dead LoginNavEvent.kt deleted; AuthViewModelTest updated for new constructor | All checks re-run PASS |
 
 ---
 
@@ -179,7 +180,7 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 | Check | Status |
 |-------|--------|
 | `./gradlew :core:core-security:assembleDebug` | ✅ PASS |
-| `./gradlew :feature:feature-auth:testDebugUnitTest` | ✅ PASS (26 tests: 6 AuthViewModel, 5 CheckAuthState, 4 ExchangeCodeForToken, 8 OnboardingVM, 3 SplashVM) |
+| `./gradlew :feature:feature-auth:testDebugUnitTest` | ✅ PASS (review-fix iteration: 8 AuthViewModel, 5 CheckAuthState, 4 ExchangeCodeForToken, 8 OnboardingVM, 3 SplashVM = 28 tests) |
 | `./gradlew assembleDebug` | ✅ PASS |
 | `./gradlew testDebugUnitTest` | ✅ PASS (BUILD SUCCESSFUL) |
 | Dark mode verified | 🔴 Not started |

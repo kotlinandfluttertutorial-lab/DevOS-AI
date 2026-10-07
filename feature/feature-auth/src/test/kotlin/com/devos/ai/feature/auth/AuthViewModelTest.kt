@@ -5,9 +5,11 @@ import app.cash.turbine.test
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isInstanceOf
+import com.devos.ai.core.security.SecureTokenRepository
 import com.devos.ai.feature.auth.login.AuthNavEvent
 import com.devos.ai.feature.auth.login.AuthViewModel
 import com.devos.ai.feature.auth.login.LoginUiState
+import com.devos.ai.feature.auth.model.OAuthClientIdKey
 import com.devos.ai.feature.auth.model.OAuthProvider
 import com.devos.ai.feature.auth.usecase.ExchangeCodeForTokenUseCase
 import io.mockk.coEvery
@@ -27,9 +29,9 @@ import org.junit.jupiter.api.Test
  * Unit tests for [AuthViewModel].
  *
  * Chrome Custom Tab launch uses Android framework APIs that are unavailable in
- * the JVM unit-test environment. Tests wrap those calls with [runCatching] so
- * the Loading state assertion is still valid; the launcher itself is not tested
- * here (that belongs in instrumented tests).
+ * the JVM unit-test environment. When the client ID is configured, the CCT launch
+ * will throw in the JVM environment — the test verifies that Loading was set before
+ * the attempt, and the state is either Loading or Error afterwards.
  *
  * Token exchange failures are always expected because [AuthRepositoryImpl] is
  * a stub returning NotImplementedError until DEVOS-041.
@@ -40,6 +42,7 @@ class AuthViewModelTest {
     private val testDispatcher = UnconfinedTestDispatcher()
     private val mockContext: Context = mockk(relaxed = true)
     private val mockUseCase: ExchangeCodeForTokenUseCase = mockk()
+    private val mockTokenRepository: SecureTokenRepository = mockk()
 
     @BeforeEach
     fun setUp() {
@@ -53,6 +56,7 @@ class AuthViewModelTest {
 
     private fun createViewModel(): AuthViewModel = AuthViewModel(
         exchangeCodeForTokenUseCase = mockUseCase,
+        tokenRepository = mockTokenRepository,
         context = mockContext,
         ioDispatcher = testDispatcher,
     )
@@ -64,19 +68,40 @@ class AuthViewModelTest {
     }
 
     @Test
-    fun `loginWithGitHub sets uiState to Loading before CCT launch`() = runTest {
+    fun `loginWithGitHub emits Error when client ID not configured`() = runTest {
+        coEvery { mockTokenRepository.getToken(OAuthClientIdKey.GITHUB) } returns null
         val viewModel = createViewModel()
-        // CCT will fail in JVM environment — we only care that Loading was set
+        viewModel.loginWithGitHub()
+        advanceUntilIdle()
+        assertThat(viewModel.uiState.value).isInstanceOf(LoginUiState.Error::class)
+    }
+
+    @Test
+    fun `loginWithGitLab emits Error when client ID not configured`() = runTest {
+        coEvery { mockTokenRepository.getToken(OAuthClientIdKey.GITLAB) } returns null
+        val viewModel = createViewModel()
+        viewModel.loginWithGitLab()
+        advanceUntilIdle()
+        assertThat(viewModel.uiState.value).isInstanceOf(LoginUiState.Error::class)
+    }
+
+    @Test
+    fun `loginWithGitHub sets Loading then attempts CCT when client ID configured`() = runTest {
+        coEvery { mockTokenRepository.getToken(OAuthClientIdKey.GITHUB) } returns "real-client-id"
+        val viewModel = createViewModel()
+        // CCT will fail in JVM environment — we only care that state transitioned through Loading
         runCatching { viewModel.loginWithGitHub() }
-        // After runCatching the state is either Loading (CCT threw after state set) or Error
+        advanceUntilIdle()
         val state = viewModel.uiState.value
         assertThat(state is LoginUiState.Loading || state is LoginUiState.Error).isEqualTo(true)
     }
 
     @Test
-    fun `loginWithGitLab sets uiState to Loading before CCT launch`() = runTest {
+    fun `loginWithGitLab sets Loading then attempts CCT when client ID configured`() = runTest {
+        coEvery { mockTokenRepository.getToken(OAuthClientIdKey.GITLAB) } returns "real-client-id"
         val viewModel = createViewModel()
         runCatching { viewModel.loginWithGitLab() }
+        advanceUntilIdle()
         val state = viewModel.uiState.value
         assertThat(state is LoginUiState.Loading || state is LoginUiState.Error).isEqualTo(true)
     }

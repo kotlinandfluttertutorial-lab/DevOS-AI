@@ -5,6 +5,8 @@ import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.devos.ai.core.security.SecureTokenRepository
+import com.devos.ai.feature.auth.model.OAuthClientIdKey
 import com.devos.ai.feature.auth.model.OAuthProvider
 import com.devos.ai.feature.auth.usecase.ExchangeCodeForTokenUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,24 +21,27 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
- * OAuth URL constants.
+ * OAuth URL templates — client_id is always loaded from [SecureTokenRepository] at
+ * runtime. The %s placeholder is substituted by [buildOAuthUrl] before the CCT is
+ * opened. If the client ID has not been stored yet, the URL is not opened and an
+ * [LoginUiState.Error] is emitted instead.
  *
- * client_id is PLACEHOLDER — real values must be loaded from EncryptedSharedPreferences,
- * NOT from BuildConfig or hardcoded source. These placeholders ensure the OAuth flow
- * is exercisable without a live registration.
+ * Format: base URL with %s where the client_id value goes.
  */
-private const val GITHUB_OAUTH_URL =
-    "https://github.com/login/oauth/authorize?client_id=PLACEHOLDER&scope=repo"
-private const val GITLAB_OAUTH_URL =
-    "https://gitlab.com/oauth/authorize?client_id=PLACEHOLDER&response_type=code&scope=api"
+private const val GITHUB_OAUTH_URL_TEMPLATE =
+    "https://github.com/login/oauth/authorize?client_id=%s&scope=repo"
+private const val GITLAB_OAUTH_URL_TEMPLATE =
+    "https://gitlab.com/oauth/authorize?client_id=%s&response_type=code&scope=api"
 
 /**
  * ViewModel for the Login screen.
  *
  * Responsibilities:
+ * - Load the OAuth client ID from [SecureTokenRepository] before opening the CCT.
  * - Set [LoginUiState.Loading] and open a Chrome Custom Tab for OAuth.
  * - Handle the deep-link callback containing the authorization code.
  * - Delegate token exchange + secure storage to [ExchangeCodeForTokenUseCase].
@@ -46,6 +51,7 @@ private const val GITLAB_OAUTH_URL =
  * - Does NOT import NavController — navigation via SharedFlow.
  * - Does NOT use WebView — Chrome Custom Tab only.
  * - Never logs a raw token — only masked form.
+ * - Client IDs are read from [SecureTokenRepository], never hardcoded in source.
  *
  * The [ioDispatcher] is not Hilt-injected to avoid requiring a Hilt binding for
  * [CoroutineDispatcher]. Tests construct via the secondary constructor.
@@ -53,6 +59,7 @@ private const val GITLAB_OAUTH_URL =
 @HiltViewModel
 class AuthViewModel @Inject constructor(
     private val exchangeCodeForTokenUseCase: ExchangeCodeForTokenUseCase,
+    private val tokenRepository: SecureTokenRepository,
     @ApplicationContext private val context: Context,
 ) : ViewModel() {
 
@@ -62,9 +69,10 @@ class AuthViewModel @Inject constructor(
     /** Secondary constructor for test injection of a controlled dispatcher. */
     constructor(
         exchangeCodeForTokenUseCase: ExchangeCodeForTokenUseCase,
+        tokenRepository: SecureTokenRepository,
         context: Context,
         ioDispatcher: CoroutineDispatcher,
-    ) : this(exchangeCodeForTokenUseCase, context) {
+    ) : this(exchangeCodeForTokenUseCase, tokenRepository, context) {
         this.ioDispatcher = ioDispatcher
     }
 
@@ -76,22 +84,54 @@ class AuthViewModel @Inject constructor(
 
     /**
      * Launch GitHub OAuth flow via Chrome Custom Tab.
-     * Sets [LoginUiState.Loading] before attempting the CCT launch.
+     *
+     * Loads the GitHub client ID from [SecureTokenRepository]. If no client ID has
+     * been stored (i.e. the app has not been configured yet), emits
+     * [LoginUiState.Error] rather than opening a tab with an invalid URL.
      */
     fun loginWithGitHub() {
-        _uiState.value = LoginUiState.Loading
-        runCatching { openCustomTab(GITHUB_OAUTH_URL) }
-            .onFailure { _uiState.value = LoginUiState.Error(it.message ?: "Failed to open browser") }
+        viewModelScope.launch {
+            _uiState.value = LoginUiState.Loading
+            val clientId = withContext(ioDispatcher) {
+                tokenRepository.getToken(OAuthClientIdKey.GITHUB)
+            }
+            if (clientId.isNullOrBlank()) {
+                Timber.w("GitHub client ID not configured")
+                _uiState.value = LoginUiState.Error(
+                    "GitHub client ID not configured. Set it via Settings → Developer Credentials."
+                )
+                return@launch
+            }
+            val url = GITHUB_OAUTH_URL_TEMPLATE.format(clientId)
+            runCatching { openCustomTab(url) }
+                .onFailure { _uiState.value = LoginUiState.Error(it.message ?: "Failed to open browser") }
+        }
     }
 
     /**
      * Launch GitLab OAuth flow via Chrome Custom Tab.
-     * Sets [LoginUiState.Loading] before attempting the CCT launch.
+     *
+     * Loads the GitLab client ID from [SecureTokenRepository]. If no client ID has
+     * been stored, emits [LoginUiState.Error] rather than opening a tab with an
+     * invalid URL.
      */
     fun loginWithGitLab() {
-        _uiState.value = LoginUiState.Loading
-        runCatching { openCustomTab(GITLAB_OAUTH_URL) }
-            .onFailure { _uiState.value = LoginUiState.Error(it.message ?: "Failed to open browser") }
+        viewModelScope.launch {
+            _uiState.value = LoginUiState.Loading
+            val clientId = withContext(ioDispatcher) {
+                tokenRepository.getToken(OAuthClientIdKey.GITLAB)
+            }
+            if (clientId.isNullOrBlank()) {
+                Timber.w("GitLab client ID not configured")
+                _uiState.value = LoginUiState.Error(
+                    "GitLab client ID not configured. Set it via Settings → Developer Credentials."
+                )
+                return@launch
+            }
+            val url = GITLAB_OAUTH_URL_TEMPLATE.format(clientId)
+            runCatching { openCustomTab(url) }
+                .onFailure { _uiState.value = LoginUiState.Error(it.message ?: "Failed to open browser") }
+        }
     }
 
     /**
