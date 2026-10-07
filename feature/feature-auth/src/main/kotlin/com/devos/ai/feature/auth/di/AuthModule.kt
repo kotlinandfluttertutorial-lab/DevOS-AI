@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
-import com.devos.ai.core.security.SecureTokenRepository
-import com.devos.ai.core.security.SecureTokenRepositoryImpl
+import com.devos.ai.feature.auth.repository.AuthRepository
+import com.devos.ai.feature.auth.repository.AuthRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -20,11 +20,14 @@ private val Context.authDataStore: DataStore<Preferences> by preferencesDataStor
 )
 
 /**
- * Hilt module that provides DataStore<Preferences> and binds SecureTokenRepository
- * for the auth feature.
+ * Hilt module for the auth feature.
  *
- * Converted to abstract class (required for @Binds); @Provides methods moved to
- * a companion object so they can coexist with @Binds methods in the same module.
+ * Provides:
+ *  - [DataStore<Preferences>] for onboarding/auth flags.
+ *  - Binds [AuthRepository] to [AuthRepositoryImpl] (stub awaiting DEVOS-041).
+ *
+ * Note: [SecureTokenRepository] is bound in [com.devos.ai.core.security.SecurityModule]
+ * (core-security module) to keep the binding at the correct layer.
  */
 @Module
 @InstallIn(SingletonComponent::class)
@@ -32,11 +35,10 @@ abstract class AuthModule {
 
     @Binds
     @Singleton
-    abstract fun bindSecureTokenRepository(
-        impl: SecureTokenRepositoryImpl,
-    ): SecureTokenRepository
+    abstract fun bindAuthRepository(impl: AuthRepositoryImpl): AuthRepository
 
     companion object {
+
         @Provides
         @Singleton
         fun provideDataStore(

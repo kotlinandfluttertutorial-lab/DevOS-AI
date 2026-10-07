@@ -12,7 +12,7 @@ import javax.inject.Inject
  * Result returned by [CheckAuthStateUseCase].
  *
  * @param onboardingComplete true if the user has already completed onboarding.
- * @param isAuthenticated true if a valid access token is present for any provider.
+ * @param isAuthenticated true if a valid access token is present for at least one provider.
  */
 data class AuthCheckResult(
     val onboardingComplete: Boolean,
@@ -20,10 +20,11 @@ data class AuthCheckResult(
 )
 
 /**
- * Checks DataStore for the onboarding flag and SecureTokenRepository for token presence.
+ * Checks DataStore for the onboarding flag and queries [SecureTokenRepository] for
+ * an existing token (indicating prior successful authentication).
  *
- * Returns a safe default of (false, false) on any error so the flow
- * degrades gracefully if dependencies are not fully wired.
+ * Returns a safe default of (false, false) on any error so the flow degrades
+ * gracefully if dependencies are not fully wired.
  */
 class CheckAuthStateUseCase @Inject constructor(
     private val dataStore: DataStore<Preferences>,
@@ -36,8 +37,11 @@ class CheckAuthStateUseCase @Inject constructor(
     suspend operator fun invoke(): AuthCheckResult = runCatching {
         val prefs = dataStore.data.first()
         val onboardingComplete = prefs[KEY_ONBOARDING_COMPLETE] ?: false
-        val isAuthenticated = tokenRepository.hasToken(OAuthProvider.GITHUB)
-                           || tokenRepository.hasToken(OAuthProvider.GITLAB)
-        AuthCheckResult(onboardingComplete = onboardingComplete, isAuthenticated = isAuthenticated)
+        // Authenticated if any provider has a stored token
+        val isAuthenticated = OAuthProvider.entries.any { tokenRepository.hasToken(it) }
+        AuthCheckResult(
+            onboardingComplete = onboardingComplete,
+            isAuthenticated = isAuthenticated,
+        )
     }.getOrDefault(AuthCheckResult(onboardingComplete = false, isAuthenticated = false))
 }
