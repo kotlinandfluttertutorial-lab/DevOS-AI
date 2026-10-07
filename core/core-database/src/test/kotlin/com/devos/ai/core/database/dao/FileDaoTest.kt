@@ -1,38 +1,33 @@
 package com.devos.ai.core.database.dao
 
 import androidx.room.Room
-import androidx.test.core.app.ApplicationProvider
 import com.devos.ai.core.database.DevOSDatabase
 import com.devos.ai.core.database.entity.FileEntity
 import com.devos.ai.core.database.entity.RepositoryEntity
+import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
-import org.junit.After
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
-import org.robolectric.RobolectricTestRunner
-import org.robolectric.annotation.Config
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 /**
  * Integration tests for [FileDao] using an in-memory [DevOSDatabase].
  *
- * Robolectric provides the Android [Context] needed by [ApplicationProvider] in JVM unit tests.
+ * Room's in-memory builder accepts a relaxed [mockk] Context — no Robolectric needed.
  */
-@RunWith(RobolectricTestRunner::class)
-@Config(sdk = [33])
 class FileDaoTest {
 
     private lateinit var db: DevOSDatabase
     private lateinit var fileDao: FileDao
     private lateinit var repoDao: RepositoryDao
 
-    @Before
+    @BeforeEach
     fun setUp() {
         db = Room.inMemoryDatabaseBuilder(
-            ApplicationProvider.getApplicationContext(),
+            mockk(relaxed = true),
             DevOSDatabase::class.java,
         )
             .allowMainThreadQueries()
@@ -41,7 +36,7 @@ class FileDaoTest {
         repoDao = db.repositoryDao()
     }
 
-    @After
+    @AfterEach
     fun tearDown() = db.close()
 
     // ── Helpers ────────────────────────────────────────────────────────────────

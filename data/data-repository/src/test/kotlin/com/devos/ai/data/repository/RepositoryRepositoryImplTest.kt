@@ -209,15 +209,23 @@ class RepositoryRepositoryImplTest {
         } else {
             androidx.work.Data.EMPTY
         }
-        // WorkInfo constructor is package-private; use the test helper from work-testing
+        // WorkInfo(id, state, tags, outputData, progress, runAttemptCount, generation,
+        //          constraints, initialDelayMillis, periodicityInfo, nextScheduleTimeMillis,
+        //          stopReason, workerClassName)
         return WorkInfo(
-            /* id           */ java.util.UUID.randomUUID(),
-            /* state        */ state,
-            /* outputData   */ outputData,
-            /* tags         */ emptyList(),
-            /* progress     */ progressData,
-            /* runAttemptCount */ 1,
-            /* generation   */ 1,
+            /* id                    */ java.util.UUID.randomUUID(),
+            /* state                 */ state,
+            /* tags                  */ emptySet(),
+            /* outputData            */ outputData,
+            /* progress              */ progressData,
+            /* runAttemptCount       */ 1,
+            /* generation            */ 1,
+            /* constraints           */ androidx.work.Constraints.NONE,
+            /* initialDelayMillis    */ 0L,
+            /* periodicityInfo       */ null,
+            /* nextScheduleTimeMillis*/ Long.MAX_VALUE,
+            /* stopReason            */ WorkInfo.STOP_REASON_NOT_STOPPED,
+            /* workerClassName       */ null,
         )
     }
 }

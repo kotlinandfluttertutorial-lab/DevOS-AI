@@ -39,7 +39,7 @@ import javax.inject.Singleton
  * the DAO and WorkManager calls. This class is safe to call from any dispatcher.
  */
 @Singleton
-class RepositoryRepositoryImpl @Inject constructor(
+open class RepositoryRepositoryImpl @Inject constructor(
     @ApplicationContext private val context: Context,
     private val repositoryDao: RepositoryDao,
     private val fileDao: FileDao,
