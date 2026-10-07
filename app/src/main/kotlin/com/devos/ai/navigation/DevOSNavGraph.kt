@@ -8,6 +8,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.devos.ai.feature.auth.navigation.onboardingNavigation
+import com.devos.ai.feature.auth.navigation.splashNavigation
 
 /**
  * Root navigation graph for DevOS AI.
@@ -34,17 +36,11 @@ fun DevOSNavGraph(
     ) {
 
         // ── Onboarding ──────────────────────────────────────────────────────────
-        // TODO(FEAT-003): Replace with splashNavigation(navController)
-        composable(route = DevOSRoutes.SPLASH) {
-            PlaceholderScreen(route = DevOSRoutes.SPLASH)
-        }
+        splashNavigation(navController)
 
-        // TODO(FEAT-003): Replace with onboardingNavigation(navController)
-        composable(route = DevOSRoutes.ONBOARDING) {
-            PlaceholderScreen(route = DevOSRoutes.ONBOARDING)
-        }
+        onboardingNavigation(navController)
 
-        // TODO(FEAT-003): Replace with authNavigation(navController)
+        // TODO(FEAT-004): Replace with authNavigation(navController)
         composable(route = DevOSRoutes.LOGIN) {
             PlaceholderScreen(route = DevOSRoutes.LOGIN)
         }

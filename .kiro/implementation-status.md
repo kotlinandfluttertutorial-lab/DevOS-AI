@@ -1,8 +1,8 @@
 # DevOS AI — Implementation Status
 
-**Last Updated:** 2025-01-02  
+**Last Updated:** 2025-01-03  
 **Build Status:** ✅ BUILD SUCCESSFUL (`./gradlew assembleDebug`)  
-**Overall Progress:** 3 / 70 tickets complete
+**Overall Progress:** 5 / 70 tickets complete
 
 ---
 
@@ -26,9 +26,8 @@
 | ✅ | DEVOS-006 | Code rendering components | 4/4 | DevOSCodeBlock + DevOSMarkdownText complete |
 | ✅ | DEVOS-007 | Bottom navigation | 5/5 | DevOSBottomBar wired into MainActivity Scaffold; hidden on SPLASH/ONBOARDING/LOGIN |
 | ✅ | DEVOS-008 | Navigation graph | 4/4 | All routes wired with PlaceholderScreen; NavHost compiles |
-| 🔴 | DEVOS-009 | Splash screen | 0/4 | themes.xml created; activity needs installSplashScreen |
-| 🔴 | DEVOS-010 | Onboarding flow | 0/5 | Needs DEVOS-009 |
-| 🔴 | DEVOS-011 | Login — GitHub/GitLab OAuth | 0/5 | Needs core-security |
+| ✅ | DEVOS-009 | Splash screen | 4/4 | SplashScreen animated logo + SplashViewModel + 1500ms delay; NavGraph wired |
+| ✅ | DEVOS-010 | Onboarding flow | 5/5 | HorizontalPager 4 pages, StepDot, OnboardingViewModel, DataStore flag; NavGraph wired || 🔴 | DEVOS-011 | Login — GitHub/GitLab OAuth | 0/5 | Needs core-security |
 | 🔴 | DEVOS-012 | Secure token storage | 0/3 | Needs core-security module |
 
 ## Phase 2 — Repository Intelligence (DEVOS-E02)
@@ -152,6 +151,7 @@
 |------|--------|---------|------------|
 | 2025-01-01 | DEVOS-005/006 | Design system component library (FEAT-001) | 7/7 ACs |
 | 2025-01-02 | DEVOS-007/008 | Bottom nav + NavGraph wired (FEAT-002) | 5/5 ACs |
+| 2025-01-03 | DEVOS-009/010 | Splash + Onboarding screens (FEAT-003) | 10/10 ACs |
 
 ---
 

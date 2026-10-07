@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Background circle -->
+    <path
+        android:fillColor="#0F111A"
+        android:pathData="M12,12m-12,0a12,12 0,1 1,24 0a12,12 0,1 1,-24 0" />
+
+    <!-- "D" letter for DevOS -->
+    <path
+        android:fillColor="#82AAFF"
+        android:pathData="M7,6 L12,6 C15.31,6 18,8.69 18,12 C18,15.31 15.31,18 12,18 L7,18 Z
+                          M9.5,8.5 L9.5,15.5 L12,15.5 C13.93,15.5 15.5,13.93 15.5,12
+                          C15.5,10.07 13.93,8.5 12,8.5 Z" />
+
+</vector>
