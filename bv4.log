@@ -1,0 +1,82 @@
+
+=== core-database ===
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.3.0/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+Reusing configuration cache.
+> Task :core:core-database:preBuild UP-TO-DATE
+> Task :core:core-database:preDebugBuild UP-TO-DATE
+> Task :core:core-database:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :core:core-database:prepareLintJarForPublish
+> Task :core:core-database:generateDebugResValues
+> Task :core:core-database:mergeDebugShaders
+> Task :core:core-database:mergeDebugJniLibFolders
+> Task :core:core-database:mergeDebugNativeLibs NO-SOURCE
+> Task :core:core-database:extractDeepLinksForAarDebug
+> Task :core:core-database:stripDebugDebugSymbols NO-SOURCE
+> Task :core:core-database:compileDebugShaders NO-SOURCE
+> Task :core:core-database:generateDebugAssets UP-TO-DATE
+> Task :core:core-database:generateDebugResources
+> Task :core:core-database:copyDebugJniLibsProjectAndLocalJars
+> Task :core:core-database:prepareDebugArtProfile
+> Task :core:core-database:packageDebugAssets
+> Task :core:core-database:writeDebugAarMetadata
+> Task :core:core-database:javaPreCompileDebug
+> Task :core:core-database:packageDebugResources
+
+> Task :core:core-database:processDebugManifest
+package="com.devos.ai.core.database" found in source AndroidManifest.xml: F:\Android\AndroidStudioProjects\Kiro\DevOS-AI\core\core-database\src\main\AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="com.devos.ai.core.database" from the source AndroidManifest.xml: F:\Android\AndroidStudioProjects\Kiro\DevOS-AI\core\core-database\src\main\AndroidManifest.xml.
+
+> Task :core:core-database:parseDebugLocalResources
+> Task :core:core-database:generateDebugRFile
+> Task :core:core-database:kspDebugKotlin
+> Task :core:core-database:compileDebugKotlin
+> Task :core:core-database:processDebugJavaRes
+> Task :core:core-database:mergeDebugJavaResource
+> Task :core:core-database:extractDebugAnnotations
+> Task :core:core-database:compileDebugJavaWithJavac
+> Task :core:core-database:copyRoomSchemas
+> Task :core:core-database:transformDebugClassesWithAsm
+> Task :core:core-database:mergeDebugGeneratedProguardFiles
+> Task :core:core-database:mergeDebugConsumerProguardFiles
+> Task :core:core-database:syncDebugLibJars
+> Task :core:core-database:bundleDebugAar
+> Task :core:core-database:assembleDebug
+
+BUILD SUCCESSFUL in 7m 22s
+27 actionable tasks: 27 executed
+Configuration cache entry reused.
+EXIT=0
+=== domain-repo ===
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.3.0/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+Calculating task graph as no cached configuration is available for tasks: :domain:domain-repository:assembleDebug
+> Task :domain:domain-repository:preBuild UP-TO-DATE
+> Task :domain:domain-repository:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :domain:domain-repository:preDebugBuild UP-TO-DATE
+> Task :domain:domain-repository:prepareLintJarForPublish
+> Task :domain:domain-repository:generateDebugResValues
+> Task :domain:domain-repository:javaPreCompileDebug
+> Task :domain:domain-repository:mergeDebugShaders
+> Task :domain:domain-repository:mergeDebugJniLibFolders
+> Task :domain:domain-repository:mergeDebugNativeLibs NO-SOURCE
+> Task :domain:domain-repository:stripDebugDebugSymbols NO-SOURCE
+> Task :domain:domain-repository:compileDebugShaders NO-SOURCE
+> Task :domain:domain-repository:generateDebugAssets UP-TO-DATE
+> Task :domain:domain-repository:copyDebugJniLibsProjectAndLocalJars
+> Task :domain:domain-repository:extractDeepLinksForAarDebug
+> Task :domain:domain-repository:prepareDebugArtProfile
+> Task :domain:domain-repository:packageDebugAssets
+> Task :domain:domain-repository:generateDebugResources
+> Task :domain:domain-repository:writeDebugAarMetadata
+> Task :domain:domain-repository:packageDebugResources
+
+> Task :domain:domain-repository:processDebugManifest
+package="com.devos.ai.domain.repository" found in source AndroidManifest.xml: F:\Android\AndroidStudioProjects\Kiro\DevOS-AI\domain\domain-repository\src\main\AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="com.devos.ai.domain.repository" from the source AndroidManifest.xml: F:\Android\AndroidStudioProjects\Kiro\DevOS-AI\domain\domain-repository\src\main\AndroidManifest.xml.
+
+> Task :domain:domain-repository:parseDebugLocalResources
+> Task :domain:domain-repository:generateDebugRFile
+> Task :domain:domain-repository:compileDebugKotlin
