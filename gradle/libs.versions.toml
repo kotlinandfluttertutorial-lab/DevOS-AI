@@ -143,8 +143,6 @@ test-compose-manifest   = { group = "androidx.compose.ui", name = "ui-test-manif
 test-hilt               = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
 test-room               = { group = "androidx.room", name = "room-testing", version.ref = "room" }
 test-benchmark          = { group = "androidx.benchmark", name = "benchmark-junit4", version.ref = "benchmark" }
-test-robolectric        = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
-test-junit4-vintage     = { group = "org.junit.vintage", name = "junit-vintage-engine", version.ref = "junit5" }
 test-sqlite-bundled     = { group = "androidx.sqlite", name = "sqlite-bundled", version.ref = "sqlite-bundled" }
 
 [bundles]
