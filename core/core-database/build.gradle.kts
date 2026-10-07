@@ -34,9 +34,10 @@ dependencies {
     testImplementation(libs.bundles.test.unit)
     testImplementation(libs.test.room)
     testImplementation(libs.test.android.junit)
-    // androidx.test.core for ApplicationProvider in DAO tests
-    testImplementation("androidx.test:core:1.6.1")
-    testImplementation("androidx.test:core-ktx:1.6.1")
+    // Robolectric provides ApplicationProvider context for DAO tests running on the JVM
+    testImplementation(libs.test.robolectric)
     testRuntimeOnly(libs.test.junit5.engine)
+    // JUnit 4 vintage engine allows @RunWith(RobolectricTestRunner) under useJUnitPlatform()
+    testRuntimeOnly(libs.test.junit4.vintage)
     testRuntimeOnly(libs.test.junit5.launcher)
 }

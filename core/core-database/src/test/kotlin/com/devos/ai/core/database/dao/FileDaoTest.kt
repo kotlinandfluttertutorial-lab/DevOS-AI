@@ -6,23 +6,30 @@ import com.devos.ai.core.database.DevOSDatabase
 import com.devos.ai.core.database.entity.FileEntity
 import com.devos.ai.core.database.entity.RepositoryEntity
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.AfterEach
+import org.junit.After
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
 /**
  * Integration tests for [FileDao] using an in-memory [DevOSDatabase].
+ *
+ * Robolectric provides the Android [Context] needed by [ApplicationProvider] in JVM unit tests.
  */
+@RunWith(RobolectricTestRunner::class)
+@Config(sdk = [33])
 class FileDaoTest {
 
     private lateinit var db: DevOSDatabase
     private lateinit var fileDao: FileDao
     private lateinit var repoDao: RepositoryDao
 
-    @BeforeEach
+    @Before
     fun setUp() {
         db = Room.inMemoryDatabaseBuilder(
             ApplicationProvider.getApplicationContext(),
@@ -34,7 +41,7 @@ class FileDaoTest {
         repoDao = db.repositoryDao()
     }
 
-    @AfterEach
+    @After
     fun tearDown() = db.close()
 
     // ── Helpers ────────────────────────────────────────────────────────────────
