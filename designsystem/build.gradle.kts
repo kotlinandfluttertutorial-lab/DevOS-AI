@@ -22,6 +22,7 @@ dependencies {
     api(libs.compose.ui.tooling.preview)
     implementation(libs.androidx.core.ktx)
     implementation(libs.coil)
+    implementation(libs.commonmark)
     debugImplementation(libs.compose.ui.tooling)
     testImplementation(libs.test.junit5.api)
     testImplementation(libs.test.assertk)

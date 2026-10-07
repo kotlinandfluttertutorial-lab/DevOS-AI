@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Base application theme — Compose fully controls UI at runtime via DevOSTheme -->
+    <style name="Theme.DevOSAI" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@android:color/black</item>
+    </style>
+
+    <!-- Splash screen theme — displayed during initial cold start -->
+    <style name="Theme.DevOSAI.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#0F111A</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_devos_logo</item>
+        <item name="postSplashScreenTheme">@style/Theme.DevOSAI</item>
+    </style>
+
+</resources>
