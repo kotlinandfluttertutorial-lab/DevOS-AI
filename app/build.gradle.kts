@@ -54,6 +54,7 @@ dependencies {
 
     // Data modules (Hilt bindings)
     implementation(project(":data:data-ai"))
+    implementation(project(":data:data-repository"))
 
     // Design system
     implementation(project(":designsystem"))

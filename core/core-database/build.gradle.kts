@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
+    alias(libs.plugins.hilt)
 }
 
 android {
@@ -16,13 +17,26 @@ android {
     kotlinOptions { jvmTarget = "17" }
 
     room { schemaDirectory("$projectDir/schemas") }
+
+    testOptions {
+        unitTests.all { it.useJUnitPlatform() }
+        unitTests.isIncludeAndroidResources = true
+        unitTests.isReturnDefaultValues = true
+    }
 }
 
 dependencies {
     api(libs.bundles.room)
     ksp(libs.room.compiler)
     implementation(libs.kotlinx.coroutines)
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
     testImplementation(libs.bundles.test.unit)
     testImplementation(libs.test.room)
+    testImplementation(libs.test.android.junit)
+    // androidx.test.core for ApplicationProvider in DAO tests
+    testImplementation("androidx.test:core:1.6.1")
+    testImplementation("androidx.test:core-ktx:1.6.1")
     testRuntimeOnly(libs.test.junit5.engine)
+    testRuntimeOnly(libs.test.junit5.launcher)
 }
