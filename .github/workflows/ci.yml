@@ -1,10 +1,13 @@
 name: CI
 
+# Branch flow (GitFlow-lite): feature/bugfix branches -> develop (integration) -> main (release).
+# CI runs on pushes to both protected branches and on PRs targeting them, so
+# integration issues are caught before the develop -> main release merge.
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "develop" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "develop" ]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

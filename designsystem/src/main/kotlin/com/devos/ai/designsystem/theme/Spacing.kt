@@ -48,4 +48,11 @@ object DevOSSpacing {
     // Home Dashboard
     val projectCardWidth: Dp = 160.dp
     val statusDotSize:    Dp = 6.dp
+
+    // Repository Sync
+    val spinnerSize:      Dp = 80.dp
+    val stepIconSize:     Dp = 40.dp
+    val connectorWidth:   Dp = 2.dp
+    val strokeWidthNormal: Dp = 4.dp
+    val strokeWidthThin:  Dp = 2.dp
 }

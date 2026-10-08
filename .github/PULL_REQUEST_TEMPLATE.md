@@ -2,6 +2,16 @@
 
 <!-- Describe what this PR does and why. -->
 
+## Target Branch
+
+<!-- Branch flow: feature/bugfix -> develop (integration) -> main (release). -->
+<!-- Default target is `develop`. Only release merges go to `main`, from `develop`. -->
+
+- [ ] This PR targets **`develop`** (default for feature/bugfix work)
+- [ ] Or this PR targets **`main`** as a release merge **from `develop`** (rare — leave unchecked otherwise)
+
+> ⚠️ Do not merge feature work directly into `main`. Merge to `develop`; `develop` merges to `main` at release time.
+
 ## Related Jira Ticket
 
 <!-- Link the ticket from docs/jira/DEVOS-JIRA.csv, e.g. DEVOS-001 -->
