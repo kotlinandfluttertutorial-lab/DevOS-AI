@@ -63,7 +63,7 @@ fun NavGraphBuilder.repositoryImportNavigation(navController: NavController) {
             onBranchChange = viewModel::onBranchChange,
             onBuildAiIndexToggle = viewModel::onBuildAiIndexToggle,
             onImport = viewModel::import,
-            onNavigateBack = { navController.popBackStack() },
+            onNavigateBack = viewModel::navigateBack,
         )
     }
 }

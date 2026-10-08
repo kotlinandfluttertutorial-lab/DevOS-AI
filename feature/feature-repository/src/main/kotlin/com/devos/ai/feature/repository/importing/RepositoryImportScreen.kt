@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -46,7 +45,6 @@ import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.devos.ai.designsystem.components.DevOSBadgeStatus
 import com.devos.ai.designsystem.components.DevOSButton
@@ -303,7 +301,7 @@ private fun SourceSelectorCard(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val shape = RoundedCornerShape(10.dp)
+    val shape = MaterialTheme.shapes.medium
     val backgroundColor = if (isSelected) {
         MaterialTheme.colorScheme.primaryContainer
     } else {
@@ -314,7 +312,7 @@ private fun SourceSelectorCard(
     } else {
         MaterialTheme.colorScheme.outline
     }
-    val borderWidth = if (isSelected) 1.5.dp else 1.dp
+    val borderWidth = if (isSelected) DevOSSpacing.xxs else DevOSSpacing.dividerThickness
     val textColor = if (isSelected) {
         MaterialTheme.colorScheme.onPrimaryContainer
     } else {
@@ -388,12 +386,12 @@ private fun RepositoryPreviewCard(
             ) {
                 Box(
                     modifier = Modifier
-                        .size(40.dp)
-                        .clip(RoundedCornerShape(DevOSSpacing.sm))
+                        .size(DevOSSpacing.iconSizeXLarge)
+                        .clip(MaterialTheme.shapes.small)
                         .border(
-                            width = 1.dp,
+                            width = DevOSSpacing.dividerThickness,
                             color = MaterialTheme.colorScheme.outline,
-                            shape = RoundedCornerShape(DevOSSpacing.sm),
+                            shape = MaterialTheme.shapes.small,
                         ),
                     contentAlignment = Alignment.Center,
                 ) {

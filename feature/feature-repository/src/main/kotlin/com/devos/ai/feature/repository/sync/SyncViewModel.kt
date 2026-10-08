@@ -2,11 +2,9 @@ package com.devos.ai.feature.repository.sync
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.devos.ai.core.common.di.IoDispatcher
 import com.devos.ai.feature.repository.model.StepState
 import com.devos.ai.feature.repository.model.SyncStep
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -25,9 +23,7 @@ import javax.inject.Inject
  * Navigation events are emitted via [navEvent] — this ViewModel never imports NavController.
  */
 @HiltViewModel
-class SyncViewModel @Inject constructor(
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
-) : ViewModel() {
+class SyncViewModel @Inject constructor() : ViewModel() {
 
     private val _uiState = MutableStateFlow<SyncUiState>(
         SyncUiState.Syncing(

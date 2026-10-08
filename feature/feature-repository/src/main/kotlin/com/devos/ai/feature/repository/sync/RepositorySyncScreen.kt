@@ -43,7 +43,6 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.devos.ai.designsystem.components.DevOSButton
 import com.devos.ai.designsystem.components.DevOSButtonStyle
 import com.devos.ai.designsystem.components.DevOSErrorState
@@ -66,6 +65,8 @@ import com.devos.ai.feature.repository.model.SyncStep
 fun RepositorySyncScreen(
     uiState: SyncUiState,
     repoName: String,
+    provider: String = "GitHub",
+    branch: String = "main",
     onCancel: () -> Unit,
     onNavigateBack: () -> Unit,
     modifier: Modifier = Modifier,
@@ -104,6 +105,51 @@ fun RepositorySyncScreen(
                 )
             }
 
+            is SyncUiState.Complete -> {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.Check,
+                        contentDescription = "Sync complete",
+                        tint = MaterialTheme.colorScheme.tertiary,
+                        modifier = Modifier.size(DevOSSpacing.iconSizeXLarge),
+                    )
+                    Spacer(modifier = Modifier.height(DevOSSpacing.base))
+                    Text(
+                        text = "Sync complete",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onBackground,
+                    )
+                    Spacer(modifier = Modifier.height(DevOSSpacing.xs))
+                    Text(
+                        text = repoName,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+            }
+
+            is SyncUiState.Cancelled -> {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                ) {
+                    Text(
+                        text = "Sync cancelled",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+            }
+
             else -> {
                 Column(
                     modifier = Modifier
@@ -117,14 +163,14 @@ fun RepositorySyncScreen(
 
                     Text(
                         text = repoName,
-                        fontSize = 18.sp,
+                        style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.SemiBold,
                         color = MaterialTheme.colorScheme.onBackground,
                     )
                     Spacer(modifier = Modifier.height(DevOSSpacing.xs))
                     Text(
-                        text = "Syncing from GitHub · main",
-                        fontSize = 13.sp,
+                        text = "Syncing from $provider · $branch",
+                        style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
 
@@ -141,7 +187,7 @@ fun RepositorySyncScreen(
                     if (uiState is SyncUiState.Syncing) {
                         Text(
                             text = "Indexing files…",
-                            fontSize = 14.sp,
+                            style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.Medium,
                             color = MaterialTheme.colorScheme.primary,
                         )

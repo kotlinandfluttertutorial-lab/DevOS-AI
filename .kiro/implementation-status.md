@@ -47,8 +47,8 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 
 | Status | Ticket | DA Key | Summary | Assignee | ACs | Notes |
 |--------|--------|--------|---------|----------|-----|-------|
-| 🟢 | DEVOS-013 | DA-25 | Repository import screen | Firoj | 10/10 | Done — RepositoryImportScreen, ImportViewModel (url/provider/branch/buildAiIndex StateFlow, validate/import/navigateBack), stub RepositoryPreview, 14 unit tests pass |
-| 🟢 | DEVOS-014 | DA-26 | Repository sync screen | Firoj | 8/8 | Done — RepositorySyncScreen, SyncViewModel (5 hardcoded steps, cancel→NavigateBack), 9 unit tests pass |
+| 🟢 | DEVOS-013 | DA-25 | Repository import screen | Firoj | 10/10 | Done — RepositoryImportScreen, ImportViewModel (url/provider/branch/buildAiIndex StateFlow, validate/import/navigateBack), stub RepositoryPreview, 14 unit tests pass. Review fixes: replaced RoundedCornerShape(10.dp) with MaterialTheme.shapes.medium, hardcoded border widths with DevOSSpacing tokens, size(40.dp) with DevOSSpacing.iconSizeXLarge; back-button now routes through viewModel::navigateBack |
+| 🟢 | DEVOS-014 | DA-26 | Repository sync screen | Firoj | 8/8 | Done — RepositorySyncScreen, SyncViewModel (5 hardcoded steps, cancel→NavigateBack), 9 unit tests pass. Review fixes: replaced fontSize=N.sp with MaterialTheme.typography tokens; added explicit Complete/Cancelled state branches; removed unused ioDispatcher; provider+branch params wired into subtitle |
 | 🟡 | DEVOS-015 | DA-27 | Clone and indexing service | JetpackCompose | 0/6 | In Progress — WorkManager + JGit job. **Next up for JetpackCompose.** |
 | 🔴 | DEVOS-016 | DA-28 | Repository overview screen | Firoj | 0/6 | Needs DEVOS-015 |
 | 🔴 | DEVOS-017 | DA-29 | Repository list screen | Firoj | 0/6 | Needs DEVOS-016 |

@@ -36,7 +36,7 @@ class SyncViewModelTest {
         Dispatchers.resetMain()
     }
 
-    private fun createViewModel() = SyncViewModel(ioDispatcher = testDispatcher)
+    private fun createViewModel() = SyncViewModel()
 
     // ── Initial state ─────────────────────────────────────────────────────────
 
