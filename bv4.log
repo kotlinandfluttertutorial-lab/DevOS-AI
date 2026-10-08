@@ -1918,3 +1918,1639 @@ Failed to compile with Kotlin daemon: java.lang.RuntimeException: Could not conn
 Using fallback strategy: Compile without Kotlin daemon
 Try ./gradlew --stop if this issue persists
 If it does not look related to your configuration, please file an issue with logs to https://kotl.in/issue
+
+> Task :core:core-database:kspDebugKotlin
+exception: WARNING: A restricted method in java.lang.System has been called
+exception: WARNING: java.lang.System::load has been called by org.sqlite.SQLiteJDBCLoader in an unnamed module (file:/C:/Users/Firoj/.gradle/caches/modules-2/files-2.1/org.xerial/sqlite-jdbc/3.41.2.2/ddeb8d3a3004f412ed19b4c98b3aec11d9452ab5/sqlite-jdbc-3.41.2.2.jar)
+exception: WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
+exception: WARNING: Restricted methods will be blocked in a future release unless native access is enabled
+exception: 
+
+> Task :core:core-common:compileDebugKotlin
+exception: WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+exception: WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.jetbrains.kotlin.com.intellij.util.containers.Unsafe (file:/C:/Users/Firoj/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-embeddable/2.0.21/79346ed53db48b18312a472602eb5c057070c54d/kotlin-compiler-embeddable-2.0.21.jar)
+exception: WARNING: Please consider reporting this to the maintainers of class org.jetbrains.kotlin.com.intellij.util.containers.Unsafe
+exception: WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+
+> Task :core:core-security:kspDebugKotlin
+exception: info: [ksp] loaded provider(s): [dagger.hilt.processor.internal.uninstallmodules.KspUninstallModulesProcessor$Provider, dagger.hilt.android.processor.internal.customtestapplication.KspCustomTestApplicationProcessor$Provider, dagger.hilt.processor.internal.generatesrootinput.KspGeneratesRootInputProcessor$Provider, dagger.hilt.processor.internal.root.KspRootProcessor$Provider, dagger.hilt.processor.internal.definecomponent.KspDefineComponentProcessor$Provider, dagger.hilt.processor.internal.aliasof.KspAliasOfProcessor$Provider, dagger.hilt.android.processor.internal.androidentrypoint.KspAndroidEntryPointProcessor$Provider, dagger.hilt.processor.internal.earlyentrypoint.KspEarlyEntryPointProcessor$Provider, dagger.hilt.processor.internal.root.KspComponentTreeDepsProcessor$Provider, dagger.hilt.processor.internal.aggregateddeps.KspAggregatedDepsProcessor$Provider, dagger.hilt.processor.internal.originatingelement.KspOriginatingElementProcessor$Provider, dagger.hilt.android.processor.internal.viewmodel.KspViewModelProcessor$Provider, dagger.hilt.android.processor.internal.bindvalue.KspBindValueProcessor$Provider, dagger.internal.codegen.KspComponentProcessor$Provider]
+
+> Task :core:core-common:compileDebugJavaWithJavac NO-SOURCE
+> Task :core:core-security:compileDebugKotlin
+
+> Task :core:core-database:kspDebugKotlin
+exception: info: [ksp] loaded provider(s): [androidx.room.RoomKspProcessor$Provider, dagger.hilt.processor.internal.uninstallmodules.KspUninstallModulesProcessor$Provider, dagger.hilt.android.processor.internal.customtestapplication.KspCustomTestApplicationProcessor$Provider, dagger.hilt.processor.internal.generatesrootinput.KspGeneratesRootInputProcessor$Provider, dagger.hilt.processor.internal.root.KspRootProcessor$Provider, dagger.hilt.processor.internal.definecomponent.KspDefineComponentProcessor$Provider, dagger.hilt.processor.internal.aliasof.KspAliasOfProcessor$Provider, dagger.hilt.android.processor.internal.androidentrypoint.KspAndroidEntryPointProcessor$Provider, dagger.hilt.processor.internal.earlyentrypoint.KspEarlyEntryPointProcessor$Provider, dagger.hilt.processor.internal.root.KspComponentTreeDepsProcessor$Provider, dagger.hilt.processor.internal.aggregateddeps.KspAggregatedDepsProcessor$Provider, dagger.hilt.processor.internal.originatingelement.KspOriginatingElementProcessor$Provider, dagger.hilt.android.processor.internal.viewmodel.KspViewModelProcessor$Provider, dagger.hilt.android.processor.internal.bindvalue.KspBindValueProcessor$Provider, dagger.internal.codegen.KspComponentProcessor$Provider]
+
+> Task :core:core-common:transformDebugClassesWithAsm
+
+> Task :core:core-security:compileDebugKotlin
+e: Failed connecting to the daemon in 4 retries
+e: Daemon compilation failed: Could not connect to Kotlin compile daemon
+java.lang.RuntimeException: Could not connect to Kotlin compile daemon
+	at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.compileWithDaemon(GradleKotlinCompilerWork.kt:214)
+	at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.compileWithDaemonOrFallbackImpl(GradleKotlinCompilerWork.kt:159)
+	at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.run(GradleKotlinCompilerWork.kt:111)
+	at org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction.execute(GradleCompilerRunnerWithWorkers.kt:76)
+	at org.gradle.workers.internal.DefaultWorkerServer.execute(DefaultWorkerServer.java:68)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:64)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:61)
+	at org.gradle.internal.classloader.ClassLoaderUtils.executeInClassloader(ClassLoaderUtils.java:102)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1.lambda$execute$0(NoIsolationWorkerFactory.java:61)
+	at org.gradle.workers.internal.AbstractWorker$1.call(AbstractWorker.java:44)
+	at org.gradle.workers.internal.AbstractWorker$1.call(AbstractWorker.java:41)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
+	at org.gradle.workers.internal.AbstractWorker.executeWrappedInBuildOperation(AbstractWorker.java:41)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1.execute(NoIsolationWorkerFactory.java:58)
+	at org.gradle.workers.internal.DefaultWorkerExecutor.lambda$submitWork$0(DefaultWorkerExecutor.java:176)
+	at java.base/java.util.concurrent.FutureTask.run(Unknown Source)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.runExecution(DefaultConditionalExecutionQueue.java:194)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.access$700(DefaultConditionalExecutionQueue.java:127)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner$1.run(DefaultConditionalExecutionQueue.java:169)
+	at org.gradle.internal.Factories$1.create(Factories.java:30)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.lambda$withLocksAcquired$0(DefaultWorkerLeaseService.java:269)
+	at org.gradle.internal.work.ResourceLockStatistics$1.measure(ResourceLockStatistics.java:42)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.withLocksAcquired(DefaultWorkerLeaseService.java:267)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.withLocks(DefaultWorkerLeaseService.java:259)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.runAsWorkerThread(DefaultWorkerLeaseService.java:127)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.runAsWorkerThread(DefaultWorkerLeaseService.java:132)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.runBatch(DefaultConditionalExecutionQueue.java:164)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.run(DefaultConditionalExecutionQueue.java:133)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Unknown Source)
+	at java.base/java.util.concurrent.FutureTask.run(Unknown Source)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.base/java.lang.Thread.run(Unknown Source)
+
+Failed to compile with Kotlin daemon: java.lang.RuntimeException: Could not connect to Kotlin compile daemon
+	at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.compileWithDaemon(GradleKotlinCompilerWork.kt:214)
+	at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.compileWithDaemonOrFallbackImpl(GradleKotlinCompilerWork.kt:159)
+	at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.run(GradleKotlinCompilerWork.kt:111)
+	at org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction.execute(GradleCompilerRunnerWithWorkers.kt:76)
+	at org.gradle.workers.internal.DefaultWorkerServer.execute(DefaultWorkerServer.java:68)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:64)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:61)
+	at org.gradle.internal.classloader.ClassLoaderUtils.executeInClassloader(ClassLoaderUtils.java:102)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1.lambda$execute$0(NoIsolationWorkerFactory.java:61)
+	at org.gradle.workers.internal.AbstractWorker$1.call(AbstractWorker.java:44)
+	at org.gradle.workers.internal.AbstractWorker$1.call(AbstractWorker.java:41)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
+	at org.gradle.workers.internal.AbstractWorker.executeWrappedInBuildOperation(AbstractWorker.java:41)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1.execute(NoIsolationWorkerFactory.java:58)
+	at org.gradle.workers.internal.DefaultWorkerExecutor.lambda$submitWork$0(DefaultWorkerExecutor.java:176)
+	at java.base/java.util.concurrent.FutureTask.run(Unknown Source)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.runExecution(DefaultConditionalExecutionQueue.java:194)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.access$700(DefaultConditionalExecutionQueue.java:127)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner$1.run(DefaultConditionalExecutionQueue.java:169)
+	at org.gradle.internal.Factories$1.create(Factories.java:30)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.lambda$withLocksAcquired$0(DefaultWorkerLeaseService.java:269)
+	at org.gradle.internal.work.ResourceLockStatistics$1.measure(ResourceLockStatistics.java:42)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.withLocksAcquired(DefaultWorkerLeaseService.java:267)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.withLocks(DefaultWorkerLeaseService.java:259)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.runAsWorkerThread(DefaultWorkerLeaseService.java:127)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.runAsWorkerThread(DefaultWorkerLeaseService.java:132)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.runBatch(DefaultConditionalExecutionQueue.java:164)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.run(DefaultConditionalExecutionQueue.java:133)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Unknown Source)
+	at java.base/java.util.concurrent.FutureTask.run(Unknown Source)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.base/java.lang.Thread.run(Unknown Source)
+Using fallback strategy: Compile without Kotlin daemon
+Try ./gradlew --stop if this issue persists
+If it does not look related to your configuration, please file an issue with logs to https://kotl.in/issue
+
+> Task :core:core-common:bundleLibCompileToJarDebug
+> Task :core:core-security:javaPreCompileDebug
+> Task :core:core-network:javaPreCompileDebug
+> Task :core:core-ui:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :core:core-ui:compileDebugKotlin NO-SOURCE
+> Task :core:core-ui:javaPreCompileDebug
+> Task :core:core-ui:compileDebugJavaWithJavac NO-SOURCE
+> Task :core:core-ui:bundleLibCompileToJarDebug
+> Task :data:data-ai:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :domain:domain-ai:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :designsystem:compileDebugJavaWithJavac NO-SOURCE
+> Task :designsystem:bundleLibCompileToJarDebug
+> Task :domain:domain-ai:javaPreCompileDebug
+> Task :data:data-ai:javaPreCompileDebug
+> Task :designsystem:bundleLibRuntimeToJarDebug
+> Task :core:core-common:bundleLibRuntimeToJarDebug
+> Task :core:core-ui:bundleLibRuntimeToJarDebug
+> Task :data:data-repository:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :domain:domain-repository:checkKotlinGradlePluginConfigurationErrors SKIPPED
+
+> Task :core:core-security:compileDebugKotlin
+exception: WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+exception: WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.jetbrains.kotlin.com.intellij.util.containers.Unsafe (file:/C:/Users/Firoj/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-embeddable/2.0.21/79346ed53db48b18312a472602eb5c057070c54d/kotlin-compiler-embeddable-2.0.21.jar)
+exception: WARNING: Please consider reporting this to the maintainers of class org.jetbrains.kotlin.com.intellij.util.containers.Unsafe
+exception: WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+
+> Task :core:core-database:compileDebugKotlin
+e: Failed connecting to the daemon in 4 retries
+e: Daemon compilation failed: Could not connect to Kotlin compile daemon
+java.lang.RuntimeException: Could not connect to Kotlin compile daemon
+	at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.compileWithDaemon(GradleKotlinCompilerWork.kt:214)
+	at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.compileWithDaemonOrFallbackImpl(GradleKotlinCompilerWork.kt:159)
+	at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.run(GradleKotlinCompilerWork.kt:111)
+	at org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction.execute(GradleCompilerRunnerWithWorkers.kt:76)
+	at org.gradle.workers.internal.DefaultWorkerServer.execute(DefaultWorkerServer.java:68)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:64)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:61)
+	at org.gradle.internal.classloader.ClassLoaderUtils.executeInClassloader(ClassLoaderUtils.java:102)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1.lambda$execute$0(NoIsolationWorkerFactory.java:61)
+	at org.gradle.workers.internal.AbstractWorker$1.call(AbstractWorker.java:44)
+	at org.gradle.workers.internal.AbstractWorker$1.call(AbstractWorker.java:41)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
+	at org.gradle.workers.internal.AbstractWorker.executeWrappedInBuildOperation(AbstractWorker.java:41)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1.execute(NoIsolationWorkerFactory.java:58)
+	at org.gradle.workers.internal.DefaultWorkerExecutor.lambda$submitWork$0(DefaultWorkerExecutor.java:176)
+	at java.base/java.util.concurrent.FutureTask.run(Unknown Source)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.runExecution(DefaultConditionalExecutionQueue.java:194)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.access$700(DefaultConditionalExecutionQueue.java:127)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner$1.run(DefaultConditionalExecutionQueue.java:169)
+	at org.gradle.internal.Factories$1.create(Factories.java:30)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.lambda$withLocksAcquired$0(DefaultWorkerLeaseService.java:269)
+	at org.gradle.internal.work.ResourceLockStatistics$1.measure(ResourceLockStatistics.java:42)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.withLocksAcquired(DefaultWorkerLeaseService.java:267)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.withLocks(DefaultWorkerLeaseService.java:259)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.runAsWorkerThread(DefaultWorkerLeaseService.java:127)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.runAsWorkerThread(DefaultWorkerLeaseService.java:132)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.runBatch(DefaultConditionalExecutionQueue.java:164)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.run(DefaultConditionalExecutionQueue.java:133)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Unknown Source)
+	at java.base/java.util.concurrent.FutureTask.run(Unknown Source)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.base/java.lang.Thread.run(Unknown Source)
+
+Failed to compile with Kotlin daemon: java.lang.RuntimeException: Could not connect to Kotlin compile daemon
+	at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.compileWithDaemon(GradleKotlinCompilerWork.kt:214)
+	at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.compileWithDaemonOrFallbackImpl(GradleKotlinCompilerWork.kt:159)
+	at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.run(GradleKotlinCompilerWork.kt:111)
+	at org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction.execute(GradleCompilerRunnerWithWorkers.kt:76)
+	at org.gradle.workers.internal.DefaultWorkerServer.execute(DefaultWorkerServer.java:68)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:64)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:61)
+	at org.gradle.internal.classloader.ClassLoaderUtils.executeInClassloader(ClassLoaderUtils.java:102)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1.lambda$execute$0(NoIsolationWorkerFactory.java:61)
+	at org.gradle.workers.internal.AbstractWorker$1.call(AbstractWorker.java:44)
+	at org.gradle.workers.internal.AbstractWorker$1.call(AbstractWorker.java:41)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
+	at org.gradle.workers.internal.AbstractWorker.executeWrappedInBuildOperation(AbstractWorker.java:41)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1.execute(NoIsolationWorkerFactory.java:58)
+	at org.gradle.workers.internal.DefaultWorkerExecutor.lambda$submitWork$0(DefaultWorkerExecutor.java:176)
+	at java.base/java.util.concurrent.FutureTask.run(Unknown Source)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.runExecution(DefaultConditionalExecutionQueue.java:194)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.access$700(DefaultConditionalExecutionQueue.java:127)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner$1.run(DefaultConditionalExecutionQueue.java:169)
+	at org.gradle.internal.Factories$1.create(Factories.java:30)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.lambda$withLocksAcquired$0(DefaultWorkerLeaseService.java:269)
+	at org.gradle.internal.work.ResourceLockStatistics$1.measure(ResourceLockStatistics.java:42)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.withLocksAcquired(DefaultWorkerLeaseService.java:267)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.withLocks(DefaultWorkerLeaseService.java:259)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.runAsWorkerThread(DefaultWorkerLeaseService.java:127)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.runAsWorkerThread(DefaultWorkerLeaseService.java:132)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.runBatch(DefaultConditionalExecutionQueue.java:164)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.run(DefaultConditionalExecutionQueue.java:133)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Unknown Source)
+	at java.base/java.util.concurrent.FutureTask.run(Unknown Source)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.base/java.lang.Thread.run(Unknown Source)
+Using fallback strategy: Compile without Kotlin daemon
+Try ./gradlew --stop if this issue persists
+If it does not look related to your configuration, please file an issue with logs to https://kotl.in/issue
+
+> Task :domain:domain-ai:compileDebugKotlin
+> Task :domain:domain-repository:compileDebugKotlin
+
+> Task :core:core-database:compileDebugKotlin
+exception: WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+exception: WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.jetbrains.kotlin.com.intellij.util.containers.Unsafe (file:/C:/Users/Firoj/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-embeddable/2.0.21/79346ed53db48b18312a472602eb5c057070c54d/kotlin-compiler-embeddable-2.0.21.jar)
+exception: WARNING: Please consider reporting this to the maintainers of class org.jetbrains.kotlin.com.intellij.util.containers.Unsafe
+exception: WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+
+> Task :domain:domain-repository:compileDebugKotlin
+e: Failed connecting to the daemon in 4 retries
+e: Daemon compilation failed: Could not connect to Kotlin compile daemon
+java.lang.RuntimeException: Could not connect to Kotlin compile daemon
+	at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.compileWithDaemon(GradleKotlinCompilerWork.kt:214)
+	at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.compileWithDaemonOrFallbackImpl(GradleKotlinCompilerWork.kt:159)
+	at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.run(GradleKotlinCompilerWork.kt:111)
+	at org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction.execute(GradleCompilerRunnerWithWorkers.kt:76)
+	at org.gradle.workers.internal.DefaultWorkerServer.execute(DefaultWorkerServer.java:68)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:64)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:61)
+	at org.gradle.internal.classloader.ClassLoaderUtils.executeInClassloader(ClassLoaderUtils.java:102)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1.lambda$execute$0(NoIsolationWorkerFactory.java:61)
+	at org.gradle.workers.internal.AbstractWorker$1.call(AbstractWorker.java:44)
+	at org.gradle.workers.internal.AbstractWorker$1.call(AbstractWorker.java:41)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
+	at org.gradle.workers.internal.AbstractWorker.executeWrappedInBuildOperation(AbstractWorker.java:41)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1.execute(NoIsolationWorkerFactory.java:58)
+	at org.gradle.workers.internal.DefaultWorkerExecutor.lambda$submitWork$0(DefaultWorkerExecutor.java:176)
+	at java.base/java.util.concurrent.FutureTask.run(Unknown Source)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.runExecution(DefaultConditionalExecutionQueue.java:194)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.access$700(DefaultConditionalExecutionQueue.java:127)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner$1.run(DefaultConditionalExecutionQueue.java:169)
+	at org.gradle.internal.Factories$1.create(Factories.java:30)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.lambda$withLocksAcquired$0(DefaultWorkerLeaseService.java:269)
+	at org.gradle.internal.work.ResourceLockStatistics$1.measure(ResourceLockStatistics.java:42)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.withLocksAcquired(DefaultWorkerLeaseService.java:267)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.withLocks(DefaultWorkerLeaseService.java:259)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.runAsWorkerThread(DefaultWorkerLeaseService.java:127)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.runAsWorkerThread(DefaultWorkerLeaseService.java:132)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.runBatch(DefaultConditionalExecutionQueue.java:164)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.run(DefaultConditionalExecutionQueue.java:133)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Unknown Source)
+	at java.base/java.util.concurrent.FutureTask.run(Unknown Source)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.base/java.lang.Thread.run(Unknown Source)
+
+Failed to compile with Kotlin daemon: java.lang.RuntimeException: Could not connect to Kotlin compile daemon
+	at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.compileWithDaemon(GradleKotlinCompilerWork.kt:214)
+	at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.compileWithDaemonOrFallbackImpl(GradleKotlinCompilerWork.kt:159)
+	at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.run(GradleKotlinCompilerWork.kt:111)
+	at org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction.execute(GradleCompilerRunnerWithWorkers.kt:76)
+	at org.gradle.workers.internal.DefaultWorkerServer.execute(DefaultWorkerServer.java:68)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:64)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:61)
+	at org.gradle.internal.classloader.ClassLoaderUtils.executeInClassloader(ClassLoaderUtils.java:102)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1.lambda$execute$0(NoIsolationWorkerFactory.java:61)
+	at org.gradle.workers.internal.AbstractWorker$1.call(AbstractWorker.java:44)
+	at org.gradle.workers.internal.AbstractWorker$1.call(AbstractWorker.java:41)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
+	at org.gradle.workers.internal.AbstractWorker.executeWrappedInBuildOperation(AbstractWorker.java:41)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1.execute(NoIsolationWorkerFactory.java:58)
+	at org.gradle.workers.internal.DefaultWorkerExecutor.lambda$submitWork$0(DefaultWorkerExecutor.java:176)
+	at java.base/java.util.concurrent.FutureTask.run(Unknown Source)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.runExecution(DefaultConditionalExecutionQueue.java:194)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.access$700(DefaultConditionalExecutionQueue.java:127)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner$1.run(DefaultConditionalExecutionQueue.java:169)
+	at org.gradle.internal.Factories$1.create(Factories.java:30)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.lambda$withLocksAcquired$0(DefaultWorkerLeaseService.java:269)
+	at org.gradle.internal.work.ResourceLockStatistics$1.measure(ResourceLockStatistics.java:42)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.withLocksAcquired(DefaultWorkerLeaseService.java:267)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.withLocks(DefaultWorkerLeaseService.java:259)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.runAsWorkerThread(DefaultWorkerLeaseService.java:127)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.runAsWorkerThread(DefaultWorkerLeaseService.java:132)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.runBatch(DefaultConditionalExecutionQueue.java:164)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.run(DefaultConditionalExecutionQueue.java:133)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Unknown Source)
+	at java.base/java.util.concurrent.FutureTask.run(Unknown Source)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.base/java.lang.Thread.run(Unknown Source)
+Using fallback strategy: Compile without Kotlin daemon
+Try ./gradlew --stop if this issue persists
+If it does not look related to your configuration, please file an issue with logs to https://kotl.in/issue
+exception: WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+exception: WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.jetbrains.kotlin.com.intellij.util.containers.Unsafe (file:/C:/Users/Firoj/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-embeddable/2.0.21/79346ed53db48b18312a472602eb5c057070c54d/kotlin-compiler-embeddable-2.0.21.jar)
+exception: WARNING: Please consider reporting this to the maintainers of class org.jetbrains.kotlin.com.intellij.util.containers.Unsafe
+exception: WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+
+> Task :domain:domain-ai:compileDebugKotlin
+e: Failed connecting to the daemon in 4 retries
+e: Daemon compilation failed: Could not connect to Kotlin compile daemon
+java.lang.RuntimeException: Could not connect to Kotlin compile daemon
+	at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.compileWithDaemon(GradleKotlinCompilerWork.kt:214)
+	at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.compileWithDaemonOrFallbackImpl(GradleKotlinCompilerWork.kt:159)
+	at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.run(GradleKotlinCompilerWork.kt:111)
+	at org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction.execute(GradleCompilerRunnerWithWorkers.kt:76)
+	at org.gradle.workers.internal.DefaultWorkerServer.execute(DefaultWorkerServer.java:68)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:64)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:61)
+	at org.gradle.internal.classloader.ClassLoaderUtils.executeInClassloader(ClassLoaderUtils.java:102)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1.lambda$execute$0(NoIsolationWorkerFactory.java:61)
+	at org.gradle.workers.internal.AbstractWorker$1.call(AbstractWorker.java:44)
+	at org.gradle.workers.internal.AbstractWorker$1.call(AbstractWorker.java:41)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
+	at org.gradle.workers.internal.AbstractWorker.executeWrappedInBuildOperation(AbstractWorker.java:41)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1.execute(NoIsolationWorkerFactory.java:58)
+	at org.gradle.workers.internal.DefaultWorkerExecutor.lambda$submitWork$0(DefaultWorkerExecutor.java:176)
+	at java.base/java.util.concurrent.FutureTask.run(Unknown Source)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.runExecution(DefaultConditionalExecutionQueue.java:194)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.access$700(DefaultConditionalExecutionQueue.java:127)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner$1.run(DefaultConditionalExecutionQueue.java:169)
+	at org.gradle.internal.Factories$1.create(Factories.java:30)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.lambda$withLocksAcquired$0(DefaultWorkerLeaseService.java:269)
+	at org.gradle.internal.work.ResourceLockStatistics$1.measure(ResourceLockStatistics.java:42)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.withLocksAcquired(DefaultWorkerLeaseService.java:267)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.withLocks(DefaultWorkerLeaseService.java:259)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.runAsWorkerThread(DefaultWorkerLeaseService.java:127)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.runAsWorkerThread(DefaultWorkerLeaseService.java:132)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.runBatch(DefaultConditionalExecutionQueue.java:164)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.run(DefaultConditionalExecutionQueue.java:133)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Unknown Source)
+	at java.base/java.util.concurrent.FutureTask.run(Unknown Source)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.base/java.lang.Thread.run(Unknown Source)
+
+Failed to compile with Kotlin daemon: java.lang.RuntimeException: Could not connect to Kotlin compile daemon
+	at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.compileWithDaemon(GradleKotlinCompilerWork.kt:214)
+	at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.compileWithDaemonOrFallbackImpl(GradleKotlinCompilerWork.kt:159)
+	at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.run(GradleKotlinCompilerWork.kt:111)
+	at org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction.execute(GradleCompilerRunnerWithWorkers.kt:76)
+	at org.gradle.workers.internal.DefaultWorkerServer.execute(DefaultWorkerServer.java:68)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:64)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:61)
+	at org.gradle.internal.classloader.ClassLoaderUtils.executeInClassloader(ClassLoaderUtils.java:102)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1.lambda$execute$0(NoIsolationWorkerFactory.java:61)
+	at org.gradle.workers.internal.AbstractWorker$1.call(AbstractWorker.java:44)
+	at org.gradle.workers.internal.AbstractWorker$1.call(AbstractWorker.java:41)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
+	at org.gradle.workers.internal.AbstractWorker.executeWrappedInBuildOperation(AbstractWorker.java:41)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1.execute(NoIsolationWorkerFactory.java:58)
+	at org.gradle.workers.internal.DefaultWorkerExecutor.lambda$submitWork$0(DefaultWorkerExecutor.java:176)
+	at java.base/java.util.concurrent.FutureTask.run(Unknown Source)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.runExecution(DefaultConditionalExecutionQueue.java:194)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.access$700(DefaultConditionalExecutionQueue.java:127)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner$1.run(DefaultConditionalExecutionQueue.java:169)
+	at org.gradle.internal.Factories$1.create(Factories.java:30)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.lambda$withLocksAcquired$0(DefaultWorkerLeaseService.java:269)
+	at org.gradle.internal.work.ResourceLockStatistics$1.measure(ResourceLockStatistics.java:42)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.withLocksAcquired(DefaultWorkerLeaseService.java:267)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.withLocks(DefaultWorkerLeaseService.java:259)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.runAsWorkerThread(DefaultWorkerLeaseService.java:127)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.runAsWorkerThread(DefaultWorkerLeaseService.java:132)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.runBatch(DefaultConditionalExecutionQueue.java:164)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.run(DefaultConditionalExecutionQueue.java:133)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Unknown Source)
+	at java.base/java.util.concurrent.FutureTask.run(Unknown Source)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.base/java.lang.Thread.run(Unknown Source)
+Using fallback strategy: Compile without Kotlin daemon
+Try ./gradlew --stop if this issue persists
+If it does not look related to your configuration, please file an issue with logs to https://kotl.in/issue
+exception: WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+exception: WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.jetbrains.kotlin.com.intellij.util.containers.Unsafe (file:/C:/Users/Firoj/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-embeddable/2.0.21/79346ed53db48b18312a472602eb5c057070c54d/kotlin-compiler-embeddable-2.0.21.jar)
+exception: WARNING: Please consider reporting this to the maintainers of class org.jetbrains.kotlin.com.intellij.util.containers.Unsafe
+exception: WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+
+> Task :core:core-security:compileDebugJavaWithJavac
+> Task :core:core-security:transformDebugClassesWithAsm
+> Task :core:core-security:bundleLibCompileToJarDebug
+> Task :core:core-network:kspDebugKotlin NO-SOURCE
+> Task :core:core-network:compileDebugKotlin NO-SOURCE
+> Task :core:core-network:compileDebugJavaWithJavac NO-SOURCE
+> Task :core:core-network:bundleLibCompileToJarDebug
+> Task :core:core-security:bundleLibRuntimeToJarDebug
+> Task :domain:domain-repository:javaPreCompileDebug
+> Task :feature:feature-auth:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :feature:feature-auth:kspDebugKotlin
+> Task :core:core-database:compileDebugJavaWithJavac
+> Task :core:core-database:copyRoomSchemas NO-SOURCE
+> Task :domain:domain-repository:compileDebugJavaWithJavac NO-SOURCE
+> Task :domain:domain-repository:bundleLibCompileToJarDebug
+> Task :feature:feature-auth:javaPreCompileDebug
+> Task :data:data-repository:javaPreCompileDebug
+> Task :domain:domain-repository:bundleLibRuntimeToJarDebug
+> Task :feature:feature-agents:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :feature:feature-agents:kspDebugKotlin NO-SOURCE
+> Task :feature:feature-agents:compileDebugKotlin NO-SOURCE
+> Task :feature:feature-agents:javaPreCompileDebug
+> Task :feature:feature-agents:compileDebugJavaWithJavac NO-SOURCE
+
+> Task :feature:feature-auth:kspDebugKotlin
+e: Failed connecting to the daemon in 4 retries
+e: Daemon compilation failed: Could not connect to Kotlin compile daemon
+java.lang.RuntimeException: Could not connect to Kotlin compile daemon
+	at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.compileWithDaemon(GradleKotlinCompilerWork.kt:214)
+	at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.compileWithDaemonOrFallbackImpl(GradleKotlinCompilerWork.kt:159)
+	at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.run(GradleKotlinCompilerWork.kt:111)
+	at org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction.execute(GradleCompilerRunnerWithWorkers.kt:76)
+	at org.gradle.workers.internal.DefaultWorkerServer.execute(DefaultWorkerServer.java:68)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:64)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:61)
+	at org.gradle.internal.classloader.ClassLoaderUtils.executeInClassloader(ClassLoaderUtils.java:102)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1.lambda$execute$0(NoIsolationWorkerFactory.java:61)
+	at org.gradle.workers.internal.AbstractWorker$1.call(AbstractWorker.java:44)
+	at org.gradle.workers.internal.AbstractWorker$1.call(AbstractWorker.java:41)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
+	at org.gradle.workers.internal.AbstractWorker.executeWrappedInBuildOperation(AbstractWorker.java:41)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1.execute(NoIsolationWorkerFactory.java:58)
+	at org.gradle.workers.internal.DefaultWorkerExecutor.lambda$submitWork$0(DefaultWorkerExecutor.java:176)
+	at java.base/java.util.concurrent.FutureTask.run(Unknown Source)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.runExecution(DefaultConditionalExecutionQueue.java:194)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.access$700(DefaultConditionalExecutionQueue.java:127)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner$1.run(DefaultConditionalExecutionQueue.java:169)
+	at org.gradle.internal.Factories$1.create(Factories.java:30)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.lambda$withLocksAcquired$0(DefaultWorkerLeaseService.java:269)
+	at org.gradle.internal.work.ResourceLockStatistics$1.measure(ResourceLockStatistics.java:42)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.withLocksAcquired(DefaultWorkerLeaseService.java:267)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.withLocks(DefaultWorkerLeaseService.java:259)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.runAsWorkerThread(DefaultWorkerLeaseService.java:127)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.runAsWorkerThread(DefaultWorkerLeaseService.java:132)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.runBatch(DefaultConditionalExecutionQueue.java:164)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.run(DefaultConditionalExecutionQueue.java:133)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Unknown Source)
+	at java.base/java.util.concurrent.FutureTask.run(Unknown Source)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.base/java.lang.Thread.run(Unknown Source)
+
+Failed to compile with Kotlin daemon: java.lang.RuntimeException: Could not connect to Kotlin compile daemon
+	at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.compileWithDaemon(GradleKotlinCompilerWork.kt:214)
+	at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.compileWithDaemonOrFallbackImpl(GradleKotlinCompilerWork.kt:159)
+	at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.run(GradleKotlinCompilerWork.kt:111)
+	at org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction.execute(GradleCompilerRunnerWithWorkers.kt:76)
+	at org.gradle.workers.internal.DefaultWorkerServer.execute(DefaultWorkerServer.java:68)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:64)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:61)
+	at org.gradle.internal.classloader.ClassLoaderUtils.executeInClassloader(ClassLoaderUtils.java:102)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1.lambda$execute$0(NoIsolationWorkerFactory.java:61)
+	at org.gradle.workers.internal.AbstractWorker$1.call(AbstractWorker.java:44)
+	at org.gradle.workers.internal.AbstractWorker$1.call(AbstractWorker.java:41)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
+	at org.gradle.workers.internal.AbstractWorker.executeWrappedInBuildOperation(AbstractWorker.java:41)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1.execute(NoIsolationWorkerFactory.java:58)
+	at org.gradle.workers.internal.DefaultWorkerExecutor.lambda$submitWork$0(DefaultWorkerExecutor.java:176)
+	at java.base/java.util.concurrent.FutureTask.run(Unknown Source)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.runExecution(DefaultConditionalExecutionQueue.java:194)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.access$700(DefaultConditionalExecutionQueue.java:127)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner$1.run(DefaultConditionalExecutionQueue.java:169)
+	at org.gradle.internal.Factories$1.create(Factories.java:30)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.lambda$withLocksAcquired$0(DefaultWorkerLeaseService.java:269)
+	at org.gradle.internal.work.ResourceLockStatistics$1.measure(ResourceLockStatistics.java:42)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.withLocksAcquired(DefaultWorkerLeaseService.java:267)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.withLocks(DefaultWorkerLeaseService.java:259)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.runAsWorkerThread(DefaultWorkerLeaseService.java:127)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.runAsWorkerThread(DefaultWorkerLeaseService.java:132)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.runBatch(DefaultConditionalExecutionQueue.java:164)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.run(DefaultConditionalExecutionQueue.java:133)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Unknown Source)
+	at java.base/java.util.concurrent.FutureTask.run(Unknown Source)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.base/java.lang.Thread.run(Unknown Source)
+Using fallback strategy: Compile without Kotlin daemon
+Try ./gradlew --stop if this issue persists
+If it does not look related to your configuration, please file an issue with logs to https://kotl.in/issue
+
+> Task :core:core-database:transformDebugClassesWithAsm
+> Task :core:core-database:bundleLibCompileToJarDebug
+> Task :core:core-database:bundleLibRuntimeToJarDebug
+> Task :feature:feature-ai-chat:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :feature:feature-ai-chat:javaPreCompileDebug
+> Task :feature:feature-code:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :feature:feature-code:kspDebugKotlin NO-SOURCE
+> Task :feature:feature-code:compileDebugKotlin NO-SOURCE
+> Task :feature:feature-code:javaPreCompileDebug
+> Task :feature:feature-code:compileDebugJavaWithJavac NO-SOURCE
+> Task :feature:feature-agents:transformDebugClassesWithAsm
+> Task :feature:feature-agents:bundleLibCompileToJarDebug
+> Task :feature:feature-git:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :feature:feature-git:kspDebugKotlin NO-SOURCE
+> Task :feature:feature-git:compileDebugKotlin NO-SOURCE
+> Task :feature:feature-git:javaPreCompileDebug
+> Task :feature:feature-git:compileDebugJavaWithJavac NO-SOURCE
+> Task :feature:feature-code:transformDebugClassesWithAsm
+> Task :feature:feature-code:bundleLibCompileToJarDebug
+> Task :feature:feature-home:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :feature:feature-home:kspDebugKotlin NO-SOURCE
+> Task :feature:feature-home:compileDebugKotlin NO-SOURCE
+> Task :feature:feature-home:javaPreCompileDebug
+> Task :feature:feature-home:compileDebugJavaWithJavac NO-SOURCE
+> Task :feature:feature-git:transformDebugClassesWithAsm
+> Task :feature:feature-git:bundleLibCompileToJarDebug
+> Task :feature:feature-issues:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :feature:feature-issues:kspDebugKotlin NO-SOURCE
+> Task :feature:feature-issues:compileDebugKotlin NO-SOURCE
+> Task :feature:feature-issues:javaPreCompileDebug
+> Task :feature:feature-issues:compileDebugJavaWithJavac NO-SOURCE
+> Task :feature:feature-home:transformDebugClassesWithAsm
+> Task :feature:feature-home:bundleLibCompileToJarDebug
+> Task :feature:feature-learning:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :feature:feature-learning:kspDebugKotlin NO-SOURCE
+> Task :feature:feature-learning:compileDebugKotlin NO-SOURCE
+> Task :feature:feature-learning:javaPreCompileDebug
+> Task :feature:feature-learning:compileDebugJavaWithJavac NO-SOURCE
+> Task :feature:feature-issues:transformDebugClassesWithAsm
+> Task :feature:feature-issues:bundleLibCompileToJarDebug
+> Task :feature:feature-memory:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :feature:feature-memory:kspDebugKotlin NO-SOURCE
+> Task :feature:feature-memory:compileDebugKotlin NO-SOURCE
+> Task :feature:feature-memory:javaPreCompileDebug
+> Task :feature:feature-memory:compileDebugJavaWithJavac NO-SOURCE
+> Task :feature:feature-learning:transformDebugClassesWithAsm
+> Task :feature:feature-learning:bundleLibCompileToJarDebug
+> Task :feature:feature-project:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :feature:feature-project:kspDebugKotlin NO-SOURCE
+> Task :feature:feature-project:compileDebugKotlin NO-SOURCE
+> Task :feature:feature-project:javaPreCompileDebug
+> Task :feature:feature-project:compileDebugJavaWithJavac NO-SOURCE
+> Task :feature:feature-memory:transformDebugClassesWithAsm
+> Task :feature:feature-memory:bundleLibCompileToJarDebug
+> Task :feature:feature-prs:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :feature:feature-prs:kspDebugKotlin NO-SOURCE
+> Task :feature:feature-prs:compileDebugKotlin NO-SOURCE
+> Task :feature:feature-prs:javaPreCompileDebug
+> Task :feature:feature-prs:compileDebugJavaWithJavac NO-SOURCE
+> Task :feature:feature-project:transformDebugClassesWithAsm
+> Task :feature:feature-project:bundleLibCompileToJarDebug
+> Task :feature:feature-repository:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :feature:feature-repository:kspDebugKotlin NO-SOURCE
+> Task :feature:feature-repository:compileDebugKotlin NO-SOURCE
+> Task :feature:feature-repository:javaPreCompileDebug
+> Task :feature:feature-repository:compileDebugJavaWithJavac NO-SOURCE
+> Task :feature:feature-prs:transformDebugClassesWithAsm
+> Task :feature:feature-prs:bundleLibCompileToJarDebug
+> Task :feature:feature-security:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :feature:feature-security:kspDebugKotlin NO-SOURCE
+> Task :feature:feature-security:compileDebugKotlin NO-SOURCE
+> Task :feature:feature-security:javaPreCompileDebug
+> Task :feature:feature-security:compileDebugJavaWithJavac NO-SOURCE
+> Task :feature:feature-repository:transformDebugClassesWithAsm
+> Task :feature:feature-repository:bundleLibCompileToJarDebug
+> Task :feature:feature-settings:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :feature:feature-settings:kspDebugKotlin NO-SOURCE
+> Task :feature:feature-settings:compileDebugKotlin NO-SOURCE
+> Task :feature:feature-settings:javaPreCompileDebug
+> Task :feature:feature-settings:compileDebugJavaWithJavac NO-SOURCE
+> Task :feature:feature-security:transformDebugClassesWithAsm
+
+> Task :feature:feature-auth:kspDebugKotlin
+exception: WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+exception: WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.jetbrains.kotlin.com.intellij.util.containers.Unsafe (file:/C:/Users/Firoj/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-embeddable/2.0.21/79346ed53db48b18312a472602eb5c057070c54d/kotlin-compiler-embeddable-2.0.21.jar)
+exception: WARNING: Please consider reporting this to the maintainers of class org.jetbrains.kotlin.com.intellij.util.containers.Unsafe
+exception: WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+
+> Task :feature:feature-security:bundleLibCompileToJarDebug
+> Task :feature:feature-testing:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :feature:feature-testing:kspDebugKotlin NO-SOURCE
+> Task :feature:feature-testing:compileDebugKotlin NO-SOURCE
+> Task :feature:feature-testing:javaPreCompileDebug
+> Task :feature:feature-testing:compileDebugJavaWithJavac NO-SOURCE
+> Task :feature:feature-settings:transformDebugClassesWithAsm
+> Task :feature:feature-settings:bundleLibCompileToJarDebug
+> Task :app:javaPreCompileDebug
+> Task :app:mergeDebugShaders
+> Task :app:compileDebugShaders NO-SOURCE
+> Task :app:generateDebugAssets UP-TO-DATE
+> Task :feature:feature-testing:transformDebugClassesWithAsm
+> Task :feature:feature-testing:bundleLibCompileToJarDebug
+> Task :core:core-common:mergeDebugShaders
+> Task :core:core-common:compileDebugShaders NO-SOURCE
+> Task :core:core-common:generateDebugAssets UP-TO-DATE
+> Task :designsystem:mergeDebugShaders
+> Task :designsystem:compileDebugShaders NO-SOURCE
+> Task :designsystem:generateDebugAssets UP-TO-DATE
+> Task :core:core-common:packageDebugAssets
+> Task :core:core-database:mergeDebugShaders
+> Task :core:core-database:compileDebugShaders NO-SOURCE
+> Task :core:core-database:generateDebugAssets UP-TO-DATE
+> Task :designsystem:packageDebugAssets
+> Task :core:core-database:packageDebugAssets
+> Task :core:core-network:mergeDebugShaders
+> Task :core:core-network:compileDebugShaders NO-SOURCE
+> Task :core:core-network:generateDebugAssets UP-TO-DATE
+> Task :core:core-network:packageDebugAssets
+> Task :core:core-security:mergeDebugShaders
+> Task :core:core-security:compileDebugShaders NO-SOURCE
+> Task :core:core-security:generateDebugAssets UP-TO-DATE
+> Task :core:core-ui:mergeDebugShaders
+> Task :core:core-ui:compileDebugShaders NO-SOURCE
+> Task :core:core-ui:generateDebugAssets UP-TO-DATE
+> Task :core:core-security:packageDebugAssets
+> Task :data:data-ai:mergeDebugShaders
+> Task :data:data-ai:compileDebugShaders NO-SOURCE
+> Task :data:data-ai:generateDebugAssets UP-TO-DATE
+> Task :core:core-ui:packageDebugAssets
+> Task :data:data-ai:packageDebugAssets
+> Task :data:data-repository:mergeDebugShaders
+> Task :data:data-repository:compileDebugShaders NO-SOURCE
+> Task :data:data-repository:generateDebugAssets UP-TO-DATE
+> Task :data:data-repository:packageDebugAssets
+> Task :domain:domain-ai:mergeDebugShaders
+> Task :domain:domain-ai:compileDebugShaders NO-SOURCE
+> Task :domain:domain-ai:generateDebugAssets UP-TO-DATE
+> Task :domain:domain-repository:mergeDebugShaders
+> Task :domain:domain-repository:compileDebugShaders NO-SOURCE
+> Task :domain:domain-repository:generateDebugAssets UP-TO-DATE
+> Task :domain:domain-repository:packageDebugAssets
+> Task :domain:domain-ai:packageDebugAssets
+> Task :feature:feature-ai-chat:mergeDebugShaders
+> Task :feature:feature-ai-chat:compileDebugShaders NO-SOURCE
+> Task :feature:feature-ai-chat:generateDebugAssets UP-TO-DATE
+> Task :domain:domain-ai:compileDebugJavaWithJavac NO-SOURCE
+> Task :domain:domain-ai:bundleLibCompileToJarDebug
+> Task :feature:feature-agents:mergeDebugShaders
+> Task :feature:feature-ai-chat:packageDebugAssets
+> Task :domain:domain-ai:bundleLibRuntimeToJarDebug
+> Task :feature:feature-agents:compileDebugShaders NO-SOURCE
+> Task :feature:feature-agents:generateDebugAssets UP-TO-DATE
+> Task :feature:feature-agents:packageDebugAssets
+> Task :feature:feature-auth:mergeDebugShaders
+> Task :feature:feature-auth:compileDebugShaders NO-SOURCE
+> Task :feature:feature-auth:generateDebugAssets UP-TO-DATE
+> Task :feature:feature-auth:packageDebugAssets
+> Task :feature:feature-code:mergeDebugShaders
+> Task :feature:feature-code:compileDebugShaders NO-SOURCE
+> Task :feature:feature-code:generateDebugAssets UP-TO-DATE
+> Task :feature:feature-code:packageDebugAssets
+> Task :feature:feature-git:mergeDebugShaders
+> Task :feature:feature-git:compileDebugShaders NO-SOURCE
+> Task :feature:feature-git:generateDebugAssets UP-TO-DATE
+> Task :feature:feature-git:packageDebugAssets
+> Task :feature:feature-home:mergeDebugShaders
+> Task :feature:feature-home:compileDebugShaders NO-SOURCE
+> Task :feature:feature-home:generateDebugAssets UP-TO-DATE
+> Task :feature:feature-home:packageDebugAssets
+> Task :feature:feature-issues:mergeDebugShaders
+> Task :feature:feature-issues:compileDebugShaders NO-SOURCE
+> Task :feature:feature-issues:generateDebugAssets UP-TO-DATE
+> Task :feature:feature-issues:packageDebugAssets
+> Task :feature:feature-learning:mergeDebugShaders
+> Task :feature:feature-learning:compileDebugShaders NO-SOURCE
+> Task :feature:feature-learning:generateDebugAssets UP-TO-DATE
+> Task :feature:feature-learning:packageDebugAssets
+> Task :feature:feature-memory:mergeDebugShaders
+> Task :feature:feature-memory:compileDebugShaders NO-SOURCE
+> Task :feature:feature-memory:generateDebugAssets UP-TO-DATE
+> Task :feature:feature-memory:packageDebugAssets
+> Task :feature:feature-project:mergeDebugShaders
+> Task :feature:feature-project:compileDebugShaders NO-SOURCE
+> Task :feature:feature-project:generateDebugAssets UP-TO-DATE
+> Task :feature:feature-project:packageDebugAssets
+> Task :data:data-ai:kspDebugKotlin
+> Task :feature:feature-ai-chat:kspDebugKotlin
+> Task :feature:feature-prs:mergeDebugShaders
+> Task :feature:feature-prs:compileDebugShaders NO-SOURCE
+> Task :feature:feature-prs:generateDebugAssets UP-TO-DATE
+> Task :feature:feature-prs:packageDebugAssets
+> Task :feature:feature-repository:mergeDebugShaders
+> Task :feature:feature-repository:compileDebugShaders NO-SOURCE
+> Task :feature:feature-repository:generateDebugAssets UP-TO-DATE
+> Task :feature:feature-repository:packageDebugAssets
+> Task :feature:feature-security:mergeDebugShaders
+> Task :feature:feature-security:compileDebugShaders NO-SOURCE
+> Task :feature:feature-security:generateDebugAssets UP-TO-DATE
+> Task :feature:feature-security:packageDebugAssets
+> Task :feature:feature-settings:mergeDebugShaders
+> Task :feature:feature-settings:compileDebugShaders NO-SOURCE
+> Task :feature:feature-settings:generateDebugAssets UP-TO-DATE
+> Task :feature:feature-settings:packageDebugAssets
+> Task :feature:feature-testing:mergeDebugShaders
+> Task :feature:feature-testing:compileDebugShaders NO-SOURCE
+> Task :feature:feature-testing:generateDebugAssets UP-TO-DATE
+> Task :feature:feature-testing:packageDebugAssets
+
+> Task :feature:feature-ai-chat:kspDebugKotlin
+e: Failed connecting to the daemon in 4 retries
+e: Daemon compilation failed: Could not connect to Kotlin compile daemon
+java.lang.RuntimeException: Could not connect to Kotlin compile daemon
+	at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.compileWithDaemon(GradleKotlinCompilerWork.kt:214)
+	at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.compileWithDaemonOrFallbackImpl(GradleKotlinCompilerWork.kt:159)
+	at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.run(GradleKotlinCompilerWork.kt:111)
+	at org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction.execute(GradleCompilerRunnerWithWorkers.kt:76)
+	at org.gradle.workers.internal.DefaultWorkerServer.execute(DefaultWorkerServer.java:68)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:64)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:61)
+	at org.gradle.internal.classloader.ClassLoaderUtils.executeInClassloader(ClassLoaderUtils.java:102)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1.lambda$execute$0(NoIsolationWorkerFactory.java:61)
+	at org.gradle.workers.internal.AbstractWorker$1.call(AbstractWorker.java:44)
+	at org.gradle.workers.internal.AbstractWorker$1.call(AbstractWorker.java:41)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
+	at org.gradle.workers.internal.AbstractWorker.executeWrappedInBuildOperation(AbstractWorker.java:41)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1.execute(NoIsolationWorkerFactory.java:58)
+	at org.gradle.workers.internal.DefaultWorkerExecutor.lambda$submitWork$0(DefaultWorkerExecutor.java:176)
+	at java.base/java.util.concurrent.FutureTask.run(Unknown Source)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.runExecution(DefaultConditionalExecutionQueue.java:194)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.access$700(DefaultConditionalExecutionQueue.java:127)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner$1.run(DefaultConditionalExecutionQueue.java:169)
+	at org.gradle.internal.Factories$1.create(Factories.java:30)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.lambda$withLocksAcquired$0(DefaultWorkerLeaseService.java:269)
+	at org.gradle.internal.work.ResourceLockStatistics$1.measure(ResourceLockStatistics.java:42)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.withLocksAcquired(DefaultWorkerLeaseService.java:267)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.withLocks(DefaultWorkerLeaseService.java:259)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.runAsWorkerThread(DefaultWorkerLeaseService.java:127)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.runAsWorkerThread(DefaultWorkerLeaseService.java:132)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.runBatch(DefaultConditionalExecutionQueue.java:164)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.run(DefaultConditionalExecutionQueue.java:133)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Unknown Source)
+	at java.base/java.util.concurrent.FutureTask.run(Unknown Source)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.base/java.lang.Thread.run(Unknown Source)
+
+Failed to compile with Kotlin daemon: java.lang.RuntimeException: Could not connect to Kotlin compile daemon
+	at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.compileWithDaemon(GradleKotlinCompilerWork.kt:214)
+	at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.compileWithDaemonOrFallbackImpl(GradleKotlinCompilerWork.kt:159)
+	at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.run(GradleKotlinCompilerWork.kt:111)
+	at org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction.execute(GradleCompilerRunnerWithWorkers.kt:76)
+	at org.gradle.workers.internal.DefaultWorkerServer.execute(DefaultWorkerServer.java:68)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:64)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:61)
+	at org.gradle.internal.classloader.ClassLoaderUtils.executeInClassloader(ClassLoaderUtils.java:102)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1.lambda$execute$0(NoIsolationWorkerFactory.java:61)
+	at org.gradle.workers.internal.AbstractWorker$1.call(AbstractWorker.java:44)
+	at org.gradle.workers.internal.AbstractWorker$1.call(AbstractWorker.java:41)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
+	at org.gradle.workers.internal.AbstractWorker.executeWrappedInBuildOperation(AbstractWorker.java:41)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1.execute(NoIsolationWorkerFactory.java:58)
+	at org.gradle.workers.internal.DefaultWorkerExecutor.lambda$submitWork$0(DefaultWorkerExecutor.java:176)
+	at java.base/java.util.concurrent.FutureTask.run(Unknown Source)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.runExecution(DefaultConditionalExecutionQueue.java:194)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.access$700(DefaultConditionalExecutionQueue.java:127)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner$1.run(DefaultConditionalExecutionQueue.java:169)
+	at org.gradle.internal.Factories$1.create(Factories.java:30)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.lambda$withLocksAcquired$0(DefaultWorkerLeaseService.java:269)
+	at org.gradle.internal.work.ResourceLockStatistics$1.measure(ResourceLockStatistics.java:42)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.withLocksAcquired(DefaultWorkerLeaseService.java:267)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.withLocks(DefaultWorkerLeaseService.java:259)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.runAsWorkerThread(DefaultWorkerLeaseService.java:127)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.runAsWorkerThread(DefaultWorkerLeaseService.java:132)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.runBatch(DefaultConditionalExecutionQueue.java:164)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.run(DefaultConditionalExecutionQueue.java:133)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Unknown Source)
+	at java.base/java.util.concurrent.FutureTask.run(Unknown Source)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.base/java.lang.Thread.run(Unknown Source)
+Using fallback strategy: Compile without Kotlin daemon
+Try ./gradlew --stop if this issue persists
+If it does not look related to your configuration, please file an issue with logs to https://kotl.in/issue
+
+> Task :app:mergeDebugAssets
+
+> Task :feature:feature-ai-chat:kspDebugKotlin
+exception: WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+exception: WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.jetbrains.kotlin.com.intellij.util.containers.Unsafe (file:/C:/Users/Firoj/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-embeddable/2.0.21/79346ed53db48b18312a472602eb5c057070c54d/kotlin-compiler-embeddable-2.0.21.jar)
+exception: WARNING: Please consider reporting this to the maintainers of class org.jetbrains.kotlin.com.intellij.util.containers.Unsafe
+exception: WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+
+> Task :app:compressDebugAssets
+> Task :feature:feature-home:bundleLibRuntimeToJarDebug
+> Task :feature:feature-project:bundleLibRuntimeToJarDebug
+> Task :feature:feature-repository:bundleLibRuntimeToJarDebug
+> Task :feature:feature-code:bundleLibRuntimeToJarDebug
+> Task :feature:feature-agents:bundleLibRuntimeToJarDebug
+> Task :feature:feature-git:bundleLibRuntimeToJarDebug
+> Task :feature:feature-issues:bundleLibRuntimeToJarDebug
+> Task :feature:feature-prs:bundleLibRuntimeToJarDebug
+> Task :feature:feature-security:bundleLibRuntimeToJarDebug
+> Task :feature:feature-testing:bundleLibRuntimeToJarDebug
+> Task :feature:feature-learning:bundleLibRuntimeToJarDebug
+> Task :feature:feature-memory:bundleLibRuntimeToJarDebug
+> Task :feature:feature-settings:bundleLibRuntimeToJarDebug
+> Task :core:core-network:bundleLibRuntimeToJarDebug
+
+> Task :feature:feature-auth:kspDebugKotlin
+exception: info: [ksp] loaded provider(s): [dagger.hilt.processor.internal.uninstallmodules.KspUninstallModulesProcessor$Provider, dagger.hilt.android.processor.internal.customtestapplication.KspCustomTestApplicationProcessor$Provider, dagger.hilt.processor.internal.generatesrootinput.KspGeneratesRootInputProcessor$Provider, dagger.hilt.processor.internal.root.KspRootProcessor$Provider, dagger.hilt.processor.internal.definecomponent.KspDefineComponentProcessor$Provider, dagger.hilt.processor.internal.aliasof.KspAliasOfProcessor$Provider, dagger.hilt.android.processor.internal.androidentrypoint.KspAndroidEntryPointProcessor$Provider, dagger.hilt.processor.internal.earlyentrypoint.KspEarlyEntryPointProcessor$Provider, dagger.hilt.processor.internal.root.KspComponentTreeDepsProcessor$Provider, dagger.hilt.processor.internal.aggregateddeps.KspAggregatedDepsProcessor$Provider, dagger.hilt.processor.internal.originatingelement.KspOriginatingElementProcessor$Provider, dagger.hilt.android.processor.internal.viewmodel.KspViewModelProcessor$Provider, dagger.hilt.android.processor.internal.bindvalue.KspBindValueProcessor$Provider, dagger.internal.codegen.KspComponentProcessor$Provider]
+
+> Task :data:data-ai:compileDebugKotlin
+> Task :app:desugarDebugFileDependencies
+
+> Task :feature:feature-ai-chat:kspDebugKotlin
+exception: info: [ksp] loaded provider(s): [dagger.hilt.processor.internal.uninstallmodules.KspUninstallModulesProcessor$Provider, dagger.hilt.android.processor.internal.customtestapplication.KspCustomTestApplicationProcessor$Provider, dagger.hilt.processor.internal.generatesrootinput.KspGeneratesRootInputProcessor$Provider, dagger.hilt.processor.internal.root.KspRootProcessor$Provider, dagger.hilt.processor.internal.definecomponent.KspDefineComponentProcessor$Provider, dagger.hilt.processor.internal.aliasof.KspAliasOfProcessor$Provider, dagger.hilt.android.processor.internal.androidentrypoint.KspAndroidEntryPointProcessor$Provider, dagger.hilt.processor.internal.earlyentrypoint.KspEarlyEntryPointProcessor$Provider, dagger.hilt.processor.internal.root.KspComponentTreeDepsProcessor$Provider, dagger.hilt.processor.internal.aggregateddeps.KspAggregatedDepsProcessor$Provider, dagger.hilt.processor.internal.originatingelement.KspOriginatingElementProcessor$Provider, dagger.hilt.android.processor.internal.viewmodel.KspViewModelProcessor$Provider, dagger.hilt.android.processor.internal.bindvalue.KspBindValueProcessor$Provider, dagger.internal.codegen.KspComponentProcessor$Provider]
+
+> Task :feature:feature-auth:compileDebugKotlin
+> Task :designsystem:processDebugJavaRes
+> Task :core:core-common:processDebugJavaRes
+> Task :core:core-database:processDebugJavaRes
+> Task :core:core-network:processDebugJavaRes NO-SOURCE
+> Task :core:core-security:processDebugJavaRes
+> Task :core:core-ui:processDebugJavaRes NO-SOURCE
+> Task :domain:domain-ai:processDebugJavaRes
+> Task :domain:domain-repository:processDebugJavaRes
+> Task :feature:feature-agents:processDebugJavaRes NO-SOURCE
+> Task :feature:feature-code:processDebugJavaRes NO-SOURCE
+> Task :feature:feature-git:processDebugJavaRes NO-SOURCE
+> Task :feature:feature-home:processDebugJavaRes NO-SOURCE
+> Task :feature:feature-issues:processDebugJavaRes NO-SOURCE
+> Task :feature:feature-learning:processDebugJavaRes NO-SOURCE
+> Task :feature:feature-memory:processDebugJavaRes NO-SOURCE
+> Task :feature:feature-project:processDebugJavaRes NO-SOURCE
+> Task :feature:feature-prs:processDebugJavaRes NO-SOURCE
+> Task :feature:feature-repository:processDebugJavaRes NO-SOURCE
+> Task :feature:feature-security:processDebugJavaRes NO-SOURCE
+> Task :feature:feature-settings:processDebugJavaRes NO-SOURCE
+> Task :feature:feature-testing:processDebugJavaRes NO-SOURCE
+> Task :feature:feature-ai-chat:compileDebugKotlin
+> Task :app:checkDebugDuplicateClasses
+> Task :data:data-ai:compileDebugJavaWithJavac
+> Task :feature:feature-ai-chat:compileDebugJavaWithJavac
+> Task :data:data-ai:bundleLibCompileToJarDebug
+> Task :data:data-ai:bundleLibRuntimeToJarDebug
+> Task :data:data-ai:processDebugJavaRes
+> Task :feature:feature-ai-chat:processDebugJavaRes
+> Task :feature:feature-ai-chat:transformDebugClassesWithAsm
+> Task :app:mergeExtDexDebug
+> Task :data:data-ai:bundleLibRuntimeToDirDebug
+
+> Task :feature:feature-auth:compileDebugKotlin
+w: file:///F:/Android/AndroidStudioProjects/Kiro/DevOS-AI/feature/feature-auth/src/main/kotlin/com/devos/ai/feature/auth/login/LoginScreen.kt:370:9 'fun ClickableText(text: AnnotatedString, modifier: Modifier = ..., style: TextStyle = ..., softWrap: Boolean = ..., overflow: TextOverflow = ..., maxLines: Int = ..., onTextLayout: (TextLayoutResult) -> Unit = ..., onClick: (Int) -> Unit): Unit' is deprecated. Use Text or BasicText and pass an AnnotatedString that contains a LinkAnnotation.
+
+> Task :feature:feature-auth:compileDebugJavaWithJavac
+> Task :feature:feature-auth:processDebugJavaRes
+> Task :feature:feature-home:bundleLibRuntimeToDirDebug
+> Task :feature:feature-project:bundleLibRuntimeToDirDebug
+> Task :feature:feature-repository:bundleLibRuntimeToDirDebug
+> Task :feature:feature-auth:transformDebugClassesWithAsm
+> Task :feature:feature-ai-chat:bundleLibCompileToJarDebug
+> Task :feature:feature-code:bundleLibRuntimeToDirDebug
+> Task :feature:feature-auth:bundleLibRuntimeToJarDebug
+> Task :feature:feature-auth:bundleLibCompileToJarDebug
+> Task :feature:feature-ai-chat:bundleLibRuntimeToJarDebug
+> Task :feature:feature-ai-chat:bundleLibRuntimeToDirDebug
+> Task :feature:feature-agents:bundleLibRuntimeToDirDebug
+> Task :feature:feature-git:bundleLibRuntimeToDirDebug
+> Task :feature:feature-issues:bundleLibRuntimeToDirDebug
+> Task :feature:feature-auth:bundleLibRuntimeToDirDebug
+> Task :feature:feature-prs:bundleLibRuntimeToDirDebug
+> Task :feature:feature-security:bundleLibRuntimeToDirDebug
+> Task :data:data-repository:kspDebugKotlin
+> Task :feature:feature-testing:bundleLibRuntimeToDirDebug
+> Task :feature:feature-learning:bundleLibRuntimeToDirDebug
+> Task :feature:feature-memory:bundleLibRuntimeToDirDebug
+> Task :feature:feature-settings:bundleLibRuntimeToDirDebug
+> Task :core:core-common:bundleLibRuntimeToDirDebug
+> Task :core:core-network:bundleLibRuntimeToDirDebug
+> Task :core:core-database:bundleLibRuntimeToDirDebug
+> Task :core:core-security:bundleLibRuntimeToDirDebug
+> Task :core:core-ui:bundleLibRuntimeToDirDebug
+> Task :domain:domain-ai:bundleLibRuntimeToDirDebug
+> Task :designsystem:bundleLibRuntimeToDirDebug
+> Task :domain:domain-repository:bundleLibRuntimeToDirDebug
+> Task :app:mergeDebugJniLibFolders
+> Task :designsystem:mergeDebugJniLibFolders
+> Task :designsystem:mergeDebugNativeLibs NO-SOURCE
+> Task :designsystem:copyDebugJniLibsProjectOnly
+> Task :core:core-common:mergeDebugJniLibFolders
+> Task :core:core-common:mergeDebugNativeLibs NO-SOURCE
+> Task :core:core-common:copyDebugJniLibsProjectOnly
+> Task :core:core-database:mergeDebugJniLibFolders
+> Task :core:core-database:mergeDebugNativeLibs NO-SOURCE
+> Task :core:core-database:copyDebugJniLibsProjectOnly
+> Task :core:core-network:mergeDebugJniLibFolders
+> Task :core:core-network:mergeDebugNativeLibs NO-SOURCE
+> Task :core:core-network:copyDebugJniLibsProjectOnly
+> Task :core:core-security:mergeDebugJniLibFolders
+> Task :core:core-security:mergeDebugNativeLibs NO-SOURCE
+> Task :core:core-security:copyDebugJniLibsProjectOnly
+> Task :core:core-ui:mergeDebugJniLibFolders
+> Task :core:core-ui:mergeDebugNativeLibs NO-SOURCE
+> Task :core:core-ui:copyDebugJniLibsProjectOnly
+> Task :data:data-ai:mergeDebugJniLibFolders
+> Task :data:data-ai:mergeDebugNativeLibs NO-SOURCE
+> Task :data:data-ai:copyDebugJniLibsProjectOnly
+> Task :data:data-repository:mergeDebugJniLibFolders
+> Task :data:data-repository:mergeDebugNativeLibs NO-SOURCE
+> Task :data:data-repository:copyDebugJniLibsProjectOnly
+> Task :domain:domain-ai:mergeDebugJniLibFolders
+> Task :domain:domain-ai:mergeDebugNativeLibs NO-SOURCE
+> Task :domain:domain-ai:copyDebugJniLibsProjectOnly
+> Task :domain:domain-repository:mergeDebugJniLibFolders
+> Task :domain:domain-repository:mergeDebugNativeLibs NO-SOURCE
+> Task :domain:domain-repository:copyDebugJniLibsProjectOnly
+> Task :feature:feature-agents:mergeDebugJniLibFolders
+> Task :feature:feature-agents:mergeDebugNativeLibs NO-SOURCE
+> Task :feature:feature-agents:copyDebugJniLibsProjectOnly
+> Task :feature:feature-ai-chat:mergeDebugJniLibFolders
+> Task :feature:feature-ai-chat:mergeDebugNativeLibs NO-SOURCE
+> Task :feature:feature-ai-chat:copyDebugJniLibsProjectOnly
+> Task :feature:feature-auth:mergeDebugJniLibFolders
+> Task :feature:feature-auth:mergeDebugNativeLibs NO-SOURCE
+> Task :feature:feature-auth:copyDebugJniLibsProjectOnly
+> Task :feature:feature-code:mergeDebugJniLibFolders
+> Task :feature:feature-code:mergeDebugNativeLibs NO-SOURCE
+> Task :feature:feature-code:copyDebugJniLibsProjectOnly
+> Task :feature:feature-git:mergeDebugJniLibFolders
+> Task :feature:feature-git:mergeDebugNativeLibs NO-SOURCE
+> Task :feature:feature-git:copyDebugJniLibsProjectOnly
+> Task :feature:feature-home:mergeDebugJniLibFolders
+> Task :feature:feature-home:mergeDebugNativeLibs NO-SOURCE
+> Task :feature:feature-home:copyDebugJniLibsProjectOnly
+> Task :feature:feature-issues:mergeDebugJniLibFolders
+> Task :feature:feature-issues:mergeDebugNativeLibs NO-SOURCE
+> Task :feature:feature-issues:copyDebugJniLibsProjectOnly
+> Task :feature:feature-learning:mergeDebugJniLibFolders
+> Task :feature:feature-learning:mergeDebugNativeLibs NO-SOURCE
+> Task :feature:feature-learning:copyDebugJniLibsProjectOnly
+> Task :feature:feature-memory:mergeDebugJniLibFolders
+> Task :feature:feature-memory:mergeDebugNativeLibs NO-SOURCE
+> Task :feature:feature-memory:copyDebugJniLibsProjectOnly
+> Task :feature:feature-project:mergeDebugJniLibFolders
+> Task :feature:feature-project:mergeDebugNativeLibs NO-SOURCE
+> Task :feature:feature-project:copyDebugJniLibsProjectOnly
+> Task :feature:feature-prs:mergeDebugJniLibFolders
+> Task :feature:feature-prs:mergeDebugNativeLibs NO-SOURCE
+> Task :feature:feature-prs:copyDebugJniLibsProjectOnly
+> Task :feature:feature-repository:mergeDebugJniLibFolders
+> Task :feature:feature-repository:mergeDebugNativeLibs NO-SOURCE
+> Task :feature:feature-repository:copyDebugJniLibsProjectOnly
+> Task :feature:feature-security:mergeDebugJniLibFolders
+> Task :feature:feature-security:mergeDebugNativeLibs NO-SOURCE
+> Task :feature:feature-settings:mergeDebugJniLibFolders
+> Task :feature:feature-security:copyDebugJniLibsProjectOnly
+> Task :feature:feature-settings:mergeDebugNativeLibs NO-SOURCE
+> Task :feature:feature-settings:copyDebugJniLibsProjectOnly
+> Task :feature:feature-testing:mergeDebugJniLibFolders
+> Task :feature:feature-testing:mergeDebugNativeLibs NO-SOURCE
+> Task :feature:feature-testing:copyDebugJniLibsProjectOnly
+> Task :app:validateSigningDebug
+> Task :app:writeDebugAppMetadata
+> Task :app:writeDebugSigningConfigVersions
+> Task :designsystem:stripDebugDebugSymbols NO-SOURCE
+> Task :designsystem:copyDebugJniLibsProjectAndLocalJars
+> Task :data:data-repository:compileDebugKotlin
+> Task :designsystem:extractDebugAnnotations
+> Task :designsystem:extractDeepLinksForAarDebug
+> Task :designsystem:mergeDebugGeneratedProguardFiles
+> Task :designsystem:mergeDebugConsumerProguardFiles
+> Task :designsystem:prepareDebugArtProfile
+> Task :app:mergeDebugNativeLibs
+> Task :designsystem:prepareLintJarForPublish
+> Task :designsystem:mergeDebugJavaResource
+
+> Task :app:stripDebugDebugSymbols
+Unable to strip the following libraries, packaging them as they are: libandroidx.graphics.path.so, libdatastore_shared_counter.so.
+
+> Task :core:core-common:stripDebugDebugSymbols NO-SOURCE
+> Task :core:core-common:copyDebugJniLibsProjectAndLocalJars
+> Task :core:core-common:extractDebugAnnotations
+> Task :designsystem:syncDebugLibJars
+> Task :core:core-common:extractDeepLinksForAarDebug
+> Task :core:core-common:mergeDebugGeneratedProguardFiles
+
+> Task :data:data-repository:compileDebugKotlin
+w: file:///F:/Android/AndroidStudioProjects/Kiro/DevOS-AI/data/data-repository/src/main/kotlin/com/devos/ai/data/repository/RepositoryRepositoryImpl.kt:49:14 'open' has no effect on a final class.
+
+> Task :core:core-common:mergeDebugConsumerProguardFiles
+> Task :core:core-common:prepareDebugArtProfile
+> Task :core:core-common:prepareLintJarForPublish
+> Task :designsystem:bundleDebugAar
+> Task :designsystem:assembleDebug
+> Task :core:core-database:stripDebugDebugSymbols NO-SOURCE
+> Task :core:core-database:copyDebugJniLibsProjectAndLocalJars
+> Task :core:core-common:mergeDebugJavaResource
+> Task :core:core-database:extractDebugAnnotations
+> Task :core:core-common:syncDebugLibJars
+> Task :data:data-repository:processDebugJavaRes
+> Task :core:core-database:extractDeepLinksForAarDebug
+> Task :core:core-database:mergeDebugGeneratedProguardFiles
+> Task :core:core-database:mergeDebugConsumerProguardFiles
+> Task :core:core-common:bundleDebugAar
+> Task :core:core-common:assembleDebug
+> Task :core:core-database:prepareLintJarForPublish
+> Task :core:core-database:prepareDebugArtProfile
+> Task :core:core-network:stripDebugDebugSymbols NO-SOURCE
+> Task :core:core-network:copyDebugJniLibsProjectAndLocalJars
+> Task :core:core-database:mergeDebugJavaResource
+> Task :core:core-database:syncDebugLibJars
+> Task :core:core-database:bundleDebugAar
+> Task :core:core-database:assembleDebug
+> Task :core:core-network:extractDeepLinksForAarDebug
+> Task :core:core-network:mergeDebugGeneratedProguardFiles
+> Task :core:core-network:mergeDebugConsumerProguardFiles
+> Task :core:core-network:prepareDebugArtProfile
+> Task :core:core-network:extractDebugAnnotations
+> Task :core:core-network:prepareLintJarForPublish
+> Task :core:core-security:stripDebugDebugSymbols NO-SOURCE
+> Task :core:core-security:copyDebugJniLibsProjectAndLocalJars
+> Task :core:core-network:mergeDebugJavaResource
+> Task :core:core-security:extractDebugAnnotations
+> Task :core:core-security:extractDeepLinksForAarDebug
+> Task :core:core-network:syncDebugLibJars
+> Task :core:core-security:mergeDebugGeneratedProguardFiles
+> Task :core:core-network:bundleDebugAar
+> Task :core:core-network:assembleDebug
+> Task :core:core-security:prepareDebugArtProfile
+> Task :core:core-security:mergeDebugConsumerProguardFiles
+> Task :core:core-security:prepareLintJarForPublish
+> Task :core:core-testing:preBuild UP-TO-DATE
+> Task :core:core-testing:preDebugBuild UP-TO-DATE
+> Task :core:core-security:mergeDebugJavaResource
+> Task :core:core-testing:mergeDebugJniLibFolders
+> Task :core:core-testing:mergeDebugNativeLibs NO-SOURCE
+> Task :core:core-testing:stripDebugDebugSymbols NO-SOURCE
+> Task :core:core-testing:copyDebugJniLibsProjectAndLocalJars
+> Task :core:core-testing:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :core:core-security:syncDebugLibJars
+> Task :core:core-testing:generateDebugResValues
+> Task :core:core-security:bundleDebugAar
+> Task :core:core-security:assembleDebug
+> Task :core:core-testing:extractDeepLinksForAarDebug
+> Task :core:core-testing:generateDebugResources
+> Task :core:core-testing:javaPreCompileDebug
+> Task :core:core-testing:mergeDebugShaders
+> Task :core:core-testing:compileDebugShaders NO-SOURCE
+> Task :core:core-testing:generateDebugAssets UP-TO-DATE
+> Task :core:core-testing:packageDebugAssets
+> Task :core:core-testing:prepareDebugArtProfile
+> Task :core:core-testing:packageDebugResources
+> Task :core:core-testing:prepareLintJarForPublish
+> Task :core:core-testing:parseDebugLocalResources
+> Task :data:data-repository:compileDebugJavaWithJavac
+
+> Task :core:core-testing:processDebugManifest
+package="com.devos.ai.core.testing" found in source AndroidManifest.xml: F:\Android\AndroidStudioProjects\Kiro\DevOS-AI\core\core-testing\src\main\AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="com.devos.ai.core.testing" from the source AndroidManifest.xml: F:\Android\AndroidStudioProjects\Kiro\DevOS-AI\core\core-testing\src\main\AndroidManifest.xml.
+
+> Task :core:core-testing:generateDebugRFile
+> Task :core:core-testing:compileDebugKotlin NO-SOURCE
+> Task :core:core-testing:writeDebugAarMetadata
+> Task :core:core-testing:compileDebugJavaWithJavac NO-SOURCE
+> Task :core:core-testing:mergeDebugGeneratedProguardFiles
+> Task :core:core-testing:mergeDebugConsumerProguardFiles
+> Task :core:core-testing:processDebugJavaRes NO-SOURCE
+> Task :core:core-testing:extractDebugAnnotations
+> Task :core:core-ui:stripDebugDebugSymbols NO-SOURCE
+> Task :core:core-ui:copyDebugJniLibsProjectAndLocalJars
+> Task :core:core-testing:mergeDebugJavaResource
+> Task :core:core-testing:syncDebugLibJars
+> Task :core:core-testing:bundleDebugAar
+> Task :core:core-testing:assembleDebug
+> Task :core:core-ui:extractDeepLinksForAarDebug
+> Task :core:core-ui:mergeDebugGeneratedProguardFiles
+> Task :core:core-ui:extractDebugAnnotations
+> Task :core:core-ui:mergeDebugConsumerProguardFiles
+> Task :core:core-ui:prepareDebugArtProfile
+> Task :core:core-ui:prepareLintJarForPublish
+> Task :data:data-ai:stripDebugDebugSymbols NO-SOURCE
+> Task :data:data-ai:copyDebugJniLibsProjectAndLocalJars
+> Task :core:core-ui:mergeDebugJavaResource
+> Task :core:core-ui:syncDebugLibJars
+> Task :core:core-ui:bundleDebugAar
+> Task :core:core-ui:assembleDebug
+> Task :data:data-ai:extractDebugAnnotations
+> Task :data:data-ai:mergeDebugGeneratedProguardFiles
+> Task :data:data-ai:extractDeepLinksForAarDebug
+> Task :data:data-ai:mergeDebugConsumerProguardFiles
+> Task :data:data-ai:prepareDebugArtProfile
+> Task :data:data-ai:prepareLintJarForPublish
+> Task :data:data-code:preBuild UP-TO-DATE
+> Task :data:data-code:preDebugBuild UP-TO-DATE
+> Task :data:data-code:mergeDebugJniLibFolders
+> Task :data:data-code:mergeDebugNativeLibs NO-SOURCE
+> Task :data:data-code:stripDebugDebugSymbols NO-SOURCE
+> Task :data:data-ai:mergeDebugJavaResource
+> Task :data:data-code:copyDebugJniLibsProjectAndLocalJars
+> Task :data:data-code:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :data:data-code:generateDebugResValues
+> Task :data:data-ai:syncDebugLibJars
+> Task :data:data-code:generateDebugResources
+> Task :data:data-ai:bundleDebugAar
+> Task :data:data-ai:assembleDebug
+> Task :data:data-code:extractDeepLinksForAarDebug
+> Task :data:data-code:javaPreCompileDebug
+> Task :data:data-code:mergeDebugShaders
+> Task :data:data-code:compileDebugShaders NO-SOURCE
+> Task :data:data-code:generateDebugAssets UP-TO-DATE
+> Task :data:data-code:packageDebugResources
+> Task :data:data-code:parseDebugLocalResources
+> Task :data:data-code:packageDebugAssets
+> Task :data:data-code:prepareDebugArtProfile
+> Task :data:data-code:prepareLintJarForPublish
+> Task :data:data-code:generateDebugRFile
+> Task :data:data-code:compileDebugKotlin NO-SOURCE
+> Task :data:data-code:extractDebugAnnotations
+> Task :data:data-code:compileDebugJavaWithJavac NO-SOURCE
+
+> Task :data:data-code:processDebugManifest
+package="com.devos.ai.data.code" found in source AndroidManifest.xml: F:\Android\AndroidStudioProjects\Kiro\DevOS-AI\data\data-code\src\main\AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="com.devos.ai.data.code" from the source AndroidManifest.xml: F:\Android\AndroidStudioProjects\Kiro\DevOS-AI\data\data-code\src\main\AndroidManifest.xml.
+
+> Task :data:data-code:processDebugJavaRes NO-SOURCE
+> Task :data:data-code:mergeDebugGeneratedProguardFiles
+> Task :data:data-code:mergeDebugConsumerProguardFiles
+> Task :data:data-code:writeDebugAarMetadata
+> Task :data:data-git:preBuild UP-TO-DATE
+> Task :data:data-git:preDebugBuild UP-TO-DATE
+> Task :data:data-code:mergeDebugJavaResource
+> Task :data:data-code:syncDebugLibJars
+> Task :data:data-git:mergeDebugJniLibFolders
+> Task :data:data-git:mergeDebugNativeLibs NO-SOURCE
+> Task :data:data-git:stripDebugDebugSymbols NO-SOURCE
+> Task :data:data-git:copyDebugJniLibsProjectAndLocalJars
+> Task :data:data-git:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :data:data-code:bundleDebugAar
+> Task :data:data-code:assembleDebug
+> Task :data:data-git:generateDebugResValues
+> Task :data:data-repository:transformDebugClassesWithAsm
+> Task :data:data-git:javaPreCompileDebug
+> Task :data:data-git:generateDebugResources
+> Task :data:data-repository:bundleLibCompileToJarDebug
+> Task :data:data-repository:bundleLibRuntimeToJarDebug
+> Task :data:data-git:packageDebugResources
+> Task :data:data-git:parseDebugLocalResources
+> Task :data:data-repository:bundleLibRuntimeToDirDebug
+> Task :data:data-git:generateDebugRFile
+> Task :data:data-git:compileDebugKotlin NO-SOURCE
+> Task :data:data-git:extractDebugAnnotations
+> Task :data:data-git:extractDeepLinksForAarDebug
+> Task :data:data-git:compileDebugJavaWithJavac NO-SOURCE
+> Task :data:data-git:mergeDebugGeneratedProguardFiles
+> Task :data:data-git:mergeDebugConsumerProguardFiles
+> Task :data:data-git:mergeDebugShaders
+> Task :data:data-git:compileDebugShaders NO-SOURCE
+> Task :data:data-git:generateDebugAssets UP-TO-DATE
+> Task :data:data-git:packageDebugAssets
+> Task :data:data-git:prepareDebugArtProfile
+> Task :data:data-git:prepareLintJarForPublish
+
+> Task :data:data-git:processDebugManifest
+package="com.devos.ai.data.git" found in source AndroidManifest.xml: F:\Android\AndroidStudioProjects\Kiro\DevOS-AI\data\data-git\src\main\AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="com.devos.ai.data.git" from the source AndroidManifest.xml: F:\Android\AndroidStudioProjects\Kiro\DevOS-AI\data\data-git\src\main\AndroidManifest.xml.
+
+> Task :data:data-git:processDebugJavaRes NO-SOURCE
+> Task :data:data-git:mergeDebugJavaResource
+> Task :data:data-git:syncDebugLibJars
+> Task :data:data-git:writeDebugAarMetadata
+> Task :data:data-git:bundleDebugAar
+> Task :data:data-git:assembleDebug
+> Task :data:data-learning:preBuild UP-TO-DATE
+> Task :data:data-learning:preDebugBuild UP-TO-DATE
+> Task :data:data-learning:mergeDebugJniLibFolders
+> Task :data:data-learning:mergeDebugNativeLibs NO-SOURCE
+> Task :data:data-learning:stripDebugDebugSymbols NO-SOURCE
+> Task :data:data-learning:copyDebugJniLibsProjectAndLocalJars
+> Task :data:data-learning:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :data:data-learning:generateDebugResValues
+> Task :data:data-learning:generateDebugResources
+> Task :app:mergeLibDexDebug
+> Task :app:kspDebugKotlin
+> Task :data:data-learning:extractDeepLinksForAarDebug
+> Task :data:data-learning:javaPreCompileDebug
+> Task :data:data-learning:packageDebugResources
+> Task :data:data-learning:mergeDebugShaders
+> Task :data:data-learning:compileDebugShaders NO-SOURCE
+> Task :data:data-learning:generateDebugAssets UP-TO-DATE
+> Task :data:data-learning:packageDebugAssets
+> Task :data:data-learning:prepareDebugArtProfile
+> Task :data:data-learning:prepareLintJarForPublish
+> Task :data:data-learning:parseDebugLocalResources
+> Task :data:data-learning:generateDebugRFile
+> Task :data:data-learning:compileDebugKotlin NO-SOURCE
+> Task :data:data-learning:extractDebugAnnotations
+> Task :data:data-learning:compileDebugJavaWithJavac NO-SOURCE
+> Task :data:data-learning:mergeDebugGeneratedProguardFiles
+
+> Task :data:data-learning:processDebugManifest
+package="com.devos.ai.data.learning" found in source AndroidManifest.xml: F:\Android\AndroidStudioProjects\Kiro\DevOS-AI\data\data-learning\src\main\AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="com.devos.ai.data.learning" from the source AndroidManifest.xml: F:\Android\AndroidStudioProjects\Kiro\DevOS-AI\data\data-learning\src\main\AndroidManifest.xml.
+
+> Task :data:data-learning:processDebugJavaRes NO-SOURCE
+> Task :data:data-learning:mergeDebugConsumerProguardFiles
+> Task :data:data-learning:writeDebugAarMetadata
+> Task :data:data-repository:stripDebugDebugSymbols NO-SOURCE
+> Task :data:data-repository:copyDebugJniLibsProjectAndLocalJars
+> Task :data:data-repository:extractDebugAnnotations
+> Task :data:data-learning:mergeDebugJavaResource
+> Task :data:data-repository:extractDeepLinksForAarDebug
+> Task :data:data-repository:mergeDebugGeneratedProguardFiles
+> Task :data:data-repository:mergeDebugConsumerProguardFiles
+> Task :data:data-repository:prepareDebugArtProfile
+> Task :data:data-repository:prepareLintJarForPublish
+> Task :data:data-repository:mergeDebugJavaResource
+> Task :data:data-learning:syncDebugLibJars
+> Task :data:data-learning:bundleDebugAar
+> Task :data:data-learning:assembleDebug
+> Task :domain:domain-ai:stripDebugDebugSymbols NO-SOURCE
+> Task :data:data-repository:syncDebugLibJars
+> Task :domain:domain-ai:copyDebugJniLibsProjectAndLocalJars
+> Task :data:data-repository:bundleDebugAar
+> Task :data:data-repository:assembleDebug
+> Task :domain:domain-ai:extractDeepLinksForAarDebug
+> Task :domain:domain-ai:mergeDebugGeneratedProguardFiles
+> Task :domain:domain-ai:mergeDebugConsumerProguardFiles
+> Task :domain:domain-ai:extractDebugAnnotations
+> Task :domain:domain-ai:prepareLintJarForPublish
+> Task :domain:domain-ai:prepareDebugArtProfile
+> Task :domain:domain-code:preBuild UP-TO-DATE
+> Task :domain:domain-code:preDebugBuild UP-TO-DATE
+> Task :domain:domain-code:mergeDebugJniLibFolders
+> Task :domain:domain-code:mergeDebugNativeLibs NO-SOURCE
+> Task :domain:domain-ai:mergeDebugJavaResource
+> Task :domain:domain-code:stripDebugDebugSymbols NO-SOURCE
+> Task :domain:domain-code:copyDebugJniLibsProjectAndLocalJars
+> Task :domain:domain-code:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :domain:domain-code:generateDebugResValues
+> Task :domain:domain-ai:syncDebugLibJars
+> Task :domain:domain-ai:bundleDebugAar
+> Task :domain:domain-ai:assembleDebug
+> Task :domain:domain-code:generateDebugResources
+> Task :domain:domain-code:extractDeepLinksForAarDebug
+> Task :domain:domain-code:javaPreCompileDebug
+> Task :domain:domain-code:mergeDebugShaders
+> Task :domain:domain-code:compileDebugShaders NO-SOURCE
+> Task :domain:domain-code:generateDebugAssets UP-TO-DATE
+> Task :domain:domain-code:packageDebugAssets
+> Task :domain:domain-code:prepareDebugArtProfile
+> Task :domain:domain-code:packageDebugResources
+> Task :domain:domain-code:prepareLintJarForPublish
+> Task :domain:domain-code:parseDebugLocalResources
+> Task :domain:domain-code:generateDebugRFile
+> Task :domain:domain-code:compileDebugKotlin NO-SOURCE
+
+> Task :domain:domain-code:processDebugManifest
+package="com.devos.ai.domain.code" found in source AndroidManifest.xml: F:\Android\AndroidStudioProjects\Kiro\DevOS-AI\domain\domain-code\src\main\AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="com.devos.ai.domain.code" from the source AndroidManifest.xml: F:\Android\AndroidStudioProjects\Kiro\DevOS-AI\domain\domain-code\src\main\AndroidManifest.xml.
+
+> Task :domain:domain-code:compileDebugJavaWithJavac NO-SOURCE
+> Task :domain:domain-code:mergeDebugGeneratedProguardFiles
+> Task :domain:domain-code:mergeDebugConsumerProguardFiles
+> Task :domain:domain-code:processDebugJavaRes NO-SOURCE
+> Task :domain:domain-code:extractDebugAnnotations
+> Task :domain:domain-code:mergeDebugJavaResource
+> Task :domain:domain-code:writeDebugAarMetadata
+> Task :domain:domain-git:preBuild UP-TO-DATE
+> Task :domain:domain-git:preDebugBuild UP-TO-DATE
+> Task :domain:domain-code:syncDebugLibJars
+> Task :domain:domain-git:mergeDebugJniLibFolders
+> Task :domain:domain-code:bundleDebugAar
+> Task :domain:domain-code:assembleDebug
+> Task :domain:domain-git:mergeDebugNativeLibs NO-SOURCE
+> Task :domain:domain-git:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :domain:domain-git:stripDebugDebugSymbols NO-SOURCE
+> Task :domain:domain-git:generateDebugResValues
+> Task :domain:domain-git:copyDebugJniLibsProjectAndLocalJars
+> Task :domain:domain-git:extractDeepLinksForAarDebug
+> Task :domain:domain-git:generateDebugResources
+> Task :domain:domain-git:javaPreCompileDebug
+> Task :domain:domain-git:mergeDebugShaders
+> Task :domain:domain-git:compileDebugShaders NO-SOURCE
+> Task :domain:domain-git:generateDebugAssets UP-TO-DATE
+> Task :domain:domain-git:packageDebugAssets
+> Task :domain:domain-git:prepareDebugArtProfile
+> Task :domain:domain-git:prepareLintJarForPublish
+> Task :domain:domain-git:packageDebugResources
+> Task :domain:domain-git:parseDebugLocalResources
+
+> Task :domain:domain-git:processDebugManifest
+package="com.devos.ai.domain.git" found in source AndroidManifest.xml: F:\Android\AndroidStudioProjects\Kiro\DevOS-AI\domain\domain-git\src\main\AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="com.devos.ai.domain.git" from the source AndroidManifest.xml: F:\Android\AndroidStudioProjects\Kiro\DevOS-AI\domain\domain-git\src\main\AndroidManifest.xml.
+
+> Task :domain:domain-git:generateDebugRFile
+> Task :domain:domain-git:compileDebugKotlin NO-SOURCE
+> Task :domain:domain-git:writeDebugAarMetadata
+> Task :domain:domain-git:compileDebugJavaWithJavac NO-SOURCE
+> Task :domain:domain-git:mergeDebugGeneratedProguardFiles
+> Task :domain:domain-git:mergeDebugConsumerProguardFiles
+> Task :domain:domain-git:extractDebugAnnotations
+> Task :domain:domain-learning:preBuild UP-TO-DATE
+> Task :domain:domain-learning:preDebugBuild UP-TO-DATE
+> Task :domain:domain-git:processDebugJavaRes NO-SOURCE
+> Task :domain:domain-git:mergeDebugJavaResource
+> Task :domain:domain-learning:mergeDebugJniLibFolders
+> Task :domain:domain-learning:mergeDebugNativeLibs NO-SOURCE
+> Task :domain:domain-learning:stripDebugDebugSymbols NO-SOURCE
+> Task :domain:domain-learning:copyDebugJniLibsProjectAndLocalJars
+> Task :domain:domain-learning:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :domain:domain-git:syncDebugLibJars
+> Task :domain:domain-learning:generateDebugResValues
+> Task :domain:domain-git:bundleDebugAar
+> Task :domain:domain-git:assembleDebug
+> Task :domain:domain-learning:extractDeepLinksForAarDebug
+> Task :domain:domain-learning:generateDebugResources
+> Task :domain:domain-learning:javaPreCompileDebug
+> Task :domain:domain-learning:mergeDebugShaders
+> Task :domain:domain-learning:compileDebugShaders NO-SOURCE
+> Task :domain:domain-learning:generateDebugAssets UP-TO-DATE
+> Task :domain:domain-learning:packageDebugAssets
+> Task :domain:domain-learning:prepareDebugArtProfile
+> Task :domain:domain-learning:prepareLintJarForPublish
+> Task :domain:domain-learning:packageDebugResources
+> Task :domain:domain-learning:parseDebugLocalResources
+> Task :domain:domain-learning:generateDebugRFile
+> Task :domain:domain-learning:compileDebugKotlin NO-SOURCE
+
+> Task :domain:domain-learning:processDebugManifest
+package="com.devos.ai.domain.learning" found in source AndroidManifest.xml: F:\Android\AndroidStudioProjects\Kiro\DevOS-AI\domain\domain-learning\src\main\AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="com.devos.ai.domain.learning" from the source AndroidManifest.xml: F:\Android\AndroidStudioProjects\Kiro\DevOS-AI\domain\domain-learning\src\main\AndroidManifest.xml.
+
+> Task :domain:domain-learning:compileDebugJavaWithJavac NO-SOURCE
+> Task :domain:domain-learning:mergeDebugGeneratedProguardFiles
+> Task :domain:domain-learning:mergeDebugConsumerProguardFiles
+> Task :domain:domain-learning:extractDebugAnnotations
+> Task :domain:domain-learning:processDebugJavaRes NO-SOURCE
+> Task :domain:domain-learning:writeDebugAarMetadata
+> Task :domain:domain-repository:stripDebugDebugSymbols NO-SOURCE
+> Task :domain:domain-repository:copyDebugJniLibsProjectAndLocalJars
+> Task :domain:domain-repository:extractDebugAnnotations
+> Task :domain:domain-learning:mergeDebugJavaResource
+> Task :domain:domain-repository:extractDeepLinksForAarDebug
+> Task :domain:domain-repository:mergeDebugGeneratedProguardFiles
+> Task :domain:domain-repository:mergeDebugConsumerProguardFiles
+> Task :domain:domain-repository:prepareDebugArtProfile
+> Task :domain:domain-repository:prepareLintJarForPublish
+> Task :domain:domain-learning:syncDebugLibJars
+> Task :domain:domain-repository:mergeDebugJavaResource
+> Task :domain:domain-learning:bundleDebugAar
+> Task :domain:domain-learning:assembleDebug
+> Task :feature:feature-agents:stripDebugDebugSymbols NO-SOURCE
+> Task :domain:domain-repository:syncDebugLibJars
+> Task :feature:feature-agents:copyDebugJniLibsProjectAndLocalJars
+> Task :domain:domain-repository:bundleDebugAar
+> Task :domain:domain-repository:assembleDebug
+> Task :feature:feature-agents:extractDeepLinksForAarDebug
+> Task :feature:feature-agents:extractDebugAnnotations
+> Task :feature:feature-agents:mergeDebugGeneratedProguardFiles
+> Task :feature:feature-agents:prepareDebugArtProfile
+> Task :feature:feature-agents:mergeDebugConsumerProguardFiles
+> Task :feature:feature-agents:prepareLintJarForPublish
+> Task :feature:feature-ai-chat:stripDebugDebugSymbols NO-SOURCE
+> Task :feature:feature-ai-chat:copyDebugJniLibsProjectAndLocalJars
+> Task :feature:feature-agents:mergeDebugJavaResource
+> Task :feature:feature-agents:syncDebugLibJars
+> Task :feature:feature-ai-chat:extractDebugAnnotations
+> Task :feature:feature-agents:bundleDebugAar
+> Task :feature:feature-agents:assembleDebug
+> Task :feature:feature-ai-chat:extractDeepLinksForAarDebug
+> Task :feature:feature-ai-chat:prepareDebugArtProfile
+> Task :feature:feature-ai-chat:mergeDebugGeneratedProguardFiles
+> Task :feature:feature-ai-chat:prepareLintJarForPublish
+> Task :feature:feature-ai-chat:mergeDebugConsumerProguardFiles
+> Task :feature:feature-auth:stripDebugDebugSymbols NO-SOURCE
+> Task :feature:feature-auth:copyDebugJniLibsProjectAndLocalJars
+> Task :feature:feature-ai-chat:mergeDebugJavaResource
+> Task :feature:feature-ai-chat:syncDebugLibJars
+> Task :feature:feature-auth:extractDebugAnnotations
+> Task :feature:feature-ai-chat:bundleDebugAar
+> Task :feature:feature-ai-chat:assembleDebug
+> Task :feature:feature-auth:mergeDebugGeneratedProguardFiles
+> Task :feature:feature-auth:extractDeepLinksForAarDebug
+> Task :feature:feature-auth:mergeDebugConsumerProguardFiles
+> Task :feature:feature-auth:prepareLintJarForPublish
+> Task :feature:feature-auth:prepareDebugArtProfile
+> Task :feature:feature-code:stripDebugDebugSymbols NO-SOURCE
+> Task :feature:feature-code:copyDebugJniLibsProjectAndLocalJars
+> Task :feature:feature-auth:mergeDebugJavaResource
+> Task :feature:feature-code:extractDebugAnnotations
+> Task :feature:feature-code:extractDeepLinksForAarDebug
+> Task :feature:feature-code:mergeDebugGeneratedProguardFiles
+> Task :feature:feature-code:mergeDebugConsumerProguardFiles
+> Task :feature:feature-code:prepareDebugArtProfile
+> Task :feature:feature-code:prepareLintJarForPublish
+> Task :feature:feature-code:mergeDebugJavaResource
+> Task :feature:feature-auth:syncDebugLibJars
+> Task :feature:feature-code:syncDebugLibJars
+> Task :feature:feature-code:bundleDebugAar
+> Task :feature:feature-code:assembleDebug
+> Task :feature:feature-git:stripDebugDebugSymbols NO-SOURCE
+> Task :feature:feature-auth:bundleDebugAar
+> Task :feature:feature-auth:assembleDebug
+> Task :feature:feature-git:copyDebugJniLibsProjectAndLocalJars
+> Task :feature:feature-git:extractDebugAnnotations
+> Task :feature:feature-git:extractDeepLinksForAarDebug
+> Task :feature:feature-git:mergeDebugGeneratedProguardFiles
+> Task :feature:feature-git:prepareDebugArtProfile
+> Task :feature:feature-git:mergeDebugConsumerProguardFiles
+> Task :feature:feature-git:prepareLintJarForPublish
+> Task :feature:feature-home:stripDebugDebugSymbols NO-SOURCE
+> Task :feature:feature-home:copyDebugJniLibsProjectAndLocalJars
+> Task :feature:feature-git:mergeDebugJavaResource
+> Task :feature:feature-home:extractDebugAnnotations
+> Task :feature:feature-git:syncDebugLibJars
+> Task :feature:feature-git:bundleDebugAar
+> Task :feature:feature-git:assembleDebug
+> Task :feature:feature-home:extractDeepLinksForAarDebug
+> Task :feature:feature-home:mergeDebugGeneratedProguardFiles
+> Task :feature:feature-home:prepareDebugArtProfile
+> Task :feature:feature-home:mergeDebugConsumerProguardFiles
+> Task :feature:feature-home:prepareLintJarForPublish
+> Task :feature:feature-issues:stripDebugDebugSymbols NO-SOURCE
+> Task :feature:feature-issues:copyDebugJniLibsProjectAndLocalJars
+> Task :feature:feature-home:mergeDebugJavaResource
+> Task :feature:feature-issues:extractDebugAnnotations
+> Task :feature:feature-issues:extractDeepLinksForAarDebug
+> Task :feature:feature-home:syncDebugLibJars
+> Task :feature:feature-issues:mergeDebugGeneratedProguardFiles
+> Task :feature:feature-home:bundleDebugAar
+> Task :feature:feature-home:assembleDebug
+> Task :feature:feature-issues:prepareDebugArtProfile
+> Task :feature:feature-issues:mergeDebugConsumerProguardFiles
+> Task :feature:feature-issues:prepareLintJarForPublish
+> Task :feature:feature-learning:stripDebugDebugSymbols NO-SOURCE
+> Task :feature:feature-learning:copyDebugJniLibsProjectAndLocalJars
+> Task :feature:feature-issues:mergeDebugJavaResource
+> Task :feature:feature-issues:syncDebugLibJars
+> Task :feature:feature-issues:bundleDebugAar
+> Task :feature:feature-issues:assembleDebug
+> Task :feature:feature-learning:extractDebugAnnotations
+> Task :feature:feature-learning:mergeDebugGeneratedProguardFiles
+> Task :feature:feature-learning:extractDeepLinksForAarDebug
+> Task :feature:feature-learning:mergeDebugConsumerProguardFiles
+> Task :feature:feature-learning:prepareDebugArtProfile
+> Task :feature:feature-learning:prepareLintJarForPublish
+> Task :feature:feature-memory:stripDebugDebugSymbols NO-SOURCE
+> Task :feature:feature-memory:copyDebugJniLibsProjectAndLocalJars
+> Task :feature:feature-learning:mergeDebugJavaResource
+> Task :feature:feature-memory:extractDebugAnnotations
+> Task :feature:feature-learning:syncDebugLibJars
+> Task :feature:feature-memory:extractDeepLinksForAarDebug
+> Task :feature:feature-learning:bundleDebugAar
+> Task :feature:feature-learning:assembleDebug
+> Task :feature:feature-memory:prepareDebugArtProfile
+> Task :feature:feature-memory:mergeDebugGeneratedProguardFiles
+> Task :feature:feature-memory:prepareLintJarForPublish
+> Task :feature:feature-memory:mergeDebugConsumerProguardFiles
+> Task :feature:feature-project:stripDebugDebugSymbols NO-SOURCE
+> Task :feature:feature-project:copyDebugJniLibsProjectAndLocalJars
+> Task :feature:feature-memory:mergeDebugJavaResource
+> Task :feature:feature-memory:syncDebugLibJars
+> Task :feature:feature-project:extractDebugAnnotations
+> Task :feature:feature-memory:bundleDebugAar
+> Task :feature:feature-memory:assembleDebug
+> Task :feature:feature-project:extractDeepLinksForAarDebug
+> Task :feature:feature-project:mergeDebugGeneratedProguardFiles
+> Task :feature:feature-project:mergeDebugConsumerProguardFiles
+> Task :feature:feature-project:prepareDebugArtProfile
+> Task :feature:feature-project:prepareLintJarForPublish
+> Task :feature:feature-prs:stripDebugDebugSymbols NO-SOURCE
+> Task :feature:feature-prs:copyDebugJniLibsProjectAndLocalJars
+> Task :feature:feature-project:mergeDebugJavaResource
+> Task :feature:feature-prs:extractDebugAnnotations
+> Task :feature:feature-project:syncDebugLibJars
+> Task :feature:feature-project:bundleDebugAar
+> Task :feature:feature-project:assembleDebug
+> Task :feature:feature-prs:extractDeepLinksForAarDebug
+> Task :feature:feature-prs:mergeDebugGeneratedProguardFiles
+> Task :feature:feature-prs:mergeDebugConsumerProguardFiles
+> Task :feature:feature-prs:prepareDebugArtProfile
+> Task :feature:feature-prs:prepareLintJarForPublish
+> Task :feature:feature-repository:stripDebugDebugSymbols NO-SOURCE
+> Task :feature:feature-repository:copyDebugJniLibsProjectAndLocalJars
+> Task :feature:feature-prs:mergeDebugJavaResource
+> Task :feature:feature-prs:syncDebugLibJars
+> Task :feature:feature-repository:extractDebugAnnotations
+> Task :feature:feature-prs:bundleDebugAar
+> Task :feature:feature-prs:assembleDebug
+> Task :feature:feature-repository:mergeDebugGeneratedProguardFiles
+> Task :feature:feature-repository:extractDeepLinksForAarDebug
+> Task :feature:feature-repository:mergeDebugConsumerProguardFiles
+> Task :feature:feature-repository:prepareLintJarForPublish
+> Task :feature:feature-repository:prepareDebugArtProfile
+> Task :feature:feature-security:stripDebugDebugSymbols NO-SOURCE
+> Task :feature:feature-repository:mergeDebugJavaResource
+> Task :feature:feature-security:copyDebugJniLibsProjectAndLocalJars
+> Task :feature:feature-repository:syncDebugLibJars
+> Task :feature:feature-repository:bundleDebugAar
+> Task :feature:feature-repository:assembleDebug
+> Task :feature:feature-security:extractDeepLinksForAarDebug
+> Task :feature:feature-security:extractDebugAnnotations
+> Task :feature:feature-security:mergeDebugGeneratedProguardFiles
+> Task :feature:feature-security:prepareDebugArtProfile
+> Task :feature:feature-security:mergeDebugConsumerProguardFiles
+> Task :feature:feature-security:prepareLintJarForPublish
+> Task :feature:feature-settings:stripDebugDebugSymbols NO-SOURCE
+> Task :feature:feature-settings:copyDebugJniLibsProjectAndLocalJars
+> Task :feature:feature-security:mergeDebugJavaResource
+> Task :feature:feature-security:syncDebugLibJars
+> Task :feature:feature-security:bundleDebugAar
+> Task :feature:feature-security:assembleDebug
+> Task :feature:feature-settings:extractDebugAnnotations
+> Task :feature:feature-settings:mergeDebugGeneratedProguardFiles
+> Task :feature:feature-settings:extractDeepLinksForAarDebug
+> Task :feature:feature-settings:prepareDebugArtProfile
+> Task :feature:feature-settings:mergeDebugConsumerProguardFiles
+> Task :feature:feature-settings:prepareLintJarForPublish
+> Task :feature:feature-testing:stripDebugDebugSymbols NO-SOURCE
+> Task :feature:feature-testing:copyDebugJniLibsProjectAndLocalJars
+> Task :feature:feature-settings:mergeDebugJavaResource
+> Task :feature:feature-settings:syncDebugLibJars
+> Task :feature:feature-testing:extractDebugAnnotations
+> Task :feature:feature-testing:extractDeepLinksForAarDebug
+> Task :feature:feature-settings:bundleDebugAar
+> Task :feature:feature-settings:assembleDebug
+> Task :feature:feature-testing:mergeDebugGeneratedProguardFiles
+> Task :feature:feature-testing:prepareDebugArtProfile
+> Task :feature:feature-testing:mergeDebugConsumerProguardFiles
+> Task :feature:feature-testing:prepareLintJarForPublish
+> Task :feature:feature-testing:mergeDebugJavaResource
+> Task :feature:feature-testing:syncDebugLibJars
+> Task :feature:feature-testing:bundleDebugAar
+> Task :feature:feature-testing:assembleDebug
+> Task :app:compileDebugKotlin
+> Task :app:compileDebugJavaWithJavac
+> Task :app:hiltAggregateDepsDebug
+> Task :app:hiltJavaCompileDebug
+> Task :app:processDebugJavaRes
+> Task :app:transformDebugClassesWithAsm
+> Task :app:dexBuilderDebug
+> Task :app:mergeProjectDexDebug
+> Task :app:mergeDebugGlobalSynthetics
+> Task :app:mergeDebugJavaResource
+> Task :app:packageDebug
+> Task :app:assembleDebug
+> Task :app:createDebugApkListingFileRedirect
+
+[Incubating] Problems report is available at: file:///F:/Android/AndroidStudioProjects/Kiro/DevOS-AI/build/reports/problems/problems-report.html
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/9.3.0/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD SUCCESSFUL in 50m 50s
+914 actionable tasks: 914 executed
+Configuration cache entry stored.
+EXIT=0
+FINAL: r1=0 r2=0 r3=0 r4=1 r5=0
