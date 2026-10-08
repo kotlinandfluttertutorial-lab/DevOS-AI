@@ -16,6 +16,12 @@ android {
     }
     kotlinOptions { jvmTarget = "17" }
     buildFeatures { compose = true }
+
+    testOptions {
+        unitTests.all {
+            it.useJUnitPlatform()
+        }
+    }
 }
 
 dependencies {
@@ -29,10 +35,12 @@ dependencies {
     implementation(libs.androidx.lifecycle.compose)
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
+    implementation(libs.androidx.datastore)
     ksp(libs.hilt.compiler)
 
     testImplementation(libs.bundles.test.unit)
     testRuntimeOnly(libs.test.junit5.engine)
+    testRuntimeOnly(libs.test.junit5.launcher)
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.bundles.test.android)
     androidTestImplementation(libs.test.hilt)
