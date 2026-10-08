@@ -16,9 +16,8 @@ import javax.inject.Singleton
 /**
  * Hilt module that provides the [DevOSDatabase] singleton and its DAOs.
  *
- * Explicit migrations are passed via [DevOSDatabase.MIGRATIONS].
- * `fallbackToDestructiveMigration` is intentionally absent — any missing
- * migration is a compile-time error rather than a silent data loss.
+ * Installed in [SingletonComponent] so the database lives for the full
+ * application lifetime.
  */
 @Module
 @InstallIn(SingletonComponent::class)
@@ -32,7 +31,8 @@ object DatabaseModule {
             DevOSDatabase::class.java,
             DevOSDatabase.DATABASE_NAME,
         )
-            .addMigrations(*DevOSDatabase.MIGRATIONS)
+            .addMigrations(*DevOSDatabase.ALL_MIGRATIONS)
+            // Never add fallbackToDestructiveMigration() — data loss is unacceptable.
             .build()
 
     @Provides

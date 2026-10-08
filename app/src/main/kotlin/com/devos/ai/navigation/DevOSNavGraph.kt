@@ -11,6 +11,7 @@ import androidx.navigation.navArgument
 import com.devos.ai.feature.auth.navigation.loginNavigation
 import com.devos.ai.feature.auth.navigation.onboardingNavigation
 import com.devos.ai.feature.auth.navigation.splashNavigation
+import com.devos.ai.feature.home.navigation.homeNavigation
 
 /**
  * Root navigation graph for DevOS AI.
@@ -45,9 +46,7 @@ fun DevOSNavGraph(
         loginNavigation(navController)
 
         // ── Primary tabs ────────────────────────────────────────────────────────
-        composable(route = DevOSRoutes.HOME) {
-            PlaceholderScreen(route = DevOSRoutes.HOME)
-        }
+        homeNavigation(navController)
 
         composable(route = DevOSRoutes.PROJECT_LIST) {
             PlaceholderScreen(route = DevOSRoutes.PROJECT_LIST)

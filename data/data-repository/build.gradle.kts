@@ -1,8 +1,8 @@
 ﻿plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -16,51 +16,46 @@ android {
     kotlinOptions { jvmTarget = "17" }
 
     testOptions {
-        unitTests {
-            isIncludeAndroidResources = true
-        }
+        unitTests.all { it.useJUnitPlatform() }
+        unitTests.isReturnDefaultValues = true
     }
 }
 
 dependencies {
-    // Domain contract this module implements
+    // Domain contract — never import data-repository from feature modules
     implementation(project(":domain:domain-repository"))
 
-    // Database (entities + DAOs)
+    // DAOs + entities from core-database
     implementation(project(":core:core-database"))
 
-    // Secure token access
+    // Secure token storage
     implementation(project(":core:core-security"))
 
-    // Auth model (OAuthProvider implements TokenKey)
+    // Auth provider (OAuthProvider implements TokenKey)
     implementation(project(":feature:feature-auth"))
 
-    // Common utilities (IoDispatcher qualifier)
-    implementation(project(":core:core-common"))
-
-    // AndroidX
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.kotlinx.coroutines)
-
-    // Hilt
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
-
-    // WorkManager + Hilt-Work integration
+    // WorkManager + Hilt worker support
     implementation(libs.androidx.work)
+    implementation(libs.hilt.android)
     implementation(libs.hilt.work)
+    ksp(libs.hilt.compiler)
     ksp(libs.hilt.work.compiler)
 
-    // JGit — repository cloning
-    implementation(libs.jgit)
+    // Coroutines
+    implementation(libs.kotlinx.coroutines)
 
-    // Logging
+    // Logging (token masking; never log raw values)
     implementation(libs.timber)
+
+    // JGit — no alias in libs.versions.toml; pinned version per spec
+    implementation("org.eclipse.jgit:org.eclipse.jgit:6.7.0.202309050840-r")
 
     // Testing
     testImplementation(libs.bundles.test.unit)
     testImplementation(libs.test.room)
     testImplementation(libs.test.android.junit)
-    testImplementation(libs.test.robolectric)
     testRuntimeOnly(libs.test.junit5.engine)
+    testRuntimeOnly(libs.test.junit5.launcher)
+    // WorkManager test helpers (WorkInfo constructor, TestListenableWorkerBuilder)
+    testImplementation("androidx.work:work-testing:2.9.1")
 }

@@ -9,11 +9,14 @@ import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 /**
- * Hilt module that binds [RepositoryRepository] to [RepositoryRepositoryImpl].
+ * Hilt module that binds the [RepositoryRepository] domain interface to its
+ * [RepositoryRepositoryImpl] data-layer implementation.
  *
- * Feature modules declare a dependency on [RepositoryRepository]; Hilt
- * resolves it to this implementation at compile time.  Feature modules
- * must never import [RepositoryRepositoryImpl] directly.
+ * Installed in [SingletonComponent] so the repository — and its WorkManager
+ * reference — lives for the full application lifetime.
+ *
+ * Feature modules must inject [RepositoryRepository] only; they must NEVER
+ * import [RepositoryRepositoryImpl] or any other class from `data-repository`.
  */
 @Module
 @InstallIn(SingletonComponent::class)

@@ -14,7 +14,6 @@ import com.devos.ai.domain.repository.model.SyncStep
 import com.devos.ai.feature.auth.model.OAuthProvider
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
@@ -23,22 +22,23 @@ import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider
 import timber.log.Timber
 import java.io.File
 import java.security.MessageDigest
+import kotlin.coroutines.cancellation.CancellationException
 
 /**
- * WorkManager background job that clones a remote repository and indexes its
- * files into the local Room database.
+ * WorkManager worker that clones and indexes a repository.
  *
- * ## Security rules enforced here
- * - OAuth tokens are fetched from [SecureTokenRepository] — never from
- *   BuildConfig or hardcoded strings.
- * - Token values are **never logged** — only the masked form `XXXX****`.
- * - All file paths are validated against the repo root to prevent path traversal.
+ * Steps executed in order:
+ * 1. [SyncStep.CLONE]   — shallow git clone into `filesDir/repos/<repoId>`
+ * 2. [SyncStep.PARSE]   — walk the file tree and upsert [FileEntity] rows
+ * 3. [SyncStep.DONE]    — mark sync status as SYNCED
  *
- * ## Progress reporting
- * Each step calls [setProgress] with [KEY_STEP] so the UI can show a live
- * progress indicator via WorkManager's `WorkInfo.progress`.
+ * Symbol extraction ([SyncStep.INDEX_SYMBOLS]) and vector building
+ * ([SyncStep.BUILD_VECTORS]) are intentionally omitted — DEVOS-023 adds them.
  *
- * Enqueued and observed by [com.devos.ai.data.repository.RepositoryRepositoryImpl].
+ * Security rules enforced here:
+ * - Tokens are NEVER logged raw; only `token.take(4)+"****"` appears in logs.
+ * - File paths are canonicalised and checked against the repo root to prevent
+ *   path-traversal attacks before any [FileEntity] is written.
  */
 @HiltWorker
 class RepositoryIndexingWorker @AssistedInject constructor(
@@ -53,55 +53,63 @@ class RepositoryIndexingWorker @AssistedInject constructor(
         const val KEY_REPO_ID   = "repo_id"
         const val KEY_CLONE_URL = "clone_url"
         const val KEY_PROVIDER  = "provider"
+
+        /** Emitted via [setProgress] so the UI can display the current pipeline step. */
         const val KEY_STEP      = "current_step"
+
+        /** Emitted via [Result.failure] output data on error. */
         const val KEY_ERROR     = "error_message"
     }
 
     override suspend fun doWork(): Result {
         val repoId   = inputData.getString(KEY_REPO_ID)   ?: return Result.failure()
         val cloneUrl = inputData.getString(KEY_CLONE_URL) ?: return Result.failure()
-        val provider = try {
-            OAuthProvider.valueOf(
-                inputData.getString(KEY_PROVIDER) ?: OAuthProvider.GITHUB.name,
-            )
-        } catch (e: IllegalArgumentException) {
-            Timber.w("Unknown provider in worker input, defaulting to GITHUB")
-            OAuthProvider.GITHUB
-        }
+        val provider = runCatching {
+            OAuthProvider.valueOf(inputData.getString(KEY_PROVIDER) ?: OAuthProvider.GITHUB.name)
+        }.getOrDefault(OAuthProvider.GITHUB)
 
         return try {
+            // ── CLONE ─────────────────────────────────────────────────────────
             repositoryDao.updateSyncStatus(repoId, SyncStatus.SYNCING.name)
             setProgress(workDataOf(KEY_STEP to SyncStep.CLONE.name))
 
             val localPath = cloneRepository(cloneUrl, repoId, provider)
             repositoryDao.updateLocalPath(repoId, localPath)
 
+            // ── PARSE ─────────────────────────────────────────────────────────
             setProgress(workDataOf(KEY_STEP to SyncStep.PARSE.name))
             val files = parseFiles(localPath, repoId)
             fileDao.insertAll(files)
 
-            // INDEX_SYMBOLS step is handled by DEVOS-023 (SymbolIndexingWorker).
-            // BUILD_VECTORS step is handled by DEVOS-031 (RAG pipeline).
+            // ── DONE ──────────────────────────────────────────────────────────
             setProgress(workDataOf(KEY_STEP to SyncStep.DONE.name))
             repositoryDao.updateSyncStatus(repoId, SyncStatus.SYNCED.name)
+            repositoryDao.updateLastSyncAt(repoId, System.currentTimeMillis())
 
             Result.success()
         } catch (e: CancellationException) {
-            // Worker was cancelled (cancelSync called) — reset to IDLE so the
-            // UI can offer a retry.
+            // Worker was cancelled — reset to IDLE so the user can retry
             repositoryDao.updateSyncStatus(repoId, SyncStatus.IDLE.name)
             Result.failure()
         } catch (e: Exception) {
-            Timber.e(e, "Indexing failed for repo $repoId")
+            Timber.e(e, "Indexing failed for repo %s", repoId)
             repositoryDao.updateSyncStatus(repoId, SyncStatus.ERROR.name)
-            Result.failure(workDataOf(KEY_ERROR to (e.message ?: "Unknown error")))
+            Result.failure(
+                workDataOf(KEY_ERROR to (e.message ?: "Unknown error")),
+            )
         }
     }
 
-    // -------------------------------------------------------------------------
-    // Clone
-    // -------------------------------------------------------------------------
+    // ── Private helpers ────────────────────────────────────────────────────────
 
+    /**
+     * Performs a shallow (depth=1) clone of [url] into `filesDir/repos/[repoId]`.
+     *
+     * If a token is available it is passed as the password for "oauth2" HTTP auth.
+     * The raw token is NEVER logged — only a masked form is printed.
+     *
+     * @return The absolute path of the cloned directory.
+     */
     private suspend fun cloneRepository(
         url: String,
         repoId: String,
@@ -111,34 +119,38 @@ class RepositoryIndexingWorker @AssistedInject constructor(
         localDir.mkdirs()
 
         val token = tokenRepository.getToken(provider)
+        if (token != null) {
+            Timber.d("Cloning with token for %s: %s****", provider.displayName, token.take(4))
+        }
 
-        // Shallow clone (depth=1) keeps disk footprint minimal.
         val cmd = Git.cloneRepository()
             .setURI(url)
             .setDirectory(localDir)
             .setDepth(1)
-            .setCloneAllBranches(false)
 
         if (token != null) {
-            // SECURITY: never log the raw token value.
-            Timber.d(
-                "Authenticating clone for %s with token %s****",
-                provider.displayName,
-                token.take(4),
-            )
             cmd.setCredentialsProvider(
                 UsernamePasswordCredentialsProvider("oauth2", token),
             )
         }
 
-        cmd.call().use { /* close the Git handle */ }
+        cmd.call().use { /* close JGit resources */ }
         localDir.absolutePath
     }
 
-    // -------------------------------------------------------------------------
-    // Parse
-    // -------------------------------------------------------------------------
-
+    /**
+     * Walks the cloned directory tree and returns [FileEntity] rows for files
+     * that are new or whose content hash has changed since the last sync.
+     *
+     * Incremental behaviour:
+     * - Existing rows with matching hashes are skipped.
+     * - Rows for files deleted from disk are removed from the DB.
+     *
+     * Path-traversal protection:
+     * - Every resolved canonical path is checked against the repo root canonical
+     *   path before creating a [FileEntity]. Paths that escape the root throw
+     *   [IllegalArgumentException] and abort the parse step.
+     */
     private suspend fun parseFiles(
         localPath: String,
         repoId: String,
@@ -148,68 +160,72 @@ class RepositoryIndexingWorker @AssistedInject constructor(
 
         val skipDirs = setOf(".git", "build", ".gradle", ".idea", "node_modules")
 
-        // Fetch existing file hashes for incremental update.
+        // Load existing file hashes for incremental comparison
         val existing = fileDao.getByRepo(repoId).associateBy { it.path }
-        val onDisk   = mutableSetOf<String>()
+        val onDisk = mutableSetOf<String>()
 
         val changed = root.walkTopDown()
             .filter { it.isFile }
             .filter { file ->
+                // Skip internal/build directories
                 skipDirs.none { skip ->
                     file.absolutePath.contains(File.separator + skip + File.separator) ||
                         file.absolutePath.endsWith(File.separator + skip)
                 }
             }
             .mapNotNull { file ->
-                ensureActive() // respect coroutine cancellation during large repos
-
-                // PATH TRAVERSAL PROTECTION — reject any path that escapes the root.
+                // ── PATH TRAVERSAL PROTECTION ──────────────────────────────
                 val resolved = file.canonicalPath
                 require(resolved.startsWith(canonicalRoot)) {
-                    "Path traversal rejected: $resolved escapes $canonicalRoot"
+                    "Path traversal rejected: $resolved escapes repo root $canonicalRoot"
                 }
 
                 val rel = resolved
                     .removePrefix(canonicalRoot)
                     .trimStart(File.separatorChar)
+
                 onDisk += rel
 
+                // Check coroutine cancellation during long walks
+                ensureActive()
+
                 val hash = computeHash(file)
-                // Skip unchanged files — avoids unnecessary DB writes.
-                if (existing[rel]?.contentHash == hash) null
-                else FileEntity(
-                    id           = "$repoId:$rel",
-                    repoId       = repoId,
-                    path         = rel,
-                    name         = file.name,
-                    extension    = file.extension,
-                    sizeBytes    = file.length(),
-                    lastModified = file.lastModified(),
-                    contentHash  = hash,
-                )
+                if (existing[rel]?.contentHash == hash) {
+                    null // unchanged — skip
+                } else {
+                    FileEntity(
+                        id           = "$repoId:$rel",
+                        repoId       = repoId,
+                        path         = rel,
+                        name         = file.name,
+                        extension    = file.extension,
+                        sizeBytes    = file.length(),
+                        lastModified = file.lastModified(),
+                        contentHash  = hash,
+                    )
+                }
             }
             .toList()
 
-        // Delete DB rows for files that no longer exist on disk.
+        // Remove DB rows for files that no longer exist on disk
         val removed = existing.keys - onDisk
         if (removed.isNotEmpty()) {
-            Timber.d("Removing %d stale file records for repo %s", removed.size, repoId)
-            removed.forEach { path ->
-                fileDao.deleteByPath(repoId, path)
-            }
+            Timber.d("Removing %d deleted files from index for repo %s", removed.size, repoId)
+            removed.forEach { path -> fileDao.deleteByPath(repoId, path) }
         }
 
         changed
     }
 
-    // -------------------------------------------------------------------------
-    // Hashing
-    // -------------------------------------------------------------------------
-
+    /**
+     * Computes a SHA-256 hex digest for [file].
+     *
+     * Reads in 8 KB chunks to avoid large heap allocations for big files.
+     */
     private fun computeHash(file: File): String {
         val digest = MessageDigest.getInstance("SHA-256")
-        file.inputStream().buffered().use { stream ->
-            val buf = ByteArray(8_192)
+        file.inputStream().use { stream ->
+            val buf = ByteArray(8192)
             var n: Int
             while (stream.read(buf).also { n = it } != -1) {
                 digest.update(buf, 0, n)

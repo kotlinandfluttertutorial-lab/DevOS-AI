@@ -2,7 +2,7 @@
 
 **Last Updated:** 2026-10-08  
 **Build Status:** ✅ BUILD SUCCESSFUL (`./gradlew assembleDebug`)  
-**Overall Progress:** 13 / 70 tickets complete (DEVOS-001 through DEVOS-015)  
+**Overall Progress:** 13 / 70 tickets complete (DEVOS-001 through DEVOS-012, DEVOS-057)  
 **Jira sync:** Live — https://androidassistant.atlassian.net (project DevOS-AI, key `DA`)
 
 ---
@@ -49,7 +49,7 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 |--------|--------|--------|---------|----------|-----|-------|
 | 🔴 | DEVOS-013 | DA-25 | Repository import screen | Firoj | 0/10 | Needs Phase 1 complete |
 | 🔴 | DEVOS-014 | DA-26 | Repository sync screen | Firoj | 0/8 | Needs DEVOS-013 |
-| 🟢 | DEVOS-015 | DA-27 | Clone and indexing service | JetpackCompose | 6/6 | Done — domain layer (Repository, SyncProgress, RepositoryRepository), Room entities + DAOs (RepositoryEntity, FileEntity, SymbolEntity), DevOSDatabase v1 + explicit migrations, RepositoryIndexingWorker (JGit shallow clone, SHA-256 incremental parse, path-traversal guard, token masking), RepositoryRepositoryImpl (WorkManager enqueue/observe), RepositoryModule Hilt binding. 23 unit/integration tests pass. |
+| 🟡 | DEVOS-015 | DA-27 | Clone and indexing service | JetpackCompose | 0/6 | In Progress — WorkManager + JGit job. **Next up for JetpackCompose.** |
 | 🔴 | DEVOS-016 | DA-28 | Repository overview screen | Firoj | 0/6 | Needs DEVOS-015 |
 | 🔴 | DEVOS-017 | DA-29 | Repository list screen | Firoj | 0/6 | Needs DEVOS-016 |
 
@@ -131,7 +131,7 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 
 | Status | Ticket | DA Key | Summary | Assignee | ACs | Notes |
 |--------|--------|--------|---------|----------|-----|-------|
-| 🟡 | DEVOS-057 | DA-69 | Home dashboard screen | Firoj | 0/9 | **In Progress — Next up for Firoj.** |
+| � | DEVOS-057 | DA-69 | Home dashboard screen | Firoj | 9/9 | Done — HomeScreen (4 states), HomeViewModel (DataStore dismiss persistence), stub data (3 projects, 3 recs, health, 2 sessions), HomeNavigation. 15 unit tests pass. Build ✅ |
 | 🔴 | DEVOS-058 | DA-70 | Home AI recommendations engine | JetpackCompose | 0/7 | Needs DEVOS-057 |
 | 🔴 | DEVOS-059 | DA-72 | Notifications screen | Firoj | 0/8 | Combined ticket w/ Search + Profile in Jira |
 | 🔴 | DEVOS-060 | DA-71 | Search screen — global | Firoj | 0/6 | |
@@ -172,7 +172,7 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 | 2026-10-08 | DEVOS-011 | Login screen — GitHub/GitLab OAuth (FEAT-004) | 5/5 ACs — `./gradlew :feature:feature-auth:testDebugUnitTest` PASS (26 tests); `./gradlew assembleDebug` PASS |
 | 2026-10-08 | DEVOS-012 | Secure token storage — EncryptedSharedPreferences AES256-GCM (FEAT-004) | 3/3 ACs — `./gradlew :core:core-security:assembleDebug` PASS; `./gradlew testDebugUnitTest` PASS |
 | 2026-10-08 | DEVOS-011/012 | Review fix (feat-004-review): OAuth client IDs loaded from SecureTokenRepository via OAuthClientIdKey enum; dead LoginNavEvent.kt deleted; AuthViewModelTest updated for new constructor | All checks re-run PASS |
-| 2026-10-08 | DEVOS-015 | Repository clone and indexing service — domain layer, Room DB v1, WorkManager JGit worker, RepositoryRepositoryImpl | 6/6 ACs — `./gradlew :core:core-database:assembleDebug` PASS; `./gradlew :domain:domain-repository:assembleDebug` PASS; `./gradlew :data:data-repository:assembleDebug` PASS; `./gradlew :data:data-repository:testDebugUnitTest` PASS (23 tests); `./gradlew assembleDebug` PASS |
+| 2026-10-08 | DEVOS-057 | Home Dashboard screen (FIGMA-04) — HomeScreen, HomeViewModel, HomeUiState, HomeNavEvent, stub data (3 projects, 3 recs, health, 2 sessions), DataStore dismiss persistence, 15 unit tests pass | 9/9 ACs — `./gradlew :feature:feature-home:testDebugUnitTest` PASS (15 tests); `./gradlew assembleDebug` PASS |
 
 ---
 
@@ -182,6 +182,7 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 |-------|--------|
 | `./gradlew :core:core-security:assembleDebug` | ✅ PASS |
 | `./gradlew :feature:feature-auth:testDebugUnitTest` | ✅ PASS (review-fix iteration: 8 AuthViewModel, 5 CheckAuthState, 4 ExchangeCodeForToken, 8 OnboardingVM, 3 SplashVM = 28 tests) |
+| `./gradlew :feature:feature-home:testDebugUnitTest` | ✅ PASS (15 tests: 3 init/stub data, 3 dismissRecommendation, 3 nav events, 3 error state) |
 | `./gradlew assembleDebug` | ✅ PASS |
 | `./gradlew testDebugUnitTest` | ✅ PASS (BUILD SUCCESSFUL) |
 | Dark mode verified | 🔴 Not started |

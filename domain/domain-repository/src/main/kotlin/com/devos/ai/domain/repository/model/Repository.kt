@@ -3,40 +3,42 @@ package com.devos.ai.domain.repository.model
 import java.time.Instant
 
 /**
- * Domain model representing an imported source repository.
+ * Domain model for a source-code repository managed by DevOS AI.
  *
- * This is a pure Kotlin data class — zero Android imports.
- * UI and data layers map to/from this model; it is the single source of
- * truth for repository state throughout the domain layer.
+ * This is a pure Kotlin data class — no Android imports allowed.
  */
 data class Repository(
+    /** Stable UUID assigned at import time. */
     val id: String,
+
+    /** Short repository name (e.g. "MyApp"). */
     val name: String,
+
+    /** Owner login / organisation (e.g. "acme-corp"). */
     val owner: String,
-    /** Combined "owner/name" slug, e.g. "google/iosched". */
+
+    /** Composite "owner/name" used in API calls and display. */
     val fullName: String,
+
     val description: String?,
     val language: String?,
     val stars: Int = 0,
     val forks: Int = 0,
     val defaultBranch: String = "main",
+
+    /** Remote URL used to clone the repository. */
     val cloneUrl: String,
+
     val provider: RepositoryProvider,
-    /** 0–100 health score derived from recent commit activity, test coverage, etc. */
+
+    /**
+     * Composite health score [0.0, 1.0] derived from security findings,
+     * test coverage, and sync freshness. Populated by DEVOS-023+.
+     */
     val healthScore: Float = 0f,
+
+    /** UTC timestamp of the last successful sync, or null if never synced. */
     val lastSyncAt: Instant? = null,
+
     val syncStatus: SyncStatus = SyncStatus.IDLE,
 )
-
-enum class RepositoryProvider {
-    GITHUB,
-    GITLAB,
-    LOCAL,
-}
-
-enum class SyncStatus {
-    IDLE,
-    SYNCING,
-    SYNCED,
-    ERROR,
-}

@@ -8,9 +8,10 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import androidx.work.workDataOf
+import com.devos.ai.core.database.dao.FileDao
 import com.devos.ai.core.database.dao.RepositoryDao
 import com.devos.ai.core.database.entity.RepositoryEntity
-import kotlinx.coroutines.flow.first
+import com.devos.ai.data.repository.mapper.toDomain
 import com.devos.ai.data.repository.worker.RepositoryIndexingWorker
 import com.devos.ai.domain.repository.RepositoryRepository
 import com.devos.ai.domain.repository.model.Repository
@@ -21,52 +22,59 @@ import com.devos.ai.domain.repository.model.SyncStep
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import java.time.Instant
+import timber.log.Timber
 import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
- * Concrete implementation of [RepositoryRepository].
+ * Production implementation of [RepositoryRepository].
  *
- * ## Responsibilities
- * - Owns the mapping between [RepositoryEntity] ↔ [Repository] domain model.
- * - Delegates all background work to [RepositoryIndexingWorker] via WorkManager.
- * - Exposes live [SyncProgress] by observing WorkManager's [WorkInfo].
+ * Responsibilities:
+ * - Maps between [RepositoryEntity] (Room) and [Repository] (domain).
+ * - Delegates clone + indexing work to [RepositoryIndexingWorker] via WorkManager.
+ * - Exposes live [SyncProgress] by observing WorkManager [WorkInfo].
  *
- * ## Architecture note
- * Feature modules must **never** import this class directly — they depend on
- * the [RepositoryRepository] interface bound in [di.RepositoryModule].
+ * Threading: all `suspend` functions dispatch I/O on [Dispatchers.IO] inside
+ * the DAO and WorkManager calls. This class is safe to call from any dispatcher.
  */
 @Singleton
-class RepositoryRepositoryImpl @Inject constructor(
+open class RepositoryRepositoryImpl @Inject constructor(
     @ApplicationContext private val context: Context,
     private val repositoryDao: RepositoryDao,
+    private val fileDao: FileDao,
 ) : RepositoryRepository {
 
-    // -------------------------------------------------------------------------
-    // Observe
-    // -------------------------------------------------------------------------
+    /** Overrideable in tests — avoids WorkManager.getInstance() static call. */
+    internal open fun getWorkManager(): WorkManager = WorkManager.getInstance(context)
+
+    private val workManager: WorkManager
+        get() = getWorkManager()
+
+    // ── Observe ────────────────────────────────────────────────────────────────
 
     override fun observeRepositories(): Flow<List<Repository>> =
-        repositoryDao.observeAll().map { entities ->
-            entities.map { it.toDomain() }
-        }
+        repositoryDao.observeAll().map { entities -> entities.map { it.toDomain() } }
 
     override fun observeRepository(repoId: String): Flow<Repository?> =
         repositoryDao.observeById(repoId).map { it?.toDomain() }
 
-    // -------------------------------------------------------------------------
-    // Mutate
-    // -------------------------------------------------------------------------
+    // ── Import ─────────────────────────────────────────────────────────────────
 
+    /**
+     * Imports a new repository:
+     * 1. Generates a stable UUID as [repoId].
+     * 2. Derives [owner] and [name] from the clone URL.
+     * 3. Inserts a stub [RepositoryEntity] with [SyncStatus.IDLE].
+     * 4. Enqueues [RepositoryIndexingWorker].
+     *
+     * @return `Result.success(repoId)` or a wrapped exception.
+     */
     override suspend fun importRepository(
         cloneUrl: String,
         provider: RepositoryProvider,
     ): Result<String> = runCatching {
         val repoId = UUID.randomUUID().toString()
-
-        // Derive a best-effort name/owner from the clone URL.
         val (owner, name) = parseOwnerAndName(cloneUrl)
 
         val entity = RepositoryEntity(
@@ -85,76 +93,63 @@ class RepositoryRepositoryImpl @Inject constructor(
             syncStatus    = SyncStatus.IDLE.name,
             localPath     = null,
         )
+
         repositoryDao.upsert(entity)
         enqueueIndexingWork(repoId, cloneUrl, provider)
+
+        Timber.d("Imported repository %s/%s (id=%s)", owner, name, repoId)
         repoId
     }
 
+    // ── Sync ───────────────────────────────────────────────────────────────────
+
     override suspend fun syncRepository(repoId: String): Result<Unit> = runCatching {
-        val entity = repositoryDao.observeById(repoId).first()
+        val entity = repositoryDao.getById(repoId)
             ?: error("Repository $repoId not found")
-        enqueueIndexingWork(repoId, entity.cloneUrl, RepositoryProvider.valueOf(entity.provider))
+
+        val provider = runCatching {
+            RepositoryProvider.valueOf(entity.provider)
+        }.getOrDefault(RepositoryProvider.GITHUB)
+
+        enqueueIndexingWork(repoId, entity.cloneUrl, provider)
+        Timber.d("Re-enqueued sync for repository %s", repoId)
     }
+
+    // ── Cancel ─────────────────────────────────────────────────────────────────
 
     override suspend fun cancelSync(repoId: String): Result<Unit> = runCatching {
-        WorkManager.getInstance(context).cancelUniqueWork(workName(repoId))
+        workManager.cancelUniqueWork(workName(repoId))
         repositoryDao.updateSyncStatus(repoId, SyncStatus.IDLE.name)
+        Timber.d("Cancelled sync for repository %s", repoId)
     }
+
+    // ── Delete ─────────────────────────────────────────────────────────────────
 
     override suspend fun deleteRepository(repoId: String): Result<Unit> = runCatching {
-        // Cancel any running job first.
-        WorkManager.getInstance(context).cancelUniqueWork(workName(repoId))
-        // Room CASCADE handles repository_files and symbols deletion.
+        workManager.cancelUniqueWork(workName(repoId))
         repositoryDao.delete(repoId)
+        // FileEntity and SymbolEntity rows are removed by Room CASCADE.
+        Timber.d("Deleted repository %s", repoId)
     }
 
-    // -------------------------------------------------------------------------
-    // Progress
-    // -------------------------------------------------------------------------
+    // ── Progress ───────────────────────────────────────────────────────────────
 
+    /**
+     * Maps the live [WorkInfo] for the indexing job to a [SyncProgress] domain model.
+     *
+     * Emits `null` when no work is enqueued or the job has reached a terminal
+     * state (SUCCEEDED / CANCELLED / FAILED) — the caller should fall back to
+     * [observeRepository] for the final [SyncStatus].
+     */
     override fun observeSyncProgress(repoId: String): Flow<SyncProgress?> =
-        WorkManager.getInstance(context)
+        workManager
             .getWorkInfosForUniqueWorkFlow(workName(repoId))
-            .map { infos ->
-                val info = infos.firstOrNull() ?: return@map null
-                when (info.state) {
-                    WorkInfo.State.RUNNING, WorkInfo.State.ENQUEUED -> {
-                        val stepName = info.progress.getString(RepositoryIndexingWorker.KEY_STEP)
-                        val currentStep = stepName?.let { runCatching { SyncStep.valueOf(it) }.getOrNull() }
-                            ?: SyncStep.CLONE
-                        val completed = SyncStep.entries
-                            .takeWhile { it != currentStep }
-                        SyncProgress(
-                            repoId         = repoId,
-                            currentStep    = currentStep,
-                            completedSteps = completed,
-                            errorMessage   = null,
-                        )
-                    }
-                    WorkInfo.State.SUCCEEDED ->
-                        SyncProgress(
-                            repoId         = repoId,
-                            currentStep    = SyncStep.DONE,
-                            completedSteps = SyncStep.entries.dropLast(1),
-                            errorMessage   = null,
-                        )
-                    WorkInfo.State.FAILED -> {
-                        val error = info.outputData.getString(RepositoryIndexingWorker.KEY_ERROR)
-                        SyncProgress(
-                            repoId         = repoId,
-                            currentStep    = SyncStep.CLONE,
-                            completedSteps = emptyList(),
-                            errorMessage   = error ?: "Sync failed",
-                        )
-                    }
-                    WorkInfo.State.CANCELLED,
-                    WorkInfo.State.BLOCKED -> null
-                }
-            }
+            .map { infos -> infos.firstOrNull()?.toSyncProgress(repoId) }
 
-    // -------------------------------------------------------------------------
-    // Internal helpers
-    // -------------------------------------------------------------------------
+    // ── Private helpers ────────────────────────────────────────────────────────
+
+    /** Unique WorkManager job name for a given repository. */
+    private fun workName(repoId: String) = "index_$repoId"
 
     private fun enqueueIndexingWork(
         repoId: String,
@@ -176,50 +171,65 @@ class RepositoryRepositoryImpl @Inject constructor(
             )
             .build()
 
-        WorkManager.getInstance(context)
-            .enqueueUniqueWork(workName(repoId), ExistingWorkPolicy.REPLACE, request)
+        workManager.enqueueUniqueWork(
+            workName(repoId),
+            ExistingWorkPolicy.REPLACE,
+            request,
+        )
     }
-
-    /** Stable unique work tag derived from the repo ID. */
-    private fun workName(repoId: String) = "index_$repoId"
 
     /**
-     * Best-effort extraction of owner and repo name from a clone URL.
+     * Parses "owner" and "name" from common clone URL formats:
+     * - `https://github.com/owner/repo.git`
+     * - `git@github.com:owner/repo.git`
      *
-     * Handles HTTPS URLs like "https://github.com/owner/repo.git" and
-     * "https://gitlab.com/group/sub/repo.git" (uses last two path segments).
-     * Falls back to ("unknown", url) for unrecognised formats.
+     * Falls back to ("unknown", last path segment) on unrecognised formats.
      */
     private fun parseOwnerAndName(cloneUrl: String): Pair<String, String> {
+        // Strip trailing .git and split on the last two path segments
         val cleaned = cloneUrl.trimEnd('/').removeSuffix(".git")
-        val segments = cleaned.split("/").filter { it.isNotBlank() }
+        val segments = cleaned.split("/", ":")
         return if (segments.size >= 2) {
-            segments[segments.size - 2] to segments.last()
+            val name  = segments.last()
+            val owner = segments[segments.size - 2]
+            owner to name
         } else {
-            "unknown" to (segments.lastOrNull() ?: cloneUrl)
+            "unknown" to (segments.lastOrNull() ?: "repo")
         }
     }
+}
 
-    // -------------------------------------------------------------------------
-    // Mapping
-    // -------------------------------------------------------------------------
+// ── WorkInfo → SyncProgress mapper ────────────────────────────────────────────
 
-    private fun RepositoryEntity.toDomain(): Repository = Repository(
-        id            = id,
-        name          = name,
-        owner         = owner,
-        fullName      = "$owner/$name",
-        description   = description,
-        language      = language,
-        stars         = stars,
-        forks         = forks,
-        defaultBranch = defaultBranch,
-        cloneUrl      = cloneUrl,
-        provider      = runCatching { RepositoryProvider.valueOf(provider) }
-            .getOrDefault(RepositoryProvider.GITHUB),
-        healthScore   = healthScore,
-        lastSyncAt    = lastSyncAt?.let { Instant.ofEpochMilli(it) },
-        syncStatus    = runCatching { SyncStatus.valueOf(syncStatus) }
-            .getOrDefault(SyncStatus.IDLE),
+private fun WorkInfo.toSyncProgress(repoId: String): SyncProgress? {
+    // Terminal non-success states with no active progress data
+    if (state == WorkInfo.State.CANCELLED) return null
+    if (state == WorkInfo.State.SUCCEEDED) return SyncProgress(
+        repoId        = repoId,
+        currentStep   = SyncStep.DONE,
+        completedSteps = SyncStep.entries.dropLast(1), // all steps except DONE
+    )
+
+    val stepName = progress.getString(RepositoryIndexingWorker.KEY_STEP)
+        ?: outputData.getString(RepositoryIndexingWorker.KEY_STEP)
+
+    val currentStep = stepName
+        ?.let { runCatching { SyncStep.valueOf(it) }.getOrNull() }
+        ?: if (state == WorkInfo.State.FAILED) SyncStep.CLONE else return null
+
+    val errorMessage = if (state == WorkInfo.State.FAILED) {
+        outputData.getString(RepositoryIndexingWorker.KEY_ERROR)
+    } else null
+
+    // Mark all steps that precede the current one as completed
+    val allSteps = SyncStep.entries
+    val currentIndex = allSteps.indexOf(currentStep)
+    val completedSteps = if (currentIndex > 0) allSteps.subList(0, currentIndex) else emptyList()
+
+    return SyncProgress(
+        repoId         = repoId,
+        currentStep    = currentStep,
+        completedSteps = completedSteps,
+        errorMessage   = errorMessage,
     )
 }

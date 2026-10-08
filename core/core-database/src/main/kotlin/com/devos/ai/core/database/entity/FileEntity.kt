@@ -6,13 +6,10 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 
 /**
- * Room entity for a single file discovered during repository indexing.
+ * Room entity for an individual source file inside a cloned repository.
  *
- * [id] is a composite "$repoId:$relativePath" string, ensuring uniqueness
- * across repositories without a compound primary key.
- *
- * A [ForeignKey] to [RepositoryEntity] with CASCADE delete keeps the table
- * clean when a repository is removed.
+ * [id]           — composite key: "$repoId:$relativePath"
+ * [contentHash]  — SHA-256 hex of file contents; used for incremental re-indexing.
  */
 @Entity(
     tableName = "repository_files",
@@ -27,16 +24,15 @@ import androidx.room.PrimaryKey
     indices = [Index("repoId")],
 )
 data class FileEntity(
-    /** Composite key: "$repoId:$path" */
     @PrimaryKey val id: String,
     val repoId: String,
-    /** Repository-relative path, e.g. "src/main/kotlin/Foo.kt" */
+    /** Relative path from repo root, e.g. "src/main/kotlin/Foo.kt" */
     val path: String,
     val name: String,
     val extension: String,
     val sizeBytes: Long,
-    /** Epoch-milliseconds from [java.io.File.lastModified]. */
+    /** File last-modified time as epoch-millis. */
     val lastModified: Long,
-    /** SHA-256 hex digest used for incremental re-indexing. */
+    /** SHA-256 hex digest of file contents. */
     val contentHash: String,
 )

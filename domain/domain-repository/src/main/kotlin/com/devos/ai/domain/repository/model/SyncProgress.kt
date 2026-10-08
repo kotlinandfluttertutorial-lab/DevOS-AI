@@ -1,12 +1,10 @@
 package com.devos.ai.domain.repository.model
 
 /**
- * Snapshot of an in-flight repository sync operation.
+ * Live progress snapshot for an active or recently-completed repository sync.
  *
- * Emitted by [com.devos.ai.domain.repository.RepositoryRepository.observeSyncProgress]
- * as a Flow so the UI can update a progress indicator in real time.
- *
- * Pure Kotlin — zero Android imports.
+ * Emitted by [RepositoryRepository.observeSyncProgress] as WorkManager progress
+ * data changes.
  */
 data class SyncProgress(
     val repoId: String,
@@ -16,9 +14,9 @@ data class SyncProgress(
 )
 
 /**
- * Ordered steps that make up a full repository sync.
+ * Ordered steps of the repository indexing pipeline.
  *
- * [label] is the human-readable string shown in the progress UI.
+ * [label] is shown in the sync-progress UI.
  */
 enum class SyncStep(val label: String) {
     CLONE("Clone repository"),

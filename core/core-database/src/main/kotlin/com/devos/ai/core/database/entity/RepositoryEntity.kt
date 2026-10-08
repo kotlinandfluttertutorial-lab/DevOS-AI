@@ -4,12 +4,12 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 /**
- * Room entity persisting an imported source repository.
+ * Room entity representing an imported repository.
  *
- * String columns [provider] and [syncStatus] store enum names; mapping to
- * domain enums is done in the data layer (RepositoryRepositoryImpl).
- *
- * [localPath] is null until the background clone worker sets it.
+ * [syncStatus]  — persisted as the enum name string (e.g. "SYNCING").
+ * [provider]    — persisted as the enum name string (e.g. "GITHUB").
+ * [lastSyncAt]  — epoch-milliseconds UTC, null if never synced.
+ * [localPath]   — absolute path inside `filesDir/repos/<id>` after cloning, null until cloned.
  */
 @Entity(tableName = "repositories")
 data class RepositoryEntity(
@@ -22,13 +22,13 @@ data class RepositoryEntity(
     val forks: Int,
     val defaultBranch: String,
     val cloneUrl: String,
-    /** Stores [com.devos.ai.domain.repository.model.RepositoryProvider] name. */
+    /** Stored as RepositoryProvider.name() */
     val provider: String,
     val healthScore: Float,
-    /** Epoch-milliseconds; null until first sync completes. */
+    /** Epoch-millis UTC; null = never synced */
     val lastSyncAt: Long?,
-    /** Stores [com.devos.ai.domain.repository.model.SyncStatus] name. */
+    /** Stored as SyncStatus.name() */
     val syncStatus: String,
-    /** Absolute path to the local clone directory; null before cloning. */
+    /** Absolute path on device after clone; null until worker completes CLONE step */
     val localPath: String?,
 )

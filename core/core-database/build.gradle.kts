@@ -16,13 +16,12 @@ android {
     }
     kotlinOptions { jvmTarget = "17" }
 
-    testOptions {
-        unitTests {
-            isIncludeAndroidResources = true
-        }
-    }
-
     room { schemaDirectory("$projectDir/schemas") }
+
+    testOptions {
+        unitTests.all { it.useJUnitPlatform() }
+        unitTests.isReturnDefaultValues = true
+    }
 }
 
 dependencies {
@@ -34,6 +33,6 @@ dependencies {
     testImplementation(libs.bundles.test.unit)
     testImplementation(libs.test.room)
     testImplementation(libs.test.android.junit)
-    testImplementation(libs.test.robolectric)
     testRuntimeOnly(libs.test.junit5.engine)
+    testRuntimeOnly(libs.test.junit5.launcher)
 }
