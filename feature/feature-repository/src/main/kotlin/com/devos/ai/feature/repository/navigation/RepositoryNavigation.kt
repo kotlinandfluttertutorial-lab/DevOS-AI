@@ -104,7 +104,7 @@ fun NavGraphBuilder.repositorySyncNavigation(navController: NavController) {
             uiState = uiState,
             repoName = repoId, // DEVOS-015 will supply the real name via ViewModel
             onCancel = viewModel::cancel,
-            onNavigateBack = { navController.popBackStack() },
+            onNavigateBack = viewModel::navigateBack,
         )
     }
 }

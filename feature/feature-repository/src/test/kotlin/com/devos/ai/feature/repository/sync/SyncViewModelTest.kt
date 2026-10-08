@@ -116,4 +116,17 @@ class SyncViewModelTest {
             cancelAndIgnoreRemainingEvents()
         }
     }
+
+    // ── Navigate back (top-bar back arrow) ─────────────────────────────────────
+
+    @Test
+    fun `navigateBack emits NavigateBack nav event`() = runTest {
+        val viewModel = createViewModel()
+
+        viewModel.navEvent.test {
+            viewModel.navigateBack()
+            assertThat(awaitItem()).isEqualTo(SyncNavEvent.NavigateBack)
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
 }

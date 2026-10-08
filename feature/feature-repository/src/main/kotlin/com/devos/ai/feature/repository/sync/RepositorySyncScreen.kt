@@ -42,7 +42,6 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import com.devos.ai.designsystem.components.DevOSButton
 import com.devos.ai.designsystem.components.DevOSButtonStyle
 import com.devos.ai.designsystem.components.DevOSErrorState
@@ -178,7 +177,7 @@ fun RepositorySyncScreen(
 
                     // ── Animated spinner ───────────────────────────────────────
                     SyncSpinner(
-                        modifier = Modifier.size(80.dp),
+                        modifier = Modifier.size(DevOSSpacing.spinnerSize),
                     )
 
                     Spacer(modifier = Modifier.height(DevOSSpacing.base))
@@ -220,7 +219,7 @@ fun RepositorySyncScreen(
                                     Box(
                                         modifier = Modifier
                                             .padding(start = DevOSSpacing.lg + DevOSSpacing.sm) // 20+8=28dp to align under circle center
-                                            .width(2.dp)
+                                            .width(DevOSSpacing.connectorWidth)
                                             .height(DevOSSpacing.xl)
                                             .background(connectorColor),
                                     )
@@ -314,7 +313,7 @@ private fun SyncSpinner(
             modifier = Modifier
                 .fillMaxSize()
                 .rotate(rotation),
-            strokeWidth = 4.dp,
+            strokeWidth = DevOSSpacing.strokeWidthNormal,
             color = MaterialTheme.colorScheme.primary,
             trackColor = MaterialTheme.colorScheme.surfaceVariant,
         )
@@ -401,7 +400,7 @@ private fun StepIcon(
     state: StepState,
     modifier: Modifier = Modifier,
 ) {
-    val size = 40.dp
+    val size = DevOSSpacing.stepIconSize
     when (state) {
         StepState.COMPLETE -> {
             Box(
@@ -427,7 +426,7 @@ private fun StepIcon(
             ) {
                 CircularProgressIndicator(
                     modifier = Modifier.size(DevOSSpacing.lg),
-                    strokeWidth = 2.dp,
+                    strokeWidth = DevOSSpacing.strokeWidthThin,
                     color = MaterialTheme.colorScheme.primary,
                     trackColor = MaterialTheme.colorScheme.surfaceVariant,
                 )
@@ -439,7 +438,7 @@ private fun StepIcon(
                 modifier = modifier
                     .size(size)
                     .border(
-                        width = 1.dp,
+                        width = DevOSSpacing.dividerThickness,
                         color = MaterialTheme.colorScheme.outline,
                         shape = CircleShape,
                     )

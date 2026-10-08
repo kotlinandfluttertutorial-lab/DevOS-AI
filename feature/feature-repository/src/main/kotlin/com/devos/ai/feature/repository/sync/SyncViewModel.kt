@@ -72,4 +72,18 @@ class SyncViewModel @Inject constructor() : ViewModel() {
             _navEvent.emit(SyncNavEvent.NavigateBack)
         }
     }
+
+    /**
+     * Navigate back from the top-bar back arrow.
+     *
+     * Routes through a nav event so the back path is testable and consistent
+     * with the Import screen — this ViewModel never imports NavController.
+     * Distinct from [cancel] which represents the explicit "Cancel Sync" intent
+     * (DEVOS-015 will also stop the indexing work there).
+     */
+    fun navigateBack() {
+        viewModelScope.launch {
+            _navEvent.emit(SyncNavEvent.NavigateBack)
+        }
+    }
 }

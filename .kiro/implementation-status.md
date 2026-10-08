@@ -47,8 +47,8 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 
 | Status | Ticket | DA Key | Summary | Assignee | ACs | Notes |
 |--------|--------|--------|---------|----------|-----|-------|
-| 🟢 | DEVOS-013 | DA-25 | Repository import screen | Firoj | 10/10 | Done — RepositoryImportScreen, ImportViewModel (url/provider/branch/buildAiIndex StateFlow, validate/import/navigateBack), stub RepositoryPreview, 14 unit tests pass. Review fixes: replaced RoundedCornerShape(10.dp) with MaterialTheme.shapes.medium, hardcoded border widths with DevOSSpacing tokens, size(40.dp) with DevOSSpacing.iconSizeXLarge; back-button now routes through viewModel::navigateBack |
-| 🟢 | DEVOS-014 | DA-26 | Repository sync screen | Firoj | 8/8 | Done — RepositorySyncScreen, SyncViewModel (5 hardcoded steps, cancel→NavigateBack), 9 unit tests pass. Review fixes: replaced fontSize=N.sp with MaterialTheme.typography tokens; added explicit Complete/Cancelled state branches; removed unused ioDispatcher; provider+branch params wired into subtitle |
+| 🟢 | DEVOS-013 | DA-25 | Repository import screen | Firoj | 10/10 | Done — RepositoryImportScreen, ImportViewModel (url/provider/branch/buildAiIndex StateFlow, validate/import/navigateBack), stub RepositoryPreview, 17 unit tests pass. Review fixes: replaced RoundedCornerShape(10.dp) with MaterialTheme.shapes.medium, hardcoded border widths with DevOSSpacing tokens, size(40.dp) with DevOSSpacing.iconSizeXLarge; back-button now routes through viewModel::navigateBack. Pass-2 review: added DevOSSpacing spinnerSize/stepIconSize/connectorWidth/strokeWidthNormal/strokeWidthThin tokens, removed all hardcoded dp from RepositorySyncScreen, wired Sync top-bar back through SyncViewModel::navigateBack (+1 test) |
+| 🟢 | DEVOS-014 | DA-26 | Repository sync screen | Firoj | 8/8 | Done — RepositorySyncScreen, SyncViewModel (5 hardcoded steps, cancel→NavigateBack, navigateBack→NavigateBack), 11 unit tests pass. Review fixes: replaced fontSize=N.sp with MaterialTheme.typography tokens; added explicit Complete/Cancelled state branches; removed unused ioDispatcher; provider+branch params wired into subtitle. Pass-2 review: all dp values now flow through DevOSSpacing tokens; top-bar back arrow routes through viewModel::navigateBack |
 | 🟡 | DEVOS-015 | DA-27 | Clone and indexing service | JetpackCompose | 0/6 | In Progress — WorkManager + JGit job. **Next up for JetpackCompose.** |
 | 🔴 | DEVOS-016 | DA-28 | Repository overview screen | Firoj | 0/6 | Needs DEVOS-015 |
 | 🔴 | DEVOS-017 | DA-29 | Repository list screen | Firoj | 0/6 | Needs DEVOS-016 |
@@ -175,6 +175,7 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 | 2026-10-08 | DEVOS-057 | Home Dashboard screen (FIGMA-04) — HomeScreen, HomeViewModel, HomeUiState, HomeNavEvent, stub data (3 projects, 3 recs, health, 2 sessions), DataStore dismiss persistence, 15 unit tests pass | 9/9 ACs — `./gradlew :feature:feature-home:testDebugUnitTest` PASS (15 tests); `./gradlew assembleDebug` PASS |
 | 2026-10-09 | DEVOS-013 | Repository Import screen — RepositoryImportScreen (source selector 3 cards, URL input, validate flow, preview card, import options), ImportViewModel, stub RepositoryPreview, RepositoryNavigation wired in DevOSNavGraph | 10/10 ACs — `./gradlew :feature:feature-repository:testDebugUnitTest` PASS; `./gradlew :app:assembleDebug` PASS |
 | 2026-10-09 | DEVOS-014 | Repository Sync screen — RepositorySyncScreen (animated spinner, 5-step pipeline, overall progress bar, cancel button), SyncViewModel, RepositoryNavigation wired in DevOSNavGraph | 8/8 ACs — same build run as DEVOS-013 |
+| 2026-10-09 | DEVOS-013/014 | Pass-2 review fix: added DevOSSpacing spinner/step/connector/stroke tokens, replaced all hardcoded dp in RepositorySyncScreen, added SyncViewModel.navigateBack() and wired Sync top-bar back through it (+1 test) | `./gradlew :feature:feature-repository:testDebugUnitTest` PASS (28 tests); `./gradlew :app:assembleDebug` PASS |
 
 ---
 
@@ -185,7 +186,7 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 | `./gradlew :core:core-security:assembleDebug` | ✅ PASS |
 | `./gradlew :feature:feature-auth:testDebugUnitTest` | ✅ PASS (review-fix iteration: 8 AuthViewModel, 5 CheckAuthState, 4 ExchangeCodeForToken, 8 OnboardingVM, 3 SplashVM = 28 tests) |
 | `./gradlew :feature:feature-home:testDebugUnitTest` | ✅ PASS (15 tests: 3 init/stub data, 3 dismissRecommendation, 3 nav events, 3 error state) |
-| `./gradlew :feature:feature-repository:testDebugUnitTest` | ✅ PASS (23 tests: 14 ImportViewModel + 9 SyncViewModel) |
+| `./gradlew :feature:feature-repository:testDebugUnitTest` | ✅ PASS (28 tests: 17 ImportViewModel + 11 SyncViewModel) |
 | `./gradlew assembleDebug` | ✅ PASS |
 | `./gradlew testDebugUnitTest` | ✅ PASS (BUILD SUCCESSFUL) |
 | Dark mode verified | 🔴 Not started |
