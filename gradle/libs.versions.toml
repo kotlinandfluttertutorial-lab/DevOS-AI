@@ -24,7 +24,7 @@ hilt-navigation      = "1.2.0"
 hilt                 = "2.52"
 
 # Database
-room                 = "2.6.1"
+room                 = "2.7.0"
 
 # Network
 retrofit             = "2.11.0"

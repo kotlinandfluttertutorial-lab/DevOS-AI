@@ -23,6 +23,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -137,7 +138,7 @@ class RepositoryRepositoryImplTest {
             flowOf(emptyList())
 
         impl.observeSyncProgress("repo-1").test {
-            assertNotNull(awaitItem()) // empty list → null progress
+            assertNull(awaitItem()) // empty list → null progress
             cancelAndIgnoreRemainingEvents()
         }
     }
@@ -209,15 +210,21 @@ class RepositoryRepositoryImplTest {
         } else {
             androidx.work.Data.EMPTY
         }
-        // WorkInfo constructor is package-private; use the test helper from work-testing
+        // WorkInfo(id, state, tags, outputData, progress, runAttemptCount, generation,
+        //          constraints, initialDelayMillis, periodicityInfo, nextScheduleTimeMillis, stopReason)
         return WorkInfo(
-            /* id           */ java.util.UUID.randomUUID(),
-            /* state        */ state,
-            /* outputData   */ outputData,
-            /* tags         */ emptyList(),
-            /* progress     */ progressData,
-            /* runAttemptCount */ 1,
-            /* generation   */ 1,
+            /* id                    */ java.util.UUID.randomUUID(),
+            /* state                 */ state,
+            /* tags                  */ emptySet(),
+            /* outputData            */ outputData,
+            /* progress              */ progressData,
+            /* runAttemptCount       */ 1,
+            /* generation            */ 1,
+            /* constraints           */ androidx.work.Constraints.NONE,
+            /* initialDelayMillis    */ 0L,
+            /* periodicityInfo       */ null,
+            /* nextScheduleTimeMillis*/ Long.MAX_VALUE,
+            /* stopReason            */ WorkInfo.STOP_REASON_NOT_STOPPED,
         )
     }
 }

@@ -20,7 +20,6 @@ android {
 
     testOptions {
         unitTests.all { it.useJUnitPlatform() }
-        unitTests.isIncludeAndroidResources = true
         unitTests.isReturnDefaultValues = true
     }
 }
@@ -34,9 +33,6 @@ dependencies {
     testImplementation(libs.bundles.test.unit)
     testImplementation(libs.test.room)
     testImplementation(libs.test.android.junit)
-    // androidx.test.core for ApplicationProvider in DAO tests
-    testImplementation("androidx.test:core:1.6.1")
-    testImplementation("androidx.test:core-ktx:1.6.1")
     testRuntimeOnly(libs.test.junit5.engine)
     testRuntimeOnly(libs.test.junit5.launcher)
 }
