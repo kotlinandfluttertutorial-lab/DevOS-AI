@@ -6,9 +6,12 @@ import com.devos.ai.core.database.DevOSDatabase
 import com.devos.ai.core.database.entity.FileEntity
 import com.devos.ai.core.database.entity.RepositoryEntity
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import org.junit.After
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 import assertk.assertThat
 import assertk.assertions.hasSize
 import assertk.assertions.isEmpty
@@ -19,6 +22,8 @@ import assertk.assertions.isEqualTo
  *
  * Covers: insertAll, getByRepo, deleteByPath, deleteByRepo.
  */
+@RunWith(RobolectricTestRunner::class)
+@Config(sdk = [33])
 class FileDaoTest {
 
     private lateinit var db: DevOSDatabase
@@ -27,7 +32,7 @@ class FileDaoTest {
 
     private val repoId = "repo-test"
 
-    @BeforeEach
+    @Before
     fun setUp() {
         db = Room.inMemoryDatabaseBuilder(
             ApplicationProvider.getApplicationContext(),
@@ -61,7 +66,7 @@ class FileDaoTest {
         }
     }
 
-    @AfterEach
+    @After
     fun tearDown() = db.close()
 
     // -------------------------------------------------------------------------
