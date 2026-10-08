@@ -20,6 +20,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material.icons.outlined.NotificationsNone
 import androidx.compose.material.icons.outlined.RocketLaunch
 import androidx.compose.material3.Badge
@@ -107,16 +108,16 @@ fun HomeScreen(
             )
 
             is HomeUiState.Success -> HomeDashboardContent(
-                state = state,
-                onSearchTap = onSearchTap,
-                onProjectTap = onProjectTap,
-                onSessionTap = onSessionTap,
-                onNotificationTap = onNotificationTap,
-                onProfileTap = onProfileTap,
-                onSeeAllProjectsTap = onSeeAllProjectsTap,
-                onSeeAllSessionsTap = onSeeAllSessionsTap,
+                state                  = state,
+                onSearchTap            = onSearchTap,
+                onProjectTap           = onProjectTap,
+                onSessionTap           = onSessionTap,
+                onNotificationTap      = onNotificationTap,
+                onProfileTap           = onProfileTap,
+                onSeeAllProjectsTap    = onSeeAllProjectsTap,
+                onSeeAllSessionsTap    = onSeeAllSessionsTap,
                 onDismissRecommendation = onDismissRecommendation,
-                modifier = Modifier.padding(innerPadding),
+                modifier               = Modifier.padding(innerPadding),
             )
         }
     }
@@ -144,8 +145,10 @@ private fun HomeDashboardContent(
         // ── Custom top bar ──────────────────────────────────────────────────────
         item(key = "top_bar") {
             HomeTopBar(
+                greeting          = state.greeting,
+                dateLabel         = state.dateLabel,
                 onNotificationTap = onNotificationTap,
-                onProfileTap = onProfileTap,
+                onProfileTap      = onProfileTap,
             )
         }
 
@@ -154,18 +157,27 @@ private fun HomeDashboardContent(
             Box(
                 modifier = Modifier
                     .padding(
-                        start = DevOSSpacing.base,
-                        end = DevOSSpacing.base,
-                        top = DevOSSpacing.sm,
+                        start  = DevOSSpacing.base,
+                        end    = DevOSSpacing.base,
+                        top    = DevOSSpacing.sm,
                         bottom = DevOSSpacing.md,
                     )
                     .semantics { contentDescription = "Search bar, tap to search" },
             ) {
                 DevOSSearchBar(
-                    query = "",
+                    query         = "",
                     onQueryChange = {},
-                    placeholder = "Ask AI anything about your code…",
-                    modifier = Modifier.fillMaxWidth(),
+                    placeholder   = "Ask AI anything about your code\u2026",
+                    modifier      = Modifier.fillMaxWidth(),
+                    // Sparkle icon on the trailing end — matches the ✨ in the mockup
+                    trailingContent = {
+                        Icon(
+                            imageVector        = Icons.Outlined.AutoAwesome,
+                            contentDescription = "AI search",
+                            tint               = MaterialTheme.colorScheme.primary,
+                            modifier           = Modifier.size(DevOSSpacing.iconSize),
+                        )
+                    },
                 )
                 // Transparent overlay to intercept tap before BasicTextField captures focus
                 Box(
@@ -299,14 +311,16 @@ private fun HomeDashboardContent(
 
 /**
  * Custom top bar matching the #s-home mockup:
- * - Date label (bodySmall, onSurfaceVariant)
- * - Greeting "Good morning, Dev 👋" (titleLarge, bold)
+ * - Date label (bodySmall, onSurfaceVariant) — dynamic from ViewModel
+ * - Greeting "Good morning/afternoon/evening, Dev 👋" (titleLarge, bold) — dynamic
  * - Notification bell with red badge dot
  * - Avatar circle with "D" letter
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun HomeTopBar(
+    greeting: String,
+    dateLabel: String,
     onNotificationTap: () -> Unit,
     onProfileTap: () -> Unit,
     modifier: Modifier = Modifier,
@@ -319,16 +333,16 @@ private fun HomeTopBar(
     ) {
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = "MONDAY, JUNE 9",
+                text  = dateLabel.uppercase(),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
             Spacer(modifier = Modifier.height(DevOSSpacing.xs))
             Text(
-                text = "Good morning, Dev \uD83D\uDC4B",
-                style = MaterialTheme.typography.titleLarge,
+                text       = greeting,
+                style      = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onBackground,
+                color      = MaterialTheme.colorScheme.onBackground,
             )
         }
 

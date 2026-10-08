@@ -13,16 +13,20 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import com.devos.ai.designsystem.components.DevOSCard
+import com.devos.ai.designsystem.theme.DevOSAmber300
 import com.devos.ai.designsystem.theme.DevOSSpacing
 import com.devos.ai.feature.home.model.HealthStatus
 
 /**
  * Single cell in the 2×2 project health grid on the Home Dashboard.
  *
- * Shows a large colored value (e.g. "2", "34%", "B+") with a label and sub-label.
- * Color is driven by [HealthStatus]: healthy=tertiary, warning=secondary, critical=error.
- *
- * Uses the non-clickable DevOSCard overload — these cells are display-only.
+ * Matches the `.health-cell` in `#s-home` mockup:
+ * - Label: 11sp uppercase, onSurfaceVariant
+ * - Value: 24sp bold, color driven by [HealthStatus]
+ *   • HEALTHY  → tertiary  (#C3E88D)
+ *   • WARNING  → #FFCB6B  (DevOSAmber300 — NOT secondary/cyan)
+ *   • CRITICAL → error     (#FF5370)
+ * - Sub-label: 11sp, onSurfaceVariant
  */
 @Composable
 internal fun HealthCell(
@@ -42,20 +46,20 @@ internal fun HealthCell(
             verticalArrangement = Arrangement.spacedBy(DevOSSpacing.xs),
         ) {
             Text(
-                text = label,
+                text  = label.uppercase(),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
             Text(
-                text = value,
-                style = MaterialTheme.typography.headlineSmall.copy(
+                text       = value,
+                style      = MaterialTheme.typography.headlineSmall.copy(
                     fontWeight = FontWeight.Bold,
                 ),
-                color = status.valueColor(),
+                color      = status.valueColor(),
             )
             Text(
-                text = subLabel,
-                style = MaterialTheme.typography.bodySmall,
+                text  = subLabel,
+                style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
@@ -63,15 +67,14 @@ internal fun HealthCell(
 }
 
 /**
- * Maps HealthStatus to a color from the Material 3 scheme.
+ * Maps [HealthStatus] to the exact color used in the mockup health grid.
  *
- * WARNING maps to secondary (DevOSCyan300 / #89DDFF in dark, DevOSAmber300 is SyntaxColors.type).
- * The amber warning color (#FFCB6B) is not a standard M3 role in this theme; secondary is the
- * closest available role. TODO(DEVOS-060): add custom ExtendedColors.warning if needed.
+ * WARNING uses [DevOSAmber300] (#FFCB6B) directly — this is the `--warning` CSS variable
+ * in the mockup. It is NOT the M3 `secondary` role (which is cyan #89DDFF in dark theme).
  */
 @Composable
 private fun HealthStatus.valueColor(): Color = when (this) {
-    HealthStatus.HEALTHY -> MaterialTheme.colorScheme.tertiary
-    HealthStatus.WARNING -> MaterialTheme.colorScheme.secondary
-    HealthStatus.CRITICAL -> MaterialTheme.colorScheme.error
+    HealthStatus.HEALTHY  -> MaterialTheme.colorScheme.tertiary   // #C3E88D
+    HealthStatus.WARNING  -> DevOSAmber300                         // #FFCB6B
+    HealthStatus.CRITICAL -> MaterialTheme.colorScheme.error       // #FF5370
 }

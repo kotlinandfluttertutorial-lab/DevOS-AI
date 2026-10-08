@@ -25,13 +25,21 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Named
+
 /**
  * ViewModel for the Home Dashboard screen.
  *
  * Loads stub dashboard data and handles user interactions by emitting [HomeNavEvent]s.
  * Dismissed recommendations are persisted to DataStore so they survive app restarts.
+ *
+ * Computes [HomeUiState.Success.greeting] and [HomeUiState.Success.dateLabel] dynamically
+ * from the current wall-clock time so the UI always shows the correct time-of-day salutation
+ * and formatted date matching the `#s-home` mockup.
  *
  * TODO(DEVOS-058): replace stub data with real domain use cases.
  */
@@ -43,6 +51,9 @@ class HomeViewModel @Inject constructor(
 
     companion object {
         private val DISMISSED_KEY = stringPreferencesKey("dismissed_recommendations")
+
+        /** Formatter for the date label: "Wednesday, Oct 7" */
+        private val DATE_FORMATTER = DateTimeFormatter.ofPattern("EEEE, MMM d", Locale.ENGLISH)
     }
 
     private val _uiState = MutableStateFlow<HomeUiState>(HomeUiState.Loading)
@@ -55,9 +66,7 @@ class HomeViewModel @Inject constructor(
         loadDashboard()
     }
 
-    /**
-     * Loads the dashboard. Can be called again on retry.
-     */
+    /** Loads the dashboard. Can be called again on retry. */
     fun loadDashboard() {
         viewModelScope.launch {
             _uiState.value = HomeUiState.Loading
@@ -72,23 +81,26 @@ class HomeViewModel @Inject constructor(
                     }.first()
                 }
 
-                // TODO(DEVOS-058): replace stub data with GetDashboardUseCase
-                val projects = stubProjects()
+                // TODO(DEVOS-058): replace with GetDashboardUseCase
+                val projects     = stubProjects()
                 val filteredRecs = stubRecommendations().filter { it.id !in dismissed }
+                val now          = LocalDateTime.now()
 
                 if (projects.isEmpty()) {
                     _uiState.value = HomeUiState.Empty
                 } else {
                     _uiState.value = HomeUiState.Success(
-                        recentProjects = projects,
+                        recentProjects  = projects,
                         recommendations = filteredRecs,
-                        health = stubProjectHealth(),
-                        recentSessions = stubSessions(),
+                        health          = stubProjectHealth(),
+                        recentSessions  = stubSessions(),
+                        greeting        = buildGreeting(now),
+                        dateLabel       = DATE_FORMATTER.format(now),
                     )
                 }
             } catch (e: Exception) {
                 _uiState.value = HomeUiState.Error(
-                    message = e.message ?: "Failed to load dashboard",
+                    message   = e.message ?: "Failed to load dashboard",
                     retryable = true,
                 )
             }
@@ -96,8 +108,8 @@ class HomeViewModel @Inject constructor(
     }
 
     /**
-     * Dismisses a recommendation. Removes it from the current state immediately
-     * and persists the dismissed ID to DataStore so it is filtered on next load.
+     * Dismisses a recommendation: removes it from current state immediately
+     * and persists the ID to DataStore so it is filtered on next load.
      */
     fun dismissRecommendation(id: String) {
         viewModelScope.launch {
@@ -112,7 +124,6 @@ class HomeViewModel @Inject constructor(
                     prefs[DISMISSED_KEY] = current.joinToString(",")
                 }
             }
-            // Update in-memory state immediately without a full reload
             val current = _uiState.value
             if (current is HomeUiState.Success) {
                 _uiState.value = current.copy(
@@ -124,77 +135,86 @@ class HomeViewModel @Inject constructor(
 
     // ── Navigation event emitters ─────────────────────────────────────────────
 
-    fun onSearchTap() = emit(HomeNavEvent.NavigateToSearch)
-
-    fun onProjectTap(id: String) = emit(HomeNavEvent.NavigateToProject(id))
-
-    fun onSessionTap(sessionId: String) = emit(HomeNavEvent.NavigateToChat(sessionId))
-
-    fun onNotificationTap() = emit(HomeNavEvent.NavigateToNotifications)
-
-    fun onProfileTap() = emit(HomeNavEvent.NavigateToProfile)
-
-    fun onImportTap() = emit(HomeNavEvent.NavigateToImport)
-
-    fun onSeeAllProjectsTap() = emit(HomeNavEvent.NavigateToProjectList)
-
-    fun onSeeAllSessionsTap() = emit(HomeNavEvent.NavigateToAllSessions)
+    fun onSearchTap()                       = emit(HomeNavEvent.NavigateToSearch)
+    fun onProjectTap(id: String)            = emit(HomeNavEvent.NavigateToProject(id))
+    fun onSessionTap(sessionId: String)     = emit(HomeNavEvent.NavigateToChat(sessionId))
+    fun onNotificationTap()                 = emit(HomeNavEvent.NavigateToNotifications)
+    fun onProfileTap()                      = emit(HomeNavEvent.NavigateToProfile)
+    fun onImportTap()                       = emit(HomeNavEvent.NavigateToImport)
+    fun onSeeAllProjectsTap()               = emit(HomeNavEvent.NavigateToProjectList)
+    fun onSeeAllSessionsTap()               = emit(HomeNavEvent.NavigateToAllSessions)
 
     private fun emit(event: HomeNavEvent) {
         viewModelScope.launch { _navEvent.emit(event) }
     }
 
+    // ── Helpers ───────────────────────────────────────────────────────────────
+
+    /**
+     * Returns "Good morning / afternoon / evening, Dev 👋" based on the hour.
+     * Matches the greeting shown in the `#s-home` mockup.
+     */
+    private fun buildGreeting(now: LocalDateTime): String {
+        val salutation = when (now.hour) {
+            in 5..11  -> "Good morning"
+            in 12..16 -> "Good afternoon"
+            in 17..20 -> "Good evening"
+            else      -> "Good night"
+        }
+        return "$salutation, Dev \uD83D\uDC4B"
+    }
+
     // ── Stub data — remove after DEVOS-058 ───────────────────────────────────
 
     private fun stubProjects() = listOf(
-        ProjectSummary("p1", "DevOS AI", "Kotlin", HealthStatus.HEALTHY),
+        ProjectSummary("p1", "DevOS AI",    "Kotlin", HealthStatus.HEALTHY),
         ProjectSummary("p2", "Compose Lib", "Kotlin", HealthStatus.WARNING),
-        ProjectSummary("p3", "SDK Tools", "Kotlin", HealthStatus.CRITICAL),
+        ProjectSummary("p3", "SDK Tools",   "Kotlin", HealthStatus.CRITICAL),
     )
 
     private fun stubRecommendations() = listOf(
         AIRecommendation(
-            id = "r1",
-            type = RecommendationType.SECURITY,
-            title = "Fix 2 Hardcoded Secrets",
-            description = "API keys detected in BuildConfig.kt",
+            id          = "r1",
+            type        = RecommendationType.SECURITY,
+            title       = "Security: SQL Injection Risk",
+            description = "Found in DatabaseHelper.kt · High severity",
         ),
         AIRecommendation(
-            id = "r2",
-            type = RecommendationType.TESTS,
-            title = "Increase Test Coverage",
-            description = "Coverage is at 34%, target is 80%",
+            id          = "r2",
+            type        = RecommendationType.TESTS,
+            title       = "Add tests for AuthViewModel",
+            description = "Coverage dropped to 34% · 3 untested functions",
         ),
         AIRecommendation(
-            id = "r3",
-            type = RecommendationType.LEARNING,
-            title = "New Kotlin Coroutines Course",
-            description = "Recommended based on your recent code",
+            id          = "r3",
+            type        = RecommendationType.LEARNING,
+            title       = "Learn: Kotlin Coroutines",
+            description = "Based on recent code patterns · 4 lessons",
         ),
     )
 
     private fun stubProjectHealth() = ProjectHealth(
-        securityCount = 2,
-        securityLabel = "Critical",
-        testCoverage = 34,
-        architectureGrade = "B+",
-        dependencyUpdates = 5,
+        securityCount     = 2,
+        securityLabel     = "Critical findings",
+        testCoverage      = 67,
+        architectureGrade = "A",
+        dependencyUpdates = 3,
     )
 
     private fun stubSessions() = listOf(
         ChatSessionSummary(
-            id = "1",
-            title = "How do I implement pagination?",
-            projectName = "DevOS AI",
+            id           = "1",
+            title        = "Explain RepositoryViewModel",
+            projectName  = "DevOS AI",
             relativeTime = "2 hours ago",
-            iconEmoji = "💬",
+            iconEmoji    = "✨",
         ),
         ChatSessionSummary(
-            id = "2",
-            title = "Explain this ViewModel pattern",
-            projectName = "Compose Lib",
+            id           = "2",
+            title        = "Debug navigation back stack issue",
+            projectName  = "Compose Lib",
             relativeTime = "Yesterday",
-            iconEmoji = "🤖",
+            iconEmoji    = "\uD83D\uDC1B",
         ),
     )
 }
