@@ -210,8 +210,7 @@ class RepositoryRepositoryImplTest {
             androidx.work.Data.EMPTY
         }
         // WorkInfo(id, state, tags, outputData, progress, runAttemptCount, generation,
-        //          constraints, initialDelayMillis, periodicityInfo, nextScheduleTimeMillis,
-        //          stopReason, workerClassName)
+        //          constraints, initialDelayMillis, periodicityInfo, nextScheduleTimeMillis, stopReason)
         return WorkInfo(
             /* id                    */ java.util.UUID.randomUUID(),
             /* state                 */ state,
@@ -225,7 +224,6 @@ class RepositoryRepositoryImplTest {
             /* periodicityInfo       */ null,
             /* nextScheduleTimeMillis*/ Long.MAX_VALUE,
             /* stopReason            */ WorkInfo.STOP_REASON_NOT_STOPPED,
-            /* workerClassName       */ null,
         )
     }
 }
