@@ -44,4 +44,8 @@ object DevOSSpacing {
     val badgeHeight:    Dp = 24.dp
     val dividerThickness: Dp = 1.dp
     val codeLineHeight: Dp = 20.dp
+
+    // Home Dashboard
+    val projectCardWidth: Dp = 160.dp
+    val statusDotSize:    Dp = 6.dp
 }

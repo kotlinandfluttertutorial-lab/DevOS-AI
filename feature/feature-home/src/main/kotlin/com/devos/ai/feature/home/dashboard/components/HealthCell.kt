@@ -12,7 +12,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
 import com.devos.ai.designsystem.components.DevOSCard
 import com.devos.ai.designsystem.theme.DevOSSpacing
 import com.devos.ai.feature.home.model.HealthStatus
@@ -49,8 +48,9 @@ internal fun HealthCell(
             )
             Text(
                 text = value,
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.headlineSmall.copy(
+                    fontWeight = FontWeight.Bold,
+                ),
                 color = status.valueColor(),
             )
             Text(

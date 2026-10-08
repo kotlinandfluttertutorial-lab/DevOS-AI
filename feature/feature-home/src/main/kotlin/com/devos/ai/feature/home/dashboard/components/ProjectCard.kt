@@ -19,7 +19,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.unit.dp
 import com.devos.ai.designsystem.components.DevOSCard
 import com.devos.ai.designsystem.theme.DevOSSpacing
 import com.devos.ai.feature.home.model.HealthStatus
@@ -40,7 +39,7 @@ internal fun ProjectCard(
     DevOSCard(
         onClick = onClick,
         modifier = modifier
-            .width(160.dp)
+            .width(DevOSSpacing.projectCardWidth)
             .semantics {
                 contentDescription = "${project.name} project, ${project.healthStatus.label()}"
             },
@@ -89,7 +88,7 @@ internal fun ProjectCard(
             ) {
                 Box(
                     modifier = Modifier
-                        .size(6.dp)
+                        .size(DevOSSpacing.statusDotSize)
                         .background(
                             color = project.healthStatus.dotColor(),
                             shape = CircleShape,
