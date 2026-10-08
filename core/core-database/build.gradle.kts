@@ -32,7 +32,6 @@ dependencies {
     ksp(libs.hilt.compiler)
     testImplementation(libs.bundles.test.unit)
     testImplementation(libs.test.room)
-    testImplementation(libs.test.android.junit)
     testRuntimeOnly(libs.test.junit5.engine)
     testRuntimeOnly(libs.test.junit5.launcher)
 }
