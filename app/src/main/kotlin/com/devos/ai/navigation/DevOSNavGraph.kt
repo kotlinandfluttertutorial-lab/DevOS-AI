@@ -12,6 +12,8 @@ import com.devos.ai.feature.auth.navigation.loginNavigation
 import com.devos.ai.feature.auth.navigation.onboardingNavigation
 import com.devos.ai.feature.auth.navigation.splashNavigation
 import com.devos.ai.feature.home.navigation.homeNavigation
+import com.devos.ai.feature.repository.navigation.repositoryImportNavigation
+import com.devos.ai.feature.repository.navigation.repositorySyncNavigation
 
 /**
  * Root navigation graph for DevOS AI.
@@ -72,16 +74,9 @@ fun DevOSNavGraph(
             PlaceholderScreen(route = "project_overview")
         }
 
-        composable(route = DevOSRoutes.REPOSITORY_IMPORT) {
-            PlaceholderScreen(route = DevOSRoutes.REPOSITORY_IMPORT)
-        }
+        repositoryImportNavigation(navController)
 
-        composable(
-            route = DevOSRoutes.REPOSITORY_SYNC,
-            arguments = listOf(navArgument("repoId") { type = NavType.StringType }),
-        ) {
-            PlaceholderScreen(route = "repository_sync")
-        }
+        repositorySyncNavigation(navController)
 
         // ── Repository ──────────────────────────────────────────────────────────
         composable(
