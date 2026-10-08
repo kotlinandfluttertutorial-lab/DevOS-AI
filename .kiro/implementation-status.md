@@ -2,7 +2,7 @@
 
 **Last Updated:** 2026-10-08  
 **Build Status:** ✅ BUILD SUCCESSFUL (`./gradlew assembleDebug`)  
-**Overall Progress:** 12 / 70 tickets complete (DEVOS-001 through DEVOS-012)  
+**Overall Progress:** 13 / 70 tickets complete (DEVOS-001 through DEVOS-015)  
 **Jira sync:** Live — https://androidassistant.atlassian.net (project DevOS-AI, key `DA`)
 
 ---
@@ -49,7 +49,7 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 |--------|--------|--------|---------|----------|-----|-------|
 | 🔴 | DEVOS-013 | DA-25 | Repository import screen | Firoj | 0/10 | Needs Phase 1 complete |
 | 🔴 | DEVOS-014 | DA-26 | Repository sync screen | Firoj | 0/8 | Needs DEVOS-013 |
-| 🟡 | DEVOS-015 | DA-27 | Clone and indexing service | JetpackCompose | 0/6 | In Progress — WorkManager + JGit job. **Next up for JetpackCompose.** |
+| 🟢 | DEVOS-015 | DA-27 | Clone and indexing service | JetpackCompose | 6/6 | Done — domain layer (Repository, SyncProgress, RepositoryRepository), Room entities + DAOs (RepositoryEntity, FileEntity, SymbolEntity), DevOSDatabase v1 + explicit migrations, RepositoryIndexingWorker (JGit shallow clone, SHA-256 incremental parse, path-traversal guard, token masking), RepositoryRepositoryImpl (WorkManager enqueue/observe), RepositoryModule Hilt binding. 23 unit/integration tests pass. |
 | 🔴 | DEVOS-016 | DA-28 | Repository overview screen | Firoj | 0/6 | Needs DEVOS-015 |
 | 🔴 | DEVOS-017 | DA-29 | Repository list screen | Firoj | 0/6 | Needs DEVOS-016 |
 
@@ -172,6 +172,7 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 | 2026-10-08 | DEVOS-011 | Login screen — GitHub/GitLab OAuth (FEAT-004) | 5/5 ACs — `./gradlew :feature:feature-auth:testDebugUnitTest` PASS (26 tests); `./gradlew assembleDebug` PASS |
 | 2026-10-08 | DEVOS-012 | Secure token storage — EncryptedSharedPreferences AES256-GCM (FEAT-004) | 3/3 ACs — `./gradlew :core:core-security:assembleDebug` PASS; `./gradlew testDebugUnitTest` PASS |
 | 2026-10-08 | DEVOS-011/012 | Review fix (feat-004-review): OAuth client IDs loaded from SecureTokenRepository via OAuthClientIdKey enum; dead LoginNavEvent.kt deleted; AuthViewModelTest updated for new constructor | All checks re-run PASS |
+| 2026-10-08 | DEVOS-015 | Repository clone and indexing service — domain layer, Room DB v1, WorkManager JGit worker, RepositoryRepositoryImpl | 6/6 ACs — `./gradlew :core:core-database:assembleDebug` PASS; `./gradlew :domain:domain-repository:assembleDebug` PASS; `./gradlew :data:data-repository:assembleDebug` PASS; `./gradlew :data:data-repository:testDebugUnitTest` PASS (23 tests); `./gradlew assembleDebug` PASS |
 
 ---
 
