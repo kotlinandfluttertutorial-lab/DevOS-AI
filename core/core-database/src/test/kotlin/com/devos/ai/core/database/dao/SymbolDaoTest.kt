@@ -13,16 +13,24 @@ import com.devos.ai.core.database.DevOSDatabase
 import com.devos.ai.core.database.entity.RepositoryEntity
 import com.devos.ai.core.database.entity.SymbolEntity
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import org.junit.After
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
 /**
  * Integration test for [SymbolDao] using an in-memory Room database.
  *
+ * Runs on the JVM via Robolectric so [ApplicationProvider] and Room's
+ * Android-specific code are available without a device or emulator.
+ *
  * Covers: insertAll, getByRepo, getByKind, getByFilePath, getById,
  *         observeByRepo (Flow), searchByName (Flow), deleteByRepo, deleteByFile.
  */
+@RunWith(RobolectricTestRunner::class)
+@Config(sdk = [33])
 class SymbolDaoTest {
 
     private lateinit var db: DevOSDatabase
@@ -31,7 +39,7 @@ class SymbolDaoTest {
 
     private val repoId = "repo-sym-test"
 
-    @BeforeEach
+    @Before
     fun setUp() {
         db      = Room.inMemoryDatabaseBuilder(
             ApplicationProvider.getApplicationContext(),
@@ -45,7 +53,7 @@ class SymbolDaoTest {
         }
     }
 
-    @AfterEach
+    @After
     fun tearDown() = db.close()
 
     // ── Helpers ───────────────────────────────────────────────────────────────
@@ -81,18 +89,18 @@ class SymbolDaoTest {
     // ── insertAll / getByRepo ─────────────────────────────────────────────────
 
     @Test
-    fun `insertAll and getByRepo returns all rows`() = runTest {
+    fun insertAll_and_getByRepo_returns_all_rows() = runTest {
         dao.insertAll(listOf(sym("Alpha"), sym("Beta"), sym("Gamma")))
         assertThat(dao.getByRepo(repoId)).hasSize(3)
     }
 
     @Test
-    fun `getByRepo returns empty for unknown repo`() = runTest {
+    fun getByRepo_returns_empty_for_unknown_repo() = runTest {
         assertThat(dao.getByRepo("no-such-repo")).isEmpty()
     }
 
     @Test
-    fun `insertAll with REPLACE updates existing row`() = runTest {
+    fun insertAll_with_REPLACE_updates_existing_row() = runTest {
         val original = sym("Foo").copy(signature = "old sig")
         val updated  = sym("Foo").copy(signature = "new sig")
         dao.insertAll(listOf(original))
@@ -106,7 +114,7 @@ class SymbolDaoTest {
     // ── getByKind ─────────────────────────────────────────────────────────────
 
     @Test
-    fun `getByKind filters correctly`() = runTest {
+    fun getByKind_filters_correctly() = runTest {
         dao.insertAll(listOf(
             sym("MyClass",     kind = "CLASS"),
             sym("myFun",       kind = "FUNCTION"),
@@ -118,7 +126,7 @@ class SymbolDaoTest {
     }
 
     @Test
-    fun `getByKind returns empty when no symbols of that kind`() = runTest {
+    fun getByKind_returns_empty_when_no_symbols_of_that_kind() = runTest {
         dao.insertAll(listOf(sym("Foo", kind = "FUNCTION")))
         assertThat(dao.getByKind(repoId, "ENUM")).isEmpty()
     }
@@ -126,7 +134,7 @@ class SymbolDaoTest {
     // ── getByFilePath ─────────────────────────────────────────────────────────
 
     @Test
-    fun `getByFilePath returns only symbols in that file`() = runTest {
+    fun getByFilePath_returns_only_symbols_in_that_file() = runTest {
         dao.insertAll(listOf(
             sym("A", filePath = "src/A.kt", lineStart = 1),
             sym("B", filePath = "src/B.kt", lineStart = 1),
@@ -140,7 +148,7 @@ class SymbolDaoTest {
     // ── getById ───────────────────────────────────────────────────────────────
 
     @Test
-    fun `getById returns correct row`() = runTest {
+    fun getById_returns_correct_row() = runTest {
         val s = sym("Unique", lineStart = 42)
         dao.insertAll(listOf(s))
         val found = dao.getById(s.id)
@@ -149,14 +157,14 @@ class SymbolDaoTest {
     }
 
     @Test
-    fun `getById returns null for unknown id`() = runTest {
+    fun getById_returns_null_for_unknown_id() = runTest {
         assertThat(dao.getById("nonexistent")).isNull()
     }
 
     // ── observeByRepo (Flow) ──────────────────────────────────────────────────
 
     @Test
-    fun `observeByRepo emits initial empty list then new row`() = runTest {
+    fun observeByRepo_emits_initial_empty_list_then_new_row() = runTest {
         dao.observeByRepo(repoId).test {
             assertThat(awaitItem()).isEmpty()           // initial state
 
@@ -170,7 +178,7 @@ class SymbolDaoTest {
     // ── searchByName (Flow) ───────────────────────────────────────────────────
 
     @Test
-    fun `searchByName finds substring match case-insensitively`() = runTest {
+    fun searchByName_finds_substring_match_case_insensitively() = runTest {
         dao.insertAll(listOf(
             sym("UserRepository"),
             sym("OrderRepository"),
@@ -184,7 +192,7 @@ class SymbolDaoTest {
     }
 
     @Test
-    fun `searchByName with wildcard repoId searches all repos`() = runTest {
+    fun searchByName_with_wildcard_repoId_searches_all_repos() = runTest {
         // Add a second repo
         repoDao.upsert(stubRepo("repo-2"))
         dao.insertAll(listOf(sym("Alpha").copy(id = "repo-2:Foo.kt:Alpha:1", repoId = "repo-2")))
@@ -200,9 +208,9 @@ class SymbolDaoTest {
     // ── searchByNameAndKind ────────────────────────────────────────────────────
 
     @Test
-    fun `searchByNameAndKind filters by kind`() = runTest {
+    fun searchByNameAndKind_filters_by_kind() = runTest {
         dao.insertAll(listOf(
-            sym("Loader",  kind = "CLASS"),
+            sym("Loader",   kind = "CLASS"),
             sym("loadData", kind = "FUNCTION"),
         ))
         dao.searchByNameAndKind("load", "FUNCTION", repoId).test {
@@ -216,14 +224,14 @@ class SymbolDaoTest {
     // ── deleteByRepo ──────────────────────────────────────────────────────────
 
     @Test
-    fun `deleteByRepo removes all symbols for that repo`() = runTest {
+    fun deleteByRepo_removes_all_symbols_for_that_repo() = runTest {
         dao.insertAll(listOf(sym("A"), sym("B")))
         dao.deleteByRepo(repoId)
         assertThat(dao.getByRepo(repoId)).isEmpty()
     }
 
     @Test
-    fun `deleteByRepo does not affect other repos`() = runTest {
+    fun deleteByRepo_does_not_affect_other_repos() = runTest {
         repoDao.upsert(stubRepo("other"))
         dao.insertAll(listOf(sym("Keep").copy(id = "other:Foo.kt:Keep:1", repoId = "other")))
         dao.insertAll(listOf(sym("Remove")))
@@ -236,10 +244,10 @@ class SymbolDaoTest {
     // ── deleteByFile ──────────────────────────────────────────────────────────
 
     @Test
-    fun `deleteByFile removes only symbols in that file`() = runTest {
+    fun deleteByFile_removes_only_symbols_in_that_file() = runTest {
         dao.insertAll(listOf(
-            sym("InA",  filePath = "src/A.kt", lineStart = 1),
-            sym("InB",  filePath = "src/B.kt", lineStart = 1),
+            sym("InA", filePath = "src/A.kt", lineStart = 1),
+            sym("InB", filePath = "src/B.kt", lineStart = 1),
         ))
         dao.deleteByFile(repoId, "src/A.kt")
 
@@ -250,7 +258,7 @@ class SymbolDaoTest {
     // ── Cascade delete ────────────────────────────────────────────────────────
 
     @Test
-    fun `deleting parent repository cascades to symbols`() = runTest {
+    fun deleting_parent_repository_cascades_to_symbols() = runTest {
         dao.insertAll(listOf(sym("WillBeGone")))
         repoDao.delete(repoId)
         assertThat(dao.getByRepo(repoId)).isEmpty()
