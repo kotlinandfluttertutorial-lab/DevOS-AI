@@ -14,6 +14,15 @@ import com.devos.ai.feature.home.dashboard.HomeViewModel
 /** Route constant — must match [DevOSRoutes.HOME]. */
 const val ROUTE_HOME = "home"
 
+// Local route mirrors — feature-home cannot import :app's DevOSRoutes directly.
+// These values MUST stay in sync with DevOSRoutes.kt in :app.
+private const val ROUTE_SEARCH         = "search?q="
+private const val ROUTE_AI_CHAT        = "ai_chat"
+private const val ROUTE_NOTIFICATIONS  = "notifications"
+private const val ROUTE_PROFILE        = "profile"
+private const val ROUTE_REPO_IMPORT    = "repository/import"
+private const val ROUTE_PROJECT_LIST   = "project_list"
+
 /**
  * Adds the Home Dashboard screen to the NavGraph.
  *
@@ -32,28 +41,28 @@ fun NavGraphBuilder.homeNavigation(navController: NavController) {
             viewModel.navEvent.collect { event ->
                 when (event) {
                     HomeNavEvent.NavigateToSearch ->
-                        navController.navigate("search?q=")
+                        navController.navigate(ROUTE_SEARCH)
 
                     is HomeNavEvent.NavigateToProject ->
                         navController.navigate("project/${event.id}")
 
                     is HomeNavEvent.NavigateToChat ->
-                        navController.navigate("ai_chat")
+                        navController.navigate(ROUTE_AI_CHAT)
 
                     HomeNavEvent.NavigateToNotifications ->
-                        navController.navigate("notifications")
+                        navController.navigate(ROUTE_NOTIFICATIONS)
 
                     HomeNavEvent.NavigateToProfile ->
-                        navController.navigate("profile")
+                        navController.navigate(ROUTE_PROFILE)
 
                     HomeNavEvent.NavigateToImport ->
-                        navController.navigate("repository/import")
+                        navController.navigate(ROUTE_REPO_IMPORT)
 
                     HomeNavEvent.NavigateToProjectList ->
-                        navController.navigate("project_list")
+                        navController.navigate(ROUTE_PROJECT_LIST)
 
                     HomeNavEvent.NavigateToAllSessions ->
-                        navController.navigate("ai_chat")
+                        navController.navigate(ROUTE_AI_CHAT)
                 }
             }
         }

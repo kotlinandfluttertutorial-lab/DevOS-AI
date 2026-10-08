@@ -352,21 +352,27 @@ private fun HomeTopBar(
 
         Spacer(modifier = Modifier.width(DevOSSpacing.xs))
 
-        // Avatar circle with "D" letter
+        // Avatar — wrapped in 48dp touch target (WCAG minimum)
         Box(
             modifier = Modifier
-                .size(DevOSSpacing.iconSizeLarge)
-                .clip(CircleShape)
-                .background(MaterialTheme.colorScheme.primaryContainer)
+                .size(DevOSSpacing.touchTarget)             // 48dp touch target
                 .clickable(onClick = onProfileTap)
                 .semantics { contentDescription = "Profile" },
             contentAlignment = Alignment.Center,
         ) {
-            Text(
-                text = "D",
-                style = MaterialTheme.typography.titleSmall,
-                color = MaterialTheme.colorScheme.onPrimaryContainer,
-            )
+            Box(
+                modifier = Modifier
+                    .size(DevOSSpacing.iconSizeLarge)       // 32dp visual circle
+                    .clip(CircleShape)
+                    .background(MaterialTheme.colorScheme.primaryContainer),
+                contentAlignment = Alignment.Center,
+            ) {
+                Text(
+                    text = "D",
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                )
+            }
         }
     }
 }
