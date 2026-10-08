@@ -150,6 +150,7 @@ test-hilt               = { group = "com.google.dagger", name = "hilt-android-te
 test-room               = { group = "androidx.room", name = "room-testing", version.ref = "room" }
 test-benchmark          = { group = "androidx.benchmark", name = "benchmark-junit4", version.ref = "benchmark" }
 test-robolectric        = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
+robolectric-android-all = { group = "org.robolectric", name = "android-all", version = "13-robolectric-9030017" }
 
 [bundles]
 compose = ["compose-ui", "compose-ui-graphics", "compose-foundation", "compose-material3",

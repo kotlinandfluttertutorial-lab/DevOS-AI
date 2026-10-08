@@ -35,4 +35,7 @@ dependencies {
     testImplementation(libs.test.android.junit)
     testImplementation(libs.test.junit4)
     testImplementation(libs.test.robolectric)
+    // Robolectric needs the android-all SDK jar pre-fetched via Gradle
+    // so CI doesn't attempt a runtime Maven download.
+    testRuntimeOnly(libs.robolectric.android.all)
 }
