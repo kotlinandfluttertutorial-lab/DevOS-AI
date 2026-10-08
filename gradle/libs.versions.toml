@@ -151,6 +151,7 @@ test-room               = { group = "androidx.room", name = "room-testing", vers
 test-benchmark          = { group = "androidx.benchmark", name = "benchmark-junit4", version.ref = "benchmark" }
 test-robolectric        = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
 robolectric-android-all = { group = "org.robolectric", name = "android-all", version = "13-robolectric-9030017" }
+test-androidx-core      = { group = "androidx.test", name = "core-ktx", version = "1.6.1" }
 
 [bundles]
 compose = ["compose-ui", "compose-ui-graphics", "compose-foundation", "compose-material3",

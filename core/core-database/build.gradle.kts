@@ -34,6 +34,7 @@ dependencies {
     testImplementation(libs.test.room)
     testImplementation(libs.test.junit4)
     testImplementation(libs.test.robolectric)
+    testImplementation(libs.test.androidx.core)
     testRuntimeOnly(libs.test.junit5.engine)
     testRuntimeOnly(libs.test.junit5.vintage)
     testRuntimeOnly(libs.test.junit5.launcher)
