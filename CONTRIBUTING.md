@@ -9,22 +9,28 @@
 
 ## Branch Strategy
 
-All work happens on feature branches. `main` is the protected integration branch.
+We use a lightweight GitFlow: feature/bugfix branches merge into `develop`
+(the integration branch), and `develop` merges into `main` at release time.
 
-| Branch name pattern | Use |
-|---------------------|-----|
+| Branch | Role |
+|--------|------|
+| `main` | Release branch — always shippable; only receives merges from `develop` |
+| `develop` | Integration branch — default PR target for all feature/bugfix work |
 | `feat/DEVOS-XXX-short-desc` | New feature |
 | `fix/DEVOS-XXX-short-desc` | Bug fix |
 | `refactor/DEVOS-XXX-short-desc` | Refactor |
 | `docs/short-desc` | Docs / config only |
 
+> Do not merge feature work directly into `main`. Branch off `develop`, open a PR
+> against `develop`, and let `develop` flow to `main` at release time.
+
 ## How to Raise a Pull Request
 
-### 1. Create a feature branch from `main`
+### 1. Create a feature branch from `develop`
 
 ```bash
-git checkout main
-git pull origin main
+git checkout develop
+git pull origin develop
 git checkout -b feat/DEVOS-XXX-your-feature
 ```
 
@@ -66,11 +72,11 @@ git push -u origin feat/DEVOS-XXX-your-feature
 Then open the PR via the GitHub CLI:
 
 ```bash
-gh pr create --base main --title "feat(DEVOS-XXX): short description" --body-file .github/PULL_REQUEST_TEMPLATE.md
+gh pr create --base develop --title "feat(DEVOS-XXX): short description" --body-file .github/PULL_REQUEST_TEMPLATE.md
 ```
 
 Or open it in the GitHub web UI at:
-`https://github.com/kotlinandfluttertutorial-lab/DevOS-AI/compare/feat/DEVOS-XXX-your-feature`
+`https://github.com/kotlinandfluttertutorial-lab/DevOS-AI/compare/develop...feat/DEVOS-XXX-your-feature`
 
 GitHub will pre-populate the PR description from `.github/PULL_REQUEST_TEMPLATE.md` automatically.
 
@@ -92,14 +98,23 @@ document why a comment is not actioned (link a Jira ticket if deferring).
 
 ## Branch Protection (Repo Admin)
 
-Branch protection rules for `main` — requiring the CI check before merge — are a
-**repository-admin setting** configured separately in:
+Branch protection rules are a **repository-admin setting**, configured in the
+GitHub UI (not from a local clone):
 
 > GitHub → Settings → Branches → Branch protection rules → Require status checks
 > to pass before merging → add `build` (the job name from `ci.yml`).
 
-This cannot be configured from a local clone. A repo admin must set this up once
-after the first CI run succeeds.
+Apply protection to **both** branches:
+
+- **`develop`** — require CI green + at least one review before merge; block
+  direct pushes (PRs only). This is the default integration branch and the most
+  important one to protect.
+- **`main`** — same protection; only receives release merges from `develop`.
+
+Also set the **default branch to `develop`** under
+GitHub → Settings → Branches → Default branch, so PRs open against it by default.
+
+A repo admin must set this up once after the first CI run succeeds.
 
 ---
 
