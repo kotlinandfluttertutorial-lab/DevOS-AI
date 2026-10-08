@@ -19,9 +19,6 @@ android {
     room { schemaDirectory("$projectDir/schemas") }
 
     testOptions {
-        unitTests.all {
-            it.useJUnitPlatform()
-        }
         unitTests.isReturnDefaultValues = true
         unitTests.isIncludeAndroidResources = true
     }
@@ -38,7 +35,4 @@ dependencies {
     testImplementation(libs.test.android.junit)
     testImplementation(libs.test.junit4)
     testImplementation(libs.test.robolectric)
-    testRuntimeOnly(libs.test.junit5.engine)
-    testRuntimeOnly(libs.test.junit5.launcher)
-    testRuntimeOnly(libs.test.junit5.vintage)
 }
