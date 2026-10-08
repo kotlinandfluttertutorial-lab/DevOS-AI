@@ -19,8 +19,8 @@ android {
     room { schemaDirectory("$projectDir/schemas") }
 
     testOptions {
+        unitTests.all { it.useJUnitPlatform() }
         unitTests.isReturnDefaultValues = true
-        unitTests.isIncludeAndroidResources = true
     }
 }
 
@@ -32,10 +32,6 @@ dependencies {
     ksp(libs.hilt.compiler)
     testImplementation(libs.bundles.test.unit)
     testImplementation(libs.test.room)
-    testImplementation(libs.test.android.junit)
-    testImplementation(libs.test.junit4)
-    testImplementation(libs.test.robolectric)
-    // Robolectric needs the android-all SDK jar pre-fetched via Gradle
-    // so CI doesn't attempt a runtime Maven download.
-    testRuntimeOnly(libs.robolectric.android.all)
+    testRuntimeOnly(libs.test.junit5.engine)
+    testRuntimeOnly(libs.test.junit5.launcher)
 }
