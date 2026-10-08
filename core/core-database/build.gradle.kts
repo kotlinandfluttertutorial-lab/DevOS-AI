@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
+    alias(libs.plugins.hilt)
 }
 
 android {
@@ -15,6 +16,12 @@ android {
     }
     kotlinOptions { jvmTarget = "17" }
 
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
+
     room { schemaDirectory("$projectDir/schemas") }
 }
 
@@ -22,7 +29,11 @@ dependencies {
     api(libs.bundles.room)
     ksp(libs.room.compiler)
     implementation(libs.kotlinx.coroutines)
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
     testImplementation(libs.bundles.test.unit)
     testImplementation(libs.test.room)
+    testImplementation(libs.test.android.junit)
+    testImplementation(libs.test.robolectric)
     testRuntimeOnly(libs.test.junit5.engine)
 }
