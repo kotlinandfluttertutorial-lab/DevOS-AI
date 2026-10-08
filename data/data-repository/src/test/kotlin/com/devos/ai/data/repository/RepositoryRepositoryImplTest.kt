@@ -137,7 +137,7 @@ class RepositoryRepositoryImplTest {
             flowOf(emptyList())
 
         impl.observeSyncProgress("repo-1").test {
-            assertNotNull(awaitItem()) // empty list → null progress
+            assertNull(awaitItem()) // empty list → null progress
             cancelAndIgnoreRemainingEvents()
         }
     }
