@@ -14,7 +14,10 @@ import com.devos.ai.feature.auth.navigation.splashNavigation
 import com.devos.ai.feature.chat.aiChatNavigation
 import com.devos.ai.feature.chat.answerDetailNavigation
 import com.devos.ai.feature.chat.sourceEvidenceNavigation
+import com.devos.ai.feature.memory.memoryNavigation
 import com.devos.ai.feature.settings.aiSettingsNavigation
+import com.devos.ai.feature.settings.projectSettingsNavigation
+import com.devos.ai.feature.settings.settingsRootNavigation
 import com.devos.ai.feature.home.navigation.homeNavigation
 import com.devos.ai.feature.home.navigation.notificationsNavigation
 import com.devos.ai.feature.home.navigation.profileNavigation
@@ -23,6 +26,12 @@ import com.devos.ai.feature.learning.navigation.courseDetailsNavigation
 import com.devos.ai.feature.learning.navigation.learningDashboardNavigation
 import com.devos.ai.feature.learning.navigation.lessonNavigation
 import com.devos.ai.feature.learning.navigation.quizNavigation
+import com.devos.ai.feature.code.navigation.architectureNavigation
+import com.devos.ai.feature.code.navigation.codeSearchNavigation
+import com.devos.ai.feature.code.navigation.codeViewerNavigation
+import com.devos.ai.feature.code.navigation.dependencyGraphNavigation
+import com.devos.ai.feature.code.navigation.fileExplorerNavigation
+import com.devos.ai.feature.code.navigation.symbolDetailsNavigation
 import com.devos.ai.feature.repository.navigation.overviewNavigation
 import com.devos.ai.feature.repository.navigation.projectListNavigation
 import com.devos.ai.feature.repository.navigation.repositoryImportNavigation
@@ -88,60 +97,17 @@ fun DevOSNavGraph(
         // ── Repository ──────────────────────────────────────────────────────────
         overviewNavigation(navController)
 
-        composable(
-            route = DevOSRoutes.FILE_EXPLORER,
-            arguments = listOf(
-                navArgument("repoId") { type = NavType.StringType },
-                navArgument("path") { type = NavType.StringType; defaultValue = "" },
-            ),
-        ) {
-            PlaceholderScreen(route = "file_explorer")
-        }
+        fileExplorerNavigation(navController)
 
-        composable(
-            route = DevOSRoutes.CODE_VIEWER,
-            arguments = listOf(
-                navArgument("repoId") { type = NavType.StringType },
-                navArgument("path") { type = NavType.StringType; defaultValue = "" },
-                navArgument("line") { type = NavType.StringType; defaultValue = "0" },
-            ),
-        ) {
-            PlaceholderScreen(route = "code_viewer")
-        }
+        codeViewerNavigation(navController)
 
-        composable(
-            route = DevOSRoutes.CODE_SEARCH,
-            arguments = listOf(
-                navArgument("repoId") { type = NavType.StringType },
-                navArgument("query") { type = NavType.StringType; defaultValue = "" },
-            ),
-        ) {
-            PlaceholderScreen(route = "code_search")
-        }
+        codeSearchNavigation(navController)
 
-        composable(
-            route = DevOSRoutes.SYMBOL_DETAILS,
-            arguments = listOf(
-                navArgument("repoId") { type = NavType.StringType },
-                navArgument("symbolId") { type = NavType.StringType },
-            ),
-        ) {
-            PlaceholderScreen(route = "symbol_details")
-        }
+        symbolDetailsNavigation(navController)
 
-        composable(
-            route = DevOSRoutes.DEPENDENCY_GRAPH,
-            arguments = listOf(navArgument("repoId") { type = NavType.StringType }),
-        ) {
-            PlaceholderScreen(route = "dependency_graph")
-        }
+        dependencyGraphNavigation(navController)
 
-        composable(
-            route = DevOSRoutes.ARCHITECTURE,
-            arguments = listOf(navArgument("repoId") { type = NavType.StringType }),
-        ) {
-            PlaceholderScreen(route = "architecture")
-        }
+        architectureNavigation(navController)
 
         // ── AI ──────────────────────────────────────────────────────────────────
         answerDetailNavigation(navController)
@@ -230,9 +196,7 @@ fun DevOSNavGraph(
         quizNavigation(navController)
 
         // ── Developer tools ───────────────────────────────────────────────────────
-        composable(route = DevOSRoutes.DEVELOPER_MEMORY) {
-            PlaceholderScreen(route = DevOSRoutes.DEVELOPER_MEMORY)
-        }
+        memoryNavigation(navController)
 
         composable(route = DevOSRoutes.MCP_TOOLS) {
             PlaceholderScreen(route = DevOSRoutes.MCP_TOOLS)
@@ -245,9 +209,7 @@ fun DevOSNavGraph(
         searchNavigation(navController)
 
         // ── Settings ─────────────────────────────────────────────────────────────
-        composable(route = DevOSRoutes.SETTINGS) {
-            PlaceholderScreen(route = DevOSRoutes.SETTINGS)
-        }
+        settingsRootNavigation(navController)
 
         aiSettingsNavigation(navController)
 
@@ -255,11 +217,6 @@ fun DevOSNavGraph(
             PlaceholderScreen(route = DevOSRoutes.PROVIDER_SETTINGS)
         }
 
-        composable(
-            route = DevOSRoutes.PROJECT_SETTINGS,
-            arguments = listOf(navArgument("projectId") { type = NavType.StringType }),
-        ) {
-            PlaceholderScreen(route = "project_settings")
-        }
+        projectSettingsNavigation(navController)
     }
 }

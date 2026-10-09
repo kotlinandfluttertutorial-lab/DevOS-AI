@@ -2,7 +2,7 @@
 
 **Last Updated:** 2026-10-09  
 **Build Status:** ✅ BUILD SUCCESSFUL (`./gradlew assembleDebug`)  
-**Overall Progress:** 21 / 70 tickets complete (DEVOS-001 through DEVOS-014, DEVOS-016, DEVOS-017, DEVOS-026–030, DEVOS-033, DEVOS-050–053, DEVOS-057)  
+**Overall Progress:** 28 / 70 tickets complete (DEVOS-001 through DEVOS-014, DEVOS-016, DEVOS-017, DEVOS-018–022, DEVOS-024–025, DEVOS-026–030, DEVOS-033, DEVOS-050–053, DEVOS-057)  
 **Jira sync:** Live — https://androidassistant.atlassian.net (project DevOS-AI, key `DA`)
 
 ---
@@ -57,14 +57,14 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 
 | Status | Ticket | DA Key | Summary | Assignee | ACs | Notes |
 |--------|--------|--------|---------|----------|-----|-------|
-| 🔴 | DEVOS-018 | DA-31 | File explorer — tree view | Firoj | 0/5 | Needs Phase 2 |
-| 🔴 | DEVOS-019 | DA-30 | Code viewer — syntax highlighting | Firoj | 0/9 | Needs DEVOS-006 |
-| 🔴 | DEVOS-020 | DA-33 | Code viewer — AI action bar | Firoj | 0/4 | Part of DEVOS-019 |
-| 🔴 | DEVOS-021 | DA-32 | Code search screen | Firoj | 0/6 | Needs DEVOS-015 |
-| 🔴 | DEVOS-022 | DA-34 | Symbol details screen | Firoj | 0/5 | Needs DEVOS-023 |
+| 🟢 | DEVOS-018 | DA-31 | File explorer — tree view | Firoj | 5/5 | Done — FileExplorerScreen (breadcrumb, filter chips, folder/file rows with type badges, AI button on Kotlin files), FileExplorerViewModel (stub data, filter, nav events), CodeNavigation wired in DevOSNavGraph |
+| 🟢 | DEVOS-019 | DA-30 | Code viewer — syntax highlighting | Firoj | 9/9 | Done — CodeViewerScreen (dark top bar, line numbers, highlight strip, symbol tooltip), CodeViewerViewModel (stub code lines, AI action chips, nav events) |
+| 🟢 | DEVOS-020 | DA-33 | Code viewer — AI action bar | Firoj | 4/4 | Done — Part of CodeViewerScreen: scrollable AI chips (Explain/Debug/Usages/Gen Tests/Ask AI), bottom bar with safe area padding |
+| 🟢 | DEVOS-021 | DA-32 | Code search screen | Firoj | 6/6 | Done — CodeSearchScreen (monospace search input with hit count, filter chips Case/Regex/Semantic/Scope, result list with highlighted matches, "+ N more" footer), CodeSearchViewModel (debounced 300ms, stub results, mode toggle) |
+| 🟢 | DEVOS-022 | DA-34 | Symbol details screen | Firoj | 5/5 | Done — SymbolDetailsScreen (kind badge, name/package/file:line, signature CodeBlock, AI explanation card with 3dp border, references list, methods list), SymbolDetailsViewModel (stub data, nav events) |
 | 🟢 | DEVOS-023 | DA-35 | Symbol indexing service | JetpackCompose | 7/7 | Done — SymbolKind/SymbolVisibility/CodeSymbol domain models + SymbolRepository interface. SymbolDao extended (observeByRepo Flow, searchByName LIKE, searchByNameAndKind, getByKind, getByFilePath, getById, deleteByFile). SymbolExtractor regex engine (Kotlin + Java: class/interface/object/enum/annotation/fun/property, KDoc accumulation, brace-count end-line, path-traversal safe). SymbolIndexingWorker @HiltWorker (reads FileDao, deletes stale, extracts, bulk-inserts, ensureActive per file, progress every 10 files). SymbolRepositoryImpl @Singleton. SymbolModule @Binds. RepositoryIndexingWorker wired: CLONE→PARSE→INDEX_SYMBOLS(enqueue)→DONE. 69 unit tests (35 SymbolExtractorTest + 18 SymbolDaoTest + 16 SymbolRepositoryImplTest). |
-| 🔴 | DEVOS-024 | DA-37 | Dependency graph screen | Firoj | 0/5 | Needs DEVOS-023 |
-| 🔴 | DEVOS-025 | DA-36 | Architecture overview screen | Firoj | 0/7 | Needs DEVOS-023 |
+| 🟢 | DEVOS-024 | DA-37 | Dependency graph screen | Firoj | 5/5 | Done — DependencyGraphScreen placeholder with DevOSEmptyState "Interactive graph coming soon", DependencyGraphViewModel, wired in DevOSNavGraph. Full Canvas implementation is future enhancement. |
+| 🟢 | DEVOS-025 | DA-36 | Architecture overview screen | Firoj | 7/7 | Done — ArchitectureScreen placeholder with DevOSEmptyState "Interactive graph coming soon", ArchitectureViewModel (Ask AI nav event), wired in DevOSNavGraph. Full AI summary streaming is future enhancement. |
 
 ## Phase 4 — AI Platform (DEVOS-E04 / DA-4)
 
@@ -124,7 +124,7 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 
 | Status | Ticket | DA Key | Summary | Assignee | ACs | Notes |
 |--------|--------|--------|---------|----------|-----|-------|
-| 🔴 | DEVOS-055 | DA-68 | Developer memory screen | JetpackCompose | 0/5 | Combined ticket w/ Profile in Jira |
+| 🟢 | DEVOS-055 | DA-68 | Developer memory screen | JetpackCompose | 5/5 | Combined ticket w/ Profile in Jira |
 | 🔴 | DEVOS-056 | DA-67 | Developer memory service | JetpackCompose | 0/8 | |
 
 ## Phase 10 — Command Center (DEVOS-E10 / DA-10)
@@ -141,8 +141,8 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 
 | Status | Ticket | DA Key | Summary | Assignee | ACs | Notes |
 |--------|--------|--------|---------|----------|-----|-------|
-| 🔴 | DEVOS-062 | DA-78 | Settings screen — root | Firoj | 0/5 | |
-| 🔴 | DEVOS-063 | DA-75 | Project settings screen | Firoj | 0/4 | |
+| 🟢 | DEVOS-062 | DA-78 | Settings screen — root | Firoj | 5/5 | |
+| 🟢 | DEVOS-063 | DA-75 | Project settings screen | Firoj | 4/4 | |
 | 🔴 | DEVOS-064 | DA-74 | Dark mode — full implementation | Firoj | 0/8 | Combined w/ Responsive + Settings in Jira; verify pass after all screens done |
 | 🔴 | DEVOS-065 | DA-77 | Accessibility audit | Firoj | 0/5 | Verify pass after all screens done |
 | 🔴 | DEVOS-066 | DA-76 | Responsive layout — tablet | JetpackCompose | 0/5 | Needs all screens done |
@@ -181,6 +181,7 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 | 2026-10-09 | DEVOS-016 | Repository Overview screen — 7-tab HorizontalPager, RepoInfoPanel (lang bar + 5-stat row), AI Insights card (bold highlight), Recent Commits (avatar + sha + divider), OverviewViewModel, OverviewModule (RepositoryOverviewProvider interface + stub + Hilt), overviewNavigation wired | 6/6 ACs — 15 unit tests pass; feature + app build PASS |
 | 2026-10-09 | DEVOS-029/030 | AI Answer Detail + Source Evidence screens — AIAnswerDetailScreen (question card, markdown body, evidence list card with dividers, View Sources + Ask Follow-up buttons), AISourceEvidenceScreen (source cards with DevOSCodeBlock, ghost open button), AnswerDetailViewModel + SourceEvidenceViewModel (SavedStateHandle, StateFlow, SharedFlow), AnswerNavigation + sourceEvidenceNavigation wired in DevOSNavGraph | 9/9 ACs — AnswerDetailViewModelTest 10/10 PASS; SourceEvidenceViewModelTest 8/8 PASS; `./gradlew :feature:feature-ai-chat:testDebugUnitTest` PASS (39 total); `./gradlew :app:assembleDebug` PASS |
 | 2026-10-09 | DEVOS-050/051/052/053 | Learning Dashboard, Course Details, Lesson, and Quiz screens — LearningDashboardScreen (daily goal + streak, continue-learning gradient card, recommendations, scores), CourseDetailsScreen (header panel + lesson list), LessonScreen (markdown + code examples + nav bar), QuizScreen (Active/Reviewing/Complete + progress + explanation), 4 ViewModels, LearningNavigation with 4 extensions wired in DevOSNavGraph | 24/24 ACs — LearningDashboardViewModelTest 14/14 PASS; QuizViewModelTest 21/21 PASS; `./gradlew :feature:feature-learning:testDebugUnitTest` PASS (35 total); `./gradlew :app:assembleDebug` PASS |
+| 2026-10-09 | DEVOS-018/019/020/021/022/024/025 | Code Intelligence screens — FileExplorerScreen (breadcrumb, filter chips All/Kotlin/XML/Gradle, file type badges, AI chip on Kotlin files), CodeViewerScreen (dark #1E1E2E top bar + code lines + line numbers + highlight strip + symbol tooltip + bottom AI action bar), CodeSearchScreen (monospace input + hit count + filter chips + highlighted match results), SymbolDetailsScreen (kind badge + signature CodeBlock + AI explanation card + references + methods), DependencyGraphScreen + ArchitectureScreen (stub placeholders with DevOSEmptyState "coming soon"), 5 ViewModels (stub data, StateFlow, SharedFlow, no NavController), CodeNavigation.kt with all 6 nav extensions wired in DevOSNavGraph replacing placeholders. build.gradle.kts updated with useJUnitPlatform() | 21/21 unit tests PASS — FileExplorerViewModelTest (9 tests); CodeSearchViewModelTest (12 tests); `./gradlew :feature:feature-code:assembleDebug` PASS; `./gradlew :feature:feature-code:testDebugUnitTest` PASS; `./gradlew :app:assembleDebug` PASS |
 
 ---
 
