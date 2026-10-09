@@ -86,6 +86,7 @@ dependencies {
     // Compose
     implementation(platform(libs.compose.bom))
     implementation(libs.bundles.compose)
+    implementation(libs.compose.material3.window.size)
 
     // Navigation
     implementation(libs.navigation.compose)
