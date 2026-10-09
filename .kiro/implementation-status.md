@@ -2,7 +2,7 @@
 
 **Last Updated:** 2026-10-09  
 **Build Status:** ✅ BUILD SUCCESSFUL (`./gradlew assembleDebug`)  
-**Overall Progress:** 15 / 70 tickets complete (DEVOS-001 through DEVOS-014, DEVOS-057)  
+**Overall Progress:** 17 / 70 tickets complete (DEVOS-001 through DEVOS-014, DEVOS-016, DEVOS-017, DEVOS-026–030, DEVOS-057)  
 **Jira sync:** Live — https://androidassistant.atlassian.net (project DevOS-AI, key `DA`)
 
 ---
@@ -73,8 +73,8 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 | 🟢 | DEVOS-026 | DA-38 | AI Chat screen — core | Firoj | 10/10 | Done — AIChatScreen matching #s-ai-chat mockup: custom top bar (back + title + context chip + clear), context selector LazyRow, action chips (AnimatedVisibility), user bubbles right-aligned, AI bubbles with gradient avatar + surfaceVariant + DevOSAIMessage, source reference chips, 3-dot pulsing thinking indicator, DevOSChatInput bottom bar. Build ✅ |
 | 🟢 | DEVOS-027 | DA-42 | AI Chat — context selector | Firoj | 8/8 | Done — Part of AIChatScreen: FilterChip LazyRow (Global/devos-ai/file), primaryContainer active state, 48dp touch targets |
 | 🟢 | DEVOS-028 | DA-44 | AI Chat — suggested actions | Firoj | 6/6 | Done — Part of AIChatScreen: Surface chip LazyRow (Explain/Find/Debug/Analyze/Review), AnimatedVisibility hides on input, tap pre-fills input |
-| 🔴 | DEVOS-029 | DA-40 | AI answer detail screen | Firoj | 0/5 | Needs DEVOS-026 |
-| 🔴 | DEVOS-030 | DA-43 | AI source evidence screen | Firoj | 0/4 | Needs DEVOS-029 |
+| 🟢 | DEVOS-029 | DA-40 | AI answer detail screen | Firoj | 5/5 | Done — AIAnswerDetailScreen (question card, DevOSMarkdownText body, Source Evidence section, evidence rows with dividers, View Sources + Ask Follow-up action buttons), AnswerDetailViewModel (SavedStateHandle, StateFlow, SharedFlow, stub data), AnswerNavigation wired in DevOSNavGraph. 10 unit tests pass. |
+| 🟢 | DEVOS-030 | DA-43 | AI source evidence screen | Firoj | 4/4 | Done — AISourceEvidenceScreen (subtitle, per-source DevOSCard with filename + relevance badge + line range + package + DevOSCodeBlock snippet + ghost "Open in Code Viewer" button), SourceEvidenceViewModel (SavedStateHandle, StateFlow, SharedFlow, stub data), sourceEvidenceNavigation wired in DevOSNavGraph. 8 unit tests pass. |
 | 🔴 | DEVOS-031 | DA-39 | RAG pipeline | JetpackCompose | 0/8 | Backend — needs Phase 2 |
 | 🔴 | DEVOS-032 | DA-41 | AI provider abstraction | JetpackCompose | 0/9 | Needs data-ai module |
 | 🔴 | DEVOS-033 | DA-46 | AI settings screen | Firoj | 0/8 | Needs DEVOS-032 |
@@ -176,7 +176,7 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 | 2026-10-09 | DEVOS-013 | Repository Import screen — RepositoryImportScreen (source selector 3 cards, URL input, validate flow, preview card, import options), ImportViewModel, stub RepositoryPreview, RepositoryNavigation wired in DevOSNavGraph | 10/10 ACs — `./gradlew :feature:feature-repository:testDebugUnitTest` PASS; `./gradlew :app:assembleDebug` PASS |
 | 2026-10-09 | DEVOS-014 | Repository Sync screen — RepositorySyncScreen (animated spinner, 5-step pipeline, overall progress bar, cancel button), SyncViewModel, RepositoryNavigation wired in DevOSNavGraph | 8/8 ACs — same build run as DEVOS-013 |
 | 2026-10-09 | DEVOS-016 | Repository Overview screen — 7-tab HorizontalPager, RepoInfoPanel (lang bar + 5-stat row), AI Insights card (bold highlight), Recent Commits (avatar + sha + divider), OverviewViewModel, OverviewModule (RepositoryOverviewProvider interface + stub + Hilt), overviewNavigation wired | 6/6 ACs — 15 unit tests pass; feature + app build PASS |
-| 2026-10-09 | DEVOS-017 | Repository List (Project List) screen — search bar + language filter chips + sort chips + LazyColumn of ProjectCards (DevOSHealthIndicator ring, health badge, sync status, footer counts), ProjectListViewModel (search/filter/sort, nav events), projectListNavigation wired | 5/5 ACs — 16 unit tests pass; feature + app build PASS |
+| 2026-10-09 | DEVOS-029/030 | AI Answer Detail + Source Evidence screens — AIAnswerDetailScreen (question card, markdown body, evidence list card with dividers, View Sources + Ask Follow-up buttons), AISourceEvidenceScreen (source cards with DevOSCodeBlock, ghost open button), AnswerDetailViewModel + SourceEvidenceViewModel (SavedStateHandle, StateFlow, SharedFlow), AnswerNavigation + sourceEvidenceNavigation wired in DevOSNavGraph | 9/9 ACs — AnswerDetailViewModelTest 10/10 PASS; SourceEvidenceViewModelTest 8/8 PASS; `./gradlew :feature:feature-ai-chat:testDebugUnitTest` PASS (39 total); `./gradlew :app:assembleDebug` PASS |
 
 ---
 
