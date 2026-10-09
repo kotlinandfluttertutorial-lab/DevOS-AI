@@ -14,7 +14,10 @@ import com.devos.ai.feature.auth.navigation.splashNavigation
 import com.devos.ai.feature.chat.aiChatNavigation
 import com.devos.ai.feature.chat.answerDetailNavigation
 import com.devos.ai.feature.chat.sourceEvidenceNavigation
+import com.devos.ai.feature.memory.memoryNavigation
 import com.devos.ai.feature.settings.aiSettingsNavigation
+import com.devos.ai.feature.settings.projectSettingsNavigation
+import com.devos.ai.feature.settings.settingsRootNavigation
 import com.devos.ai.feature.home.navigation.homeNavigation
 import com.devos.ai.feature.home.navigation.notificationsNavigation
 import com.devos.ai.feature.home.navigation.profileNavigation
@@ -230,9 +233,7 @@ fun DevOSNavGraph(
         quizNavigation(navController)
 
         // ── Developer tools ───────────────────────────────────────────────────────
-        composable(route = DevOSRoutes.DEVELOPER_MEMORY) {
-            PlaceholderScreen(route = DevOSRoutes.DEVELOPER_MEMORY)
-        }
+        memoryNavigation(navController)
 
         composable(route = DevOSRoutes.MCP_TOOLS) {
             PlaceholderScreen(route = DevOSRoutes.MCP_TOOLS)
@@ -245,9 +246,7 @@ fun DevOSNavGraph(
         searchNavigation(navController)
 
         // ── Settings ─────────────────────────────────────────────────────────────
-        composable(route = DevOSRoutes.SETTINGS) {
-            PlaceholderScreen(route = DevOSRoutes.SETTINGS)
-        }
+        settingsRootNavigation(navController)
 
         aiSettingsNavigation(navController)
 
@@ -255,11 +254,6 @@ fun DevOSNavGraph(
             PlaceholderScreen(route = DevOSRoutes.PROVIDER_SETTINGS)
         }
 
-        composable(
-            route = DevOSRoutes.PROJECT_SETTINGS,
-            arguments = listOf(navArgument("projectId") { type = NavType.StringType }),
-        ) {
-            PlaceholderScreen(route = "project_settings")
-        }
+        projectSettingsNavigation(navController)
     }
 }

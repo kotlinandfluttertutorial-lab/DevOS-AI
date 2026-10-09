@@ -124,7 +124,7 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 
 | Status | Ticket | DA Key | Summary | Assignee | ACs | Notes |
 |--------|--------|--------|---------|----------|-----|-------|
-| 🔴 | DEVOS-055 | DA-68 | Developer memory screen | JetpackCompose | 0/5 | Combined ticket w/ Profile in Jira |
+| 🟢 | DEVOS-055 | DA-68 | Developer memory screen | JetpackCompose | 5/5 | Combined ticket w/ Profile in Jira |
 | 🔴 | DEVOS-056 | DA-67 | Developer memory service | JetpackCompose | 0/8 | |
 
 ## Phase 10 — Command Center (DEVOS-E10 / DA-10)
@@ -141,8 +141,8 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 
 | Status | Ticket | DA Key | Summary | Assignee | ACs | Notes |
 |--------|--------|--------|---------|----------|-----|-------|
-| 🔴 | DEVOS-062 | DA-78 | Settings screen — root | Firoj | 0/5 | |
-| 🔴 | DEVOS-063 | DA-75 | Project settings screen | Firoj | 0/4 | |
+| 🟢 | DEVOS-062 | DA-78 | Settings screen — root | Firoj | 5/5 | |
+| 🟢 | DEVOS-063 | DA-75 | Project settings screen | Firoj | 4/4 | |
 | 🔴 | DEVOS-064 | DA-74 | Dark mode — full implementation | Firoj | 0/8 | Combined w/ Responsive + Settings in Jira; verify pass after all screens done |
 | 🔴 | DEVOS-065 | DA-77 | Accessibility audit | Firoj | 0/5 | Verify pass after all screens done |
 | 🔴 | DEVOS-066 | DA-76 | Responsive layout — tablet | JetpackCompose | 0/5 | Needs all screens done |
