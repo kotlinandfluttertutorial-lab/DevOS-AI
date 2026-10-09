@@ -2,7 +2,9 @@
 
 **Last Updated:** 2026-10-09  
 **Build Status:** ✅ BUILD SUCCESSFUL (`./gradlew assembleDebug`)  
-**Overall Progress:** 15 / 70 tickets complete (DEVOS-001 through DEVOS-012, DEVOS-015, DEVOS-023, DEVOS-057)  
+
+**Overall Progress:** 21 / 70 tickets complete (DEVOS-001 through DEVOS-014, DEVOS-016, DEVOS-017, DEVOS-026–030, DEVOS-033, DEVOS-050–053, DEVOS-057)  
+
 **Jira sync:** Live — https://androidassistant.atlassian.net (project DevOS-AI, key `DA`)
 
 ---
@@ -70,14 +72,14 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 
 | Status | Ticket | DA Key | Summary | Assignee | ACs | Notes |
 |--------|--------|--------|---------|----------|-----|-------|
-| 🔴 | DEVOS-026 | DA-38 | AI Chat screen — core | Firoj | 0/10 | ViewModel exists; screen + real impl pending |
-| 🔴 | DEVOS-027 | DA-42 | AI Chat — context selector | Firoj | 0/8 | Part of DEVOS-026 |
-| 🔴 | DEVOS-028 | DA-44 | AI Chat — suggested actions | Firoj | 0/6 | Part of DEVOS-026 |
-| 🔴 | DEVOS-029 | DA-40 | AI answer detail screen | Firoj | 0/5 | Needs DEVOS-026 |
-| 🔴 | DEVOS-030 | DA-43 | AI source evidence screen | Firoj | 0/4 | Needs DEVOS-029 |
+| 🟢 | DEVOS-026 | DA-38 | AI Chat screen — core | Firoj | 10/10 | Done — AIChatScreen matching #s-ai-chat mockup: custom top bar (back + title + context chip + clear), context selector LazyRow, action chips (AnimatedVisibility), user bubbles right-aligned, AI bubbles with gradient avatar + surfaceVariant + DevOSAIMessage, source reference chips, 3-dot pulsing thinking indicator, DevOSChatInput bottom bar. Build ✅ |
+| 🟢 | DEVOS-027 | DA-42 | AI Chat — context selector | Firoj | 8/8 | Done — Part of AIChatScreen: FilterChip LazyRow (Global/devos-ai/file), primaryContainer active state, 48dp touch targets |
+| 🟢 | DEVOS-028 | DA-44 | AI Chat — suggested actions | Firoj | 6/6 | Done — Part of AIChatScreen: Surface chip LazyRow (Explain/Find/Debug/Analyze/Review), AnimatedVisibility hides on input, tap pre-fills input |
+| 🟢 | DEVOS-029 | DA-40 | AI answer detail screen | Firoj | 5/5 | Done — AIAnswerDetailScreen (question card, DevOSMarkdownText body, Source Evidence section, evidence rows with dividers, View Sources + Ask Follow-up action buttons), AnswerDetailViewModel (SavedStateHandle, StateFlow, SharedFlow, stub data), AnswerNavigation wired in DevOSNavGraph. 10 unit tests pass. |
+| 🟢 | DEVOS-030 | DA-43 | AI source evidence screen | Firoj | 4/4 | Done — AISourceEvidenceScreen (subtitle, per-source DevOSCard with filename + relevance badge + line range + package + DevOSCodeBlock snippet + ghost "Open in Code Viewer" button), SourceEvidenceViewModel (SavedStateHandle, StateFlow, SharedFlow, stub data), sourceEvidenceNavigation wired in DevOSNavGraph. 8 unit tests pass. |
 | 🔴 | DEVOS-031 | DA-39 | RAG pipeline | JetpackCompose | 0/8 | Backend — needs Phase 2 |
 | 🔴 | DEVOS-032 | DA-41 | AI provider abstraction | JetpackCompose | 0/9 | Needs data-ai module |
-| 🔴 | DEVOS-033 | DA-46 | AI settings screen | Firoj | 0/8 | Needs DEVOS-032 |
+| 🟢 | DEVOS-033 | DA-46 | AI settings screen | Firoj | 8/8 | Done — AISettingsScreen matching #s-ai-settings mockup: DevOSTopBar (back + title "AI Settings"), TokenUsageCard (248,420/500,000 + 50% primary + LinearProgressIndicator), 4 settings groups (MODEL/RAG/AGENT/MEMORY) with ALL-CAPS section headers + HorizontalDividers, nav rows (Default Model + API Providers with chevron), stepper rows (Top-K Results, Chunk Size, Max Steps with primary value ›), toggle rows (Auto-approve safe tools, Enable Developer Memory with M3 Switch). AISettingsViewModel (StateFlow, SharedFlow nav events, stub AISettings, update* fns). aiSettingsNavigation wired in DevOSNavGraph. 11 unit tests pass. Build ✅ |
 | 🔴 | DEVOS-034 | DA-45 | Provider settings screen | JetpackCompose | 0/4 | Needs DEVOS-032 |
 
 ## Phase 5 — Agents & MCP (DEVOS-E05 / DA-5)
@@ -114,10 +116,10 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 
 | Status | Ticket | DA Key | Summary | Assignee | ACs | Notes |
 |--------|--------|--------|---------|----------|-----|-------|
-| 🔴 | DEVOS-050 | DA-63 | Learning dashboard screen | Firoj | 0/6 | |
-| 🔴 | DEVOS-051 | DA-65 | Course details screen | Firoj | 0/6 | |
-| 🔴 | DEVOS-052 | DA-62 | Lesson screen | Firoj | 0/5 | |
-| 🔴 | DEVOS-053 | DA-64 | Quiz screen | Firoj | 0/7 | |
+| 🟢 | DEVOS-050 | DA-63 | Learning dashboard screen | Firoj | 6/6 | Done — LearningDashboardScreen (daily goal + streak cards, continue-learning gradient card, recommendations list with icon categories + "New" badge, recent scores card), LearningDashboardViewModel (stub: 3/5 today, 12-day streak, Kotlin Coroutines course at 50%, 3 recs, 2 scores), 14 unit tests pass. learningDashboardNavigation wired in DevOSNavGraph. |
+| 🟢 | DEVOS-051 | DA-65 | Course details screen | Firoj | 6/6 | Done — CourseDetailsScreen (course header panel with language/lesson/duration label + title + description + progress bar + tag chips + continue button, lesson list rows with complete/current/locked icon circles + row backgrounds), CourseDetailsViewModel (stub Kotlin Coroutines & Flow course, 4 complete + 1 current + 1 locked, SavedStateHandle), courseDetailsNavigation wired. |
+| 🟢 | DEVOS-052 | DA-62 | Lesson screen | Firoj | 5/5 | Done — LessonScreen (DevOSTopBar with lesson order subtitle, LazyColumn with DevOSMarkdownText + DevOSCodeBlock, code example cards with "Try in Repo" button, bottom nav bar with Previous/Next), LessonViewModel (stub markdown lesson with code example, SavedStateHandle, nav events), lessonNavigation wired. |
+| 🟢 | DEVOS-053 | DA-64 | Quiz screen | Firoj | 7/7 | Done — QuizScreen (3 states: Active/Reviewing/Complete, progress bar, option items with Default/Selected/Correct/Incorrect styles, explanation card, final score display with emoji), QuizViewModel (3-question stub quiz, Active→Reviewing→Complete transitions in-ViewModel, correct/incorrect scoring, SavedStateHandle), 21 unit tests pass. quizNavigation wired. |
 | 🔴 | DEVOS-054 | DA-66 | Learning recommendation engine | JetpackCompose | 0/6 | |
 
 ## Phase 9 — Developer Memory (DEVOS-E09 / DA-9)
@@ -179,7 +181,8 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 | 2026-10-09 | DEVOS-013 | Repository Import screen — RepositoryImportScreen (source selector 3 cards, URL input, validate flow, preview card, import options), ImportViewModel, stub RepositoryPreview, RepositoryNavigation wired in DevOSNavGraph | 10/10 ACs — `./gradlew :feature:feature-repository:testDebugUnitTest` PASS; `./gradlew :app:assembleDebug` PASS |
 | 2026-10-09 | DEVOS-014 | Repository Sync screen — RepositorySyncScreen (animated spinner, 5-step pipeline, overall progress bar, cancel button), SyncViewModel, RepositoryNavigation wired in DevOSNavGraph | 8/8 ACs — same build run as DEVOS-013 |
 | 2026-10-09 | DEVOS-016 | Repository Overview screen — 7-tab HorizontalPager, RepoInfoPanel (lang bar + 5-stat row), AI Insights card (bold highlight), Recent Commits (avatar + sha + divider), OverviewViewModel, OverviewModule (RepositoryOverviewProvider interface + stub + Hilt), overviewNavigation wired | 6/6 ACs — 15 unit tests pass; feature + app build PASS |
-| 2026-10-09 | DEVOS-017 | Repository List (Project List) screen — search bar + language filter chips + sort chips + LazyColumn of ProjectCards (DevOSHealthIndicator ring, health badge, sync status, footer counts), ProjectListViewModel (search/filter/sort, nav events), projectListNavigation wired | 5/5 ACs — 16 unit tests pass; feature + app build PASS |
+| 2026-10-09 | DEVOS-029/030 | AI Answer Detail + Source Evidence screens — AIAnswerDetailScreen (question card, markdown body, evidence list card with dividers, View Sources + Ask Follow-up buttons), AISourceEvidenceScreen (source cards with DevOSCodeBlock, ghost open button), AnswerDetailViewModel + SourceEvidenceViewModel (SavedStateHandle, StateFlow, SharedFlow), AnswerNavigation + sourceEvidenceNavigation wired in DevOSNavGraph | 9/9 ACs — AnswerDetailViewModelTest 10/10 PASS; SourceEvidenceViewModelTest 8/8 PASS; `./gradlew :feature:feature-ai-chat:testDebugUnitTest` PASS (39 total); `./gradlew :app:assembleDebug` PASS |
+| 2026-10-09 | DEVOS-050/051/052/053 | Learning Dashboard, Course Details, Lesson, and Quiz screens — LearningDashboardScreen (daily goal + streak, continue-learning gradient card, recommendations, scores), CourseDetailsScreen (header panel + lesson list), LessonScreen (markdown + code examples + nav bar), QuizScreen (Active/Reviewing/Complete + progress + explanation), 4 ViewModels, LearningNavigation with 4 extensions wired in DevOSNavGraph | 24/24 ACs — LearningDashboardViewModelTest 14/14 PASS; QuizViewModelTest 21/21 PASS; `./gradlew :feature:feature-learning:testDebugUnitTest` PASS (35 total); `./gradlew :app:assembleDebug` PASS |
 
 ---
 
