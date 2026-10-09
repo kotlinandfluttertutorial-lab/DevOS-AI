@@ -73,7 +73,7 @@ fun DeveloperMemoryScreen(
                     ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
-                            contentDescription = null,
+                            contentDescription = "Navigate back",
                             tint = MaterialTheme.colorScheme.onSurface,
                         )
                     }
@@ -85,7 +85,7 @@ fun DeveloperMemoryScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Outlined.Search,
-                            contentDescription = null,
+                            contentDescription = "Search memories",
                             tint = MaterialTheme.colorScheme.onSurface,
                         )
                     }
@@ -381,7 +381,7 @@ private fun MemoryEntryCard(
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.Close,
-                        contentDescription = null,
+                        contentDescription = "Dismiss ${entry.title}",
                         modifier = Modifier.size(DevOSSpacing.iconSizeSmall),
                         tint = MaterialTheme.colorScheme.onSurfaceVariant,
                     )

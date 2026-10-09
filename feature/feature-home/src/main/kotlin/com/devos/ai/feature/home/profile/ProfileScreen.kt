@@ -92,7 +92,7 @@ fun ProfileScreen(
                     ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
-                            contentDescription = null,
+                            contentDescription = "Navigate back",
                             tint = MaterialTheme.colorScheme.onSurface,
                         )
                     }
@@ -104,7 +104,7 @@ fun ProfileScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Outlined.Edit,
-                            contentDescription = null,
+                            contentDescription = "Edit profile",
                             tint = MaterialTheme.colorScheme.onSurface,
                         )
                     }

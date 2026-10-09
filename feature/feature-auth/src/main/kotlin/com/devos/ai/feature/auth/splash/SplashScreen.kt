@@ -206,8 +206,8 @@ fun SplashScreen(
         // ── Version string pinned to bottom ───────────────────────────────────
         Text(
             text     = "v1.0.0 · Build 2026.10.08",
-            color    = Color(0xFF3A3F58),
-            fontSize = 11.sp,
+            color    = MaterialTheme.colorScheme.outline,
+            style    = MaterialTheme.typography.labelSmall,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(bottom = 40.dp),

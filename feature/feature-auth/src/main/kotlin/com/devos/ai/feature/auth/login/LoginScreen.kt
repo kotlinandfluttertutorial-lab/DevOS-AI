@@ -102,8 +102,8 @@ fun LoginScreen(
                 .background(
                     brush = Brush.linearGradient(
                         colors = listOf(
-                            Color(0xFF82AAFF),
-                            Color(0xFF89DDFF),
+                            MaterialTheme.colorScheme.primary,
+                            MaterialTheme.colorScheme.secondary,
                         ),
                     ),
                     shape = RoundedCornerShape(16.dp),
@@ -115,7 +115,7 @@ fun LoginScreen(
                 painter = painterResource(R.drawable.ic_devos_logo),
                 contentDescription = null,
                 modifier = Modifier.size(28.dp),
-                tint = Color(0xFF001E6E),
+                tint = MaterialTheme.colorScheme.onPrimary,
             )
         }
 
