@@ -20,8 +20,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -86,7 +88,14 @@ fun ProviderSettingsScreen(
         topBar          = {
             DevOSTopBar(
                 title    = "AI Providers",
-                onNavigateBack = onNavigateBack,
+                navigationIcon = {
+                    IconButton(onClick = onNavigateBack) {
+                        Icon(
+                            imageVector        = Icons.AutoMirrored.Outlined.ArrowBack,
+                            contentDescription = "Navigate back",
+                        )
+                    }
+                },
             )
         },
     ) { innerPadding ->
@@ -330,7 +339,7 @@ private fun ProviderCard(
                 DevOSButton(
                     text     = "Configure ${state.provider.displayName}",
                     onClick  = { onConfigureProvider(state.provider) },
-                    style    = DevOSButtonStyle.Outlined,
+                    style    = DevOSButtonStyle.Secondary,
                     modifier = Modifier
                         .fillMaxWidth()
                         .semantics {

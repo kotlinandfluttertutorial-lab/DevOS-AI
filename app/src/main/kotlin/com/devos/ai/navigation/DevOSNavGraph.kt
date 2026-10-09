@@ -32,6 +32,8 @@ import com.devos.ai.feature.code.navigation.codeViewerNavigation
 import com.devos.ai.feature.code.navigation.dependencyGraphNavigation
 import com.devos.ai.feature.code.navigation.fileExplorerNavigation
 import com.devos.ai.feature.code.navigation.symbolDetailsNavigation
+import com.devos.ai.feature.agents.agentRunNavigation
+import com.devos.ai.feature.agents.agentToolDetailNavigation
 import com.devos.ai.feature.settings.provider.providerSettingsNavigation
 import com.devos.ai.feature.repository.navigation.projectListNavigation
 import com.devos.ai.feature.repository.navigation.repositoryImportNavigation
@@ -114,22 +116,9 @@ fun DevOSNavGraph(
 
         sourceEvidenceNavigation(navController)
 
-        composable(
-            route = DevOSRoutes.AGENT_RUN,
-            arguments = listOf(navArgument("runId") { type = NavType.StringType }),
-        ) {
-            PlaceholderScreen(route = "agent_run")
-        }
+        agentRunNavigation(navController)
 
-        composable(
-            route = DevOSRoutes.AGENT_TOOL_EXEC,
-            arguments = listOf(
-                navArgument("runId") { type = NavType.StringType },
-                navArgument("toolId") { type = NavType.StringType },
-            ),
-        ) {
-            PlaceholderScreen(route = "agent_tool_exec")
-        }
+        agentToolDetailNavigation(navController)
 
         // ── Developer Intelligence ───────────────────────────────────────────────
         composable(

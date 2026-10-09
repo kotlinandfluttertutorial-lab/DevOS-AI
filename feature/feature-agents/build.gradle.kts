@@ -22,6 +22,7 @@ dependencies {
     implementation(project(":designsystem"))
     implementation(project(":core:core-common"))
     implementation(project(":core:core-ui"))
+    implementation(project(":domain:domain-ai"))
 
     implementation(platform(libs.compose.bom))
     implementation(libs.bundles.compose)
@@ -33,6 +34,7 @@ dependencies {
 
     testImplementation(libs.bundles.test.unit)
     testRuntimeOnly(libs.test.junit5.engine)
+    testRuntimeOnly(libs.test.junit5.launcher)
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.bundles.test.android)
     androidTestImplementation(libs.test.hilt)
