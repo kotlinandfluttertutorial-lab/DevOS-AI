@@ -26,6 +26,12 @@ import com.devos.ai.feature.learning.navigation.courseDetailsNavigation
 import com.devos.ai.feature.learning.navigation.learningDashboardNavigation
 import com.devos.ai.feature.learning.navigation.lessonNavigation
 import com.devos.ai.feature.learning.navigation.quizNavigation
+import com.devos.ai.feature.code.navigation.architectureNavigation
+import com.devos.ai.feature.code.navigation.codeSearchNavigation
+import com.devos.ai.feature.code.navigation.codeViewerNavigation
+import com.devos.ai.feature.code.navigation.dependencyGraphNavigation
+import com.devos.ai.feature.code.navigation.fileExplorerNavigation
+import com.devos.ai.feature.code.navigation.symbolDetailsNavigation
 import com.devos.ai.feature.repository.navigation.overviewNavigation
 import com.devos.ai.feature.repository.navigation.projectListNavigation
 import com.devos.ai.feature.repository.navigation.repositoryImportNavigation
@@ -91,60 +97,17 @@ fun DevOSNavGraph(
         // ── Repository ──────────────────────────────────────────────────────────
         overviewNavigation(navController)
 
-        composable(
-            route = DevOSRoutes.FILE_EXPLORER,
-            arguments = listOf(
-                navArgument("repoId") { type = NavType.StringType },
-                navArgument("path") { type = NavType.StringType; defaultValue = "" },
-            ),
-        ) {
-            PlaceholderScreen(route = "file_explorer")
-        }
+        fileExplorerNavigation(navController)
 
-        composable(
-            route = DevOSRoutes.CODE_VIEWER,
-            arguments = listOf(
-                navArgument("repoId") { type = NavType.StringType },
-                navArgument("path") { type = NavType.StringType; defaultValue = "" },
-                navArgument("line") { type = NavType.StringType; defaultValue = "0" },
-            ),
-        ) {
-            PlaceholderScreen(route = "code_viewer")
-        }
+        codeViewerNavigation(navController)
 
-        composable(
-            route = DevOSRoutes.CODE_SEARCH,
-            arguments = listOf(
-                navArgument("repoId") { type = NavType.StringType },
-                navArgument("query") { type = NavType.StringType; defaultValue = "" },
-            ),
-        ) {
-            PlaceholderScreen(route = "code_search")
-        }
+        codeSearchNavigation(navController)
 
-        composable(
-            route = DevOSRoutes.SYMBOL_DETAILS,
-            arguments = listOf(
-                navArgument("repoId") { type = NavType.StringType },
-                navArgument("symbolId") { type = NavType.StringType },
-            ),
-        ) {
-            PlaceholderScreen(route = "symbol_details")
-        }
+        symbolDetailsNavigation(navController)
 
-        composable(
-            route = DevOSRoutes.DEPENDENCY_GRAPH,
-            arguments = listOf(navArgument("repoId") { type = NavType.StringType }),
-        ) {
-            PlaceholderScreen(route = "dependency_graph")
-        }
+        dependencyGraphNavigation(navController)
 
-        composable(
-            route = DevOSRoutes.ARCHITECTURE,
-            arguments = listOf(navArgument("repoId") { type = NavType.StringType }),
-        ) {
-            PlaceholderScreen(route = "architecture")
-        }
+        architectureNavigation(navController)
 
         // ── AI ──────────────────────────────────────────────────────────────────
         answerDetailNavigation(navController)
