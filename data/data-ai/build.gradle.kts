@@ -31,6 +31,7 @@ dependencies {
     implementation(project(":core:core-common"))
 
     implementation(libs.kotlinx.coroutines)
+    implementation(libs.androidx.datastore)
     implementation(libs.bundles.network)
     implementation(libs.moshi)
     ksp(libs.moshi.codegen)

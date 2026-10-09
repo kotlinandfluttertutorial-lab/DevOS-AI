@@ -32,7 +32,7 @@ import com.devos.ai.feature.code.navigation.codeViewerNavigation
 import com.devos.ai.feature.code.navigation.dependencyGraphNavigation
 import com.devos.ai.feature.code.navigation.fileExplorerNavigation
 import com.devos.ai.feature.code.navigation.symbolDetailsNavigation
-import com.devos.ai.feature.repository.navigation.overviewNavigation
+import com.devos.ai.feature.settings.provider.providerSettingsNavigation
 import com.devos.ai.feature.repository.navigation.projectListNavigation
 import com.devos.ai.feature.repository.navigation.repositoryImportNavigation
 import com.devos.ai.feature.repository.navigation.repositorySyncNavigation
@@ -213,9 +213,7 @@ fun DevOSNavGraph(
 
         aiSettingsNavigation(navController)
 
-        composable(route = DevOSRoutes.PROVIDER_SETTINGS) {
-            PlaceholderScreen(route = DevOSRoutes.PROVIDER_SETTINGS)
-        }
+        providerSettingsNavigation(navController)
 
         projectSettingsNavigation(navController)
     }
