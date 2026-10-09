@@ -11,6 +11,10 @@ import androidx.navigation.navArgument
 import com.devos.ai.feature.auth.navigation.loginNavigation
 import com.devos.ai.feature.auth.navigation.onboardingNavigation
 import com.devos.ai.feature.auth.navigation.splashNavigation
+import com.devos.ai.feature.chat.aiChatNavigation
+import com.devos.ai.feature.chat.answerDetailNavigation
+import com.devos.ai.feature.chat.sourceEvidenceNavigation
+import com.devos.ai.feature.settings.aiSettingsNavigation
 import com.devos.ai.feature.home.navigation.homeNavigation
 import com.devos.ai.feature.repository.navigation.overviewNavigation
 import com.devos.ai.feature.repository.navigation.projectListNavigation
@@ -54,9 +58,7 @@ fun DevOSNavGraph(
 
         projectListNavigation(navController)
 
-        composable(route = DevOSRoutes.AI_CHAT) {
-            PlaceholderScreen(route = DevOSRoutes.AI_CHAT)
-        }
+        aiChatNavigation(navController)
 
         composable(route = DevOSRoutes.LEARNING_DASHBOARD) {
             PlaceholderScreen(route = DevOSRoutes.LEARNING_DASHBOARD)
@@ -137,19 +139,9 @@ fun DevOSNavGraph(
         }
 
         // ── AI ──────────────────────────────────────────────────────────────────
-        composable(
-            route = DevOSRoutes.AI_ANSWER_DETAIL,
-            arguments = listOf(navArgument("answerId") { type = NavType.StringType }),
-        ) {
-            PlaceholderScreen(route = "ai_answer_detail")
-        }
+        answerDetailNavigation(navController)
 
-        composable(
-            route = DevOSRoutes.AI_SOURCE_EVIDENCE,
-            arguments = listOf(navArgument("answerId") { type = NavType.StringType }),
-        ) {
-            PlaceholderScreen(route = "ai_source_evidence")
-        }
+        sourceEvidenceNavigation(navController)
 
         composable(
             route = DevOSRoutes.AGENT_RUN,
@@ -284,9 +276,7 @@ fun DevOSNavGraph(
             PlaceholderScreen(route = DevOSRoutes.SETTINGS)
         }
 
-        composable(route = DevOSRoutes.AI_SETTINGS) {
-            PlaceholderScreen(route = DevOSRoutes.AI_SETTINGS)
-        }
+        aiSettingsNavigation(navController)
 
         composable(route = DevOSRoutes.PROVIDER_SETTINGS) {
             PlaceholderScreen(route = DevOSRoutes.PROVIDER_SETTINGS)
