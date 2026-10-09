@@ -17,6 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
+import kotlin.coroutines.coroutineContext
 import timber.log.Timber
 import java.io.File
 import kotlin.coroutines.cancellation.CancellationException
@@ -104,7 +105,7 @@ class SymbolIndexingWorker @AssistedInject constructor(
             withContext(Dispatchers.IO) { symbolDao.deleteByRepo(repoId) }
 
             for (fileEntity in sourceFiles) {
-                ensureActive()  // Honour cancellation between files
+                coroutineContext.ensureActive()  // Honour cancellation between files
 
                 try {
                     val file = File(root, fileEntity.path)
