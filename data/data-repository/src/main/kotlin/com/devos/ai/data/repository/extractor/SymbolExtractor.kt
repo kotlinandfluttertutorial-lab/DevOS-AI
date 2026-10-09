@@ -107,7 +107,7 @@ object SymbolExtractor {
 
             // Accumulate doc comment lines
             if (line.trimStart().startsWith("/**") ||
-                line.trimStart().startsWith(" *") ||
+                line.trimStart().startsWith("*") ||
                 line.trimStart().startsWith("*/")
             ) {
                 val captured = DOC_LINE.find(line)?.groupValues?.getOrNull(1)?.trim()
@@ -188,7 +188,7 @@ object SymbolExtractor {
 
             // Doc comment accumulation
             if (line.trimStart().startsWith("/**") ||
-                line.trimStart().startsWith(" *") ||
+                line.trimStart().startsWith("*") ||
                 line.trimStart().startsWith("*/")
             ) {
                 val captured = DOC_LINE.find(line)?.groupValues?.getOrNull(1)?.trim()
