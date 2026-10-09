@@ -11,6 +11,7 @@ import androidx.navigation.navArgument
 import com.devos.ai.feature.auth.navigation.loginNavigation
 import com.devos.ai.feature.auth.navigation.onboardingNavigation
 import com.devos.ai.feature.auth.navigation.splashNavigation
+import com.devos.ai.feature.chat.aiChatNavigation
 import com.devos.ai.feature.home.navigation.homeNavigation
 import com.devos.ai.feature.repository.navigation.overviewNavigation
 import com.devos.ai.feature.repository.navigation.projectListNavigation
@@ -54,9 +55,7 @@ fun DevOSNavGraph(
 
         projectListNavigation(navController)
 
-        composable(route = DevOSRoutes.AI_CHAT) {
-            PlaceholderScreen(route = DevOSRoutes.AI_CHAT)
-        }
+        aiChatNavigation(navController)
 
         composable(route = DevOSRoutes.LEARNING_DASHBOARD) {
             PlaceholderScreen(route = DevOSRoutes.LEARNING_DASHBOARD)

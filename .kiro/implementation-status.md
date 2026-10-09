@@ -70,7 +70,7 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 
 | Status | Ticket | DA Key | Summary | Assignee | ACs | Notes |
 |--------|--------|--------|---------|----------|-----|-------|
-| 🔴 | DEVOS-026 | DA-38 | AI Chat screen — core | Firoj | 0/10 | ViewModel exists; screen + real impl pending |
+| 🟡 | DEVOS-026 | DA-38 | AI Chat screen — core | Firoj | 0/10 | **In Progress** |
 | 🔴 | DEVOS-027 | DA-42 | AI Chat — context selector | Firoj | 0/8 | Part of DEVOS-026 |
 | 🔴 | DEVOS-028 | DA-44 | AI Chat — suggested actions | Firoj | 0/6 | Part of DEVOS-026 |
 | 🔴 | DEVOS-029 | DA-40 | AI answer detail screen | Firoj | 0/5 | Needs DEVOS-026 |

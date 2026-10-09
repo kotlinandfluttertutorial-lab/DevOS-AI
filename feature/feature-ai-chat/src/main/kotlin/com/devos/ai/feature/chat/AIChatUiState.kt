@@ -23,8 +23,16 @@ sealed interface AIChatUiState {
         val streamingError: String? = null,   // inline error, not full-screen
     ) : AIChatUiState
 
-    /** No messages yet — show empty state with suggested prompts. */
-    data object Empty : AIChatUiState
+    /**
+     * No messages yet — show empty state with action chips and suggested prompts.
+     *
+     * @param context Currently selected AI context
+     * @param actionChips Suggested action chips shown in the empty state
+     */
+    data class Empty(
+        val context: AIContext = AIContext.Global,
+        val actionChips: List<ActionChip> = defaultActionChips,
+    ) : AIChatUiState
 
     /** Fatal error loading the session. */
     data class Error(
@@ -32,3 +40,23 @@ sealed interface AIChatUiState {
         val retryable: Boolean = true,
     ) : AIChatUiState
 }
+
+/**
+ * A suggested action chip shown when the chat input is empty.
+ *
+ * Tapping the chip pre-fills the input with [promptPrefix].
+ */
+data class ActionChip(
+    val id: String,
+    val label: String,
+    val promptPrefix: String,
+)
+
+/** Default action chips matching the #s-ai-chat mockup. */
+val defaultActionChips: List<ActionChip> = listOf(
+    ActionChip(id = "explain",  label = "✨ Explain",  promptPrefix = "Explain "),
+    ActionChip(id = "find",     label = "🔍 Find",     promptPrefix = "Find "),
+    ActionChip(id = "debug",    label = "🐛 Debug",    promptPrefix = "Debug "),
+    ActionChip(id = "analyze",  label = "🔗 Analyze",  promptPrefix = "Analyze "),
+    ActionChip(id = "review",   label = "👀 Review",   promptPrefix = "Review "),
+)
