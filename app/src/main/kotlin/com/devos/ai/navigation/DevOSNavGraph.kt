@@ -36,6 +36,8 @@ import com.devos.ai.feature.repository.navigation.overviewNavigation
 import com.devos.ai.feature.repository.navigation.projectListNavigation
 import com.devos.ai.feature.repository.navigation.repositoryImportNavigation
 import com.devos.ai.feature.repository.navigation.repositorySyncNavigation
+import com.devos.ai.feature.security.securityNavigation
+import com.devos.ai.feature.testing.testIntelligenceNavigation
 
 /**
  * Root navigation graph for DevOS AI.
@@ -174,19 +176,9 @@ fun DevOSNavGraph(
         }
 
         // ── Quality ──────────────────────────────────────────────────────────────
-        composable(
-            route = DevOSRoutes.SECURITY_FINDINGS,
-            arguments = listOf(navArgument("projectId") { type = NavType.StringType }),
-        ) {
-            PlaceholderScreen(route = "security_findings")
-        }
+        securityNavigation(navController)
 
-        composable(
-            route = DevOSRoutes.TEST_INTELLIGENCE,
-            arguments = listOf(navArgument("projectId") { type = NavType.StringType }),
-        ) {
-            PlaceholderScreen(route = "test_intelligence")
-        }
+        testIntelligenceNavigation(navController)
 
         // ── Learning ─────────────────────────────────────────────────────────────
         courseDetailsNavigation(navController)
