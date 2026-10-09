@@ -137,3 +137,13 @@ private fun AIProvider.asTokenKey(): TokenKey = object : TokenKey {
     override val prefKey = this@asTokenKey.prefKey
     override val name    = this@asTokenKey.displayName
 }
+
+    // ── Package-internal helpers used by ReActEngine ──────────────────────────
+
+    /** Returns the stored API key for the given provider (raw — handle with care). */
+    internal suspend fun getApiKey(provider: com.devos.ai.domain.ai.model.AIProvider): String? =
+        secureTokenRepository.getToken(provider.asTokenKey())
+
+    /** Returns the registered provider client for [provider], or null. */
+    internal fun getClient(provider: com.devos.ai.domain.ai.model.AIProvider) =
+        providerClients[provider]
