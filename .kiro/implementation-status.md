@@ -70,9 +70,9 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 
 | Status | Ticket | DA Key | Summary | Assignee | ACs | Notes |
 |--------|--------|--------|---------|----------|-----|-------|
-| 🔴 | DEVOS-026 | DA-38 | AI Chat screen — core | Firoj | 0/10 | ViewModel exists; screen + real impl pending |
-| 🔴 | DEVOS-027 | DA-42 | AI Chat — context selector | Firoj | 0/8 | Part of DEVOS-026 |
-| 🔴 | DEVOS-028 | DA-44 | AI Chat — suggested actions | Firoj | 0/6 | Part of DEVOS-026 |
+| 🟢 | DEVOS-026 | DA-38 | AI Chat screen — core | Firoj | 10/10 | Done — AIChatScreen matching #s-ai-chat mockup: custom top bar (back + title + context chip + clear), context selector LazyRow, action chips (AnimatedVisibility), user bubbles right-aligned, AI bubbles with gradient avatar + surfaceVariant + DevOSAIMessage, source reference chips, 3-dot pulsing thinking indicator, DevOSChatInput bottom bar. Build ✅ |
+| 🟢 | DEVOS-027 | DA-42 | AI Chat — context selector | Firoj | 8/8 | Done — Part of AIChatScreen: FilterChip LazyRow (Global/devos-ai/file), primaryContainer active state, 48dp touch targets |
+| 🟢 | DEVOS-028 | DA-44 | AI Chat — suggested actions | Firoj | 6/6 | Done — Part of AIChatScreen: Surface chip LazyRow (Explain/Find/Debug/Analyze/Review), AnimatedVisibility hides on input, tap pre-fills input |
 | 🔴 | DEVOS-029 | DA-40 | AI answer detail screen | Firoj | 0/5 | Needs DEVOS-026 |
 | 🔴 | DEVOS-030 | DA-43 | AI source evidence screen | Firoj | 0/4 | Needs DEVOS-029 |
 | 🔴 | DEVOS-031 | DA-39 | RAG pipeline | JetpackCompose | 0/8 | Backend — needs Phase 2 |
