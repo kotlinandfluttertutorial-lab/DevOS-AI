@@ -3,6 +3,7 @@ package com.devos.ai.data.repository
 import android.content.Context
 import androidx.work.Constraints
 import androidx.work.ExistingWorkPolicy
+import androidx.work.ListenableWorker
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkInfo
@@ -24,6 +25,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
 import java.util.UUID
+import javax.inject.Named
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -43,6 +45,8 @@ open class RepositoryRepositoryImpl @Inject constructor(
     @ApplicationContext private val context: Context,
     private val repositoryDao: RepositoryDao,
     private val fileDao: FileDao,
+    @Named("ChunkingWorkerClass")
+    private val chunkingWorkerClass: Class<out ListenableWorker>,
 ) : RepositoryRepository {
 
     /** Overrideable in tests — avoids WorkManager.getInstance() static call. */
@@ -156,7 +160,7 @@ open class RepositoryRepositoryImpl @Inject constructor(
         cloneUrl: String,
         provider: RepositoryProvider,
     ) {
-        val request = OneTimeWorkRequestBuilder<RepositoryIndexingWorker>()
+        val indexRequest = OneTimeWorkRequestBuilder<RepositoryIndexingWorker>()
             .setInputData(
                 workDataOf(
                     RepositoryIndexingWorker.KEY_REPO_ID   to repoId,
@@ -169,13 +173,21 @@ open class RepositoryRepositoryImpl @Inject constructor(
                     .setRequiredNetworkType(NetworkType.CONNECTED)
                     .build(),
             )
+            .addTag("index_$repoId")
             .build()
 
-        workManager.enqueueUniqueWork(
-            workName(repoId),
-            ExistingWorkPolicy.REPLACE,
-            request,
-        )
+        // Build ChunkingWorker request using the injected class reference so that
+        // data-repository stays free of data-ai imports (Clean Architecture).
+        val chunkRequest = androidx.work.OneTimeWorkRequest.Builder(chunkingWorkerClass)
+            .setInputData(workDataOf("repo_id" to repoId))
+            .addTag("chunk_$repoId")
+            .build()
+
+        // Chain: RepositoryIndexingWorker → ChunkingWorker (RAG vectors)
+        workManager
+            .beginUniqueWork(workName(repoId), ExistingWorkPolicy.REPLACE, indexRequest)
+            .then(chunkRequest)
+            .enqueue()
     }
 
     /**
