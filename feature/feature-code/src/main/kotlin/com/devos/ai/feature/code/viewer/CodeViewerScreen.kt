@@ -226,7 +226,7 @@ private fun CodeLineRow(
     onTap: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val bgColor = if (isHighlighted) Color(0xFF2D3748) else Color.Transparent
+    val bgColor = if (isHighlighted) SyntaxColors.selection else Color.Transparent
 
     Row(
         modifier = modifier

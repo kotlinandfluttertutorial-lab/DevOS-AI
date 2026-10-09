@@ -112,7 +112,7 @@ fun RepositoryOverviewScreen(
                     ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
-                            contentDescription = null,
+                            contentDescription = "Navigate back",
                             tint = MaterialTheme.colorScheme.onSurface,
                         )
                     }
@@ -126,7 +126,7 @@ fun RepositoryOverviewScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Outlined.Refresh,
-                            contentDescription = null,
+                            contentDescription = "Refresh",
                             tint = MaterialTheme.colorScheme.onSurface,
                         )
                     }
@@ -138,7 +138,7 @@ fun RepositoryOverviewScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Outlined.MoreVert,
-                            contentDescription = null,
+                            contentDescription = "More options",
                             tint = MaterialTheme.colorScheme.onSurface,
                         )
                     }
