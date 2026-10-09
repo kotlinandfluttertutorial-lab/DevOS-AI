@@ -21,11 +21,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.unit.dp
 import com.devos.ai.designsystem.components.DevOSCard
-import com.devos.ai.designsystem.components.DevOSStatusBadge
+import com.devos.ai.designsystem.theme.DevOSAmber300
+import com.devos.ai.designsystem.theme.DevOSBlue300
+import com.devos.ai.designsystem.theme.DevOSRed300
 import com.devos.ai.designsystem.theme.DevOSSpacing
 import com.devos.ai.feature.home.model.AIRecommendation
 import com.devos.ai.feature.home.model.RecommendationType
@@ -33,9 +39,13 @@ import com.devos.ai.feature.home.model.RecommendationType
 /**
  * Card for an AI recommendation in the "AI Recommendations" section.
  *
- * Shows a type badge, title, description, and a dismiss button.
- * The dismiss button calls [onDismiss] which removes the recommendation from the list
- * and persists the dismissal to DataStore.
+ * Matches the recommendation cards in `#s-home` mockup:
+ * - 3dp left border in severity color (security=error, tests=warning, learning/arch=primary)
+ * - Icon + title (13sp 600w) + description (12sp, onSurfaceVariant)
+ * - Dismiss ✕ button (top-right)
+ *
+ * The left border is painted with [drawBehind] so it sits on top of the card's
+ * background without requiring an extra container composable.
  */
 @Composable
 internal fun RecommendationCard(
@@ -43,60 +53,82 @@ internal fun RecommendationCard(
     onDismiss: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val borderColor = recommendation.type.borderColor()
+
     DevOSCard(
         modifier = modifier
             .fillMaxWidth()
+            .drawBehind {
+                // 3dp start (left) border — mirrors `border-left: 3px solid` in the mockup
+                val borderWidthPx = 3.dp.toPx()
+                drawLine(
+                    color       = borderColor,
+                    start       = Offset(borderWidthPx / 2f, 0f),
+                    end         = Offset(borderWidthPx / 2f, size.height),
+                    strokeWidth = borderWidthPx,
+                )
+            }
             .semantics { contentDescription = recommendation.title },
     ) {
         Row(
-            modifier = Modifier.padding(DevOSSpacing.base),
+            modifier          = Modifier.padding(DevOSSpacing.base),
             verticalAlignment = Alignment.Top,
         ) {
             Icon(
-                imageVector = recommendation.type.icon(),
+                imageVector        = recommendation.type.icon(),
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.size(DevOSSpacing.iconSize),
+                tint               = borderColor,
+                modifier           = Modifier.size(DevOSSpacing.iconSize),
             )
 
             Spacer(modifier = Modifier.width(DevOSSpacing.sm))
 
             Column(modifier = Modifier.weight(1f)) {
-                DevOSStatusBadge(
-                    status = recommendation.type.badgeStatus,
-                    label = recommendation.type.label,
-                )
-                Spacer(modifier = Modifier.height(DevOSSpacing.xs))
                 Text(
-                    text = recommendation.title,
+                    text  = recommendation.title,
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onSurface,
                 )
                 Spacer(modifier = Modifier.height(DevOSSpacing.xs))
                 Text(
-                    text = recommendation.description,
+                    text  = recommendation.description,
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
 
             IconButton(
-                onClick = { onDismiss(recommendation.id) },
+                onClick  = { onDismiss(recommendation.id) },
                 modifier = Modifier.size(DevOSSpacing.touchTarget),
             ) {
                 Icon(
-                    imageVector = Icons.Outlined.Close,
+                    imageVector        = Icons.Outlined.Close,
                     contentDescription = "Dismiss ${recommendation.title}",
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    tint               = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
         }
     }
 }
 
+/**
+ * Maps [RecommendationType] to the exact left-border color from the mockup:
+ * - SECURITY   → `#FF5370` error red
+ * - TESTS      → `#FFCB6B` amber warning
+ * - LEARNING   → `#82AAFF` primary blue
+ * - ARCHITECTURE → `#82AAFF` primary blue
+ */
+@Composable
+private fun RecommendationType.borderColor(): Color = when (this) {
+    RecommendationType.SECURITY     -> DevOSRed300    // #FF5370
+    RecommendationType.TESTS        -> DevOSAmber300   // #FFCB6B
+    RecommendationType.LEARNING     -> DevOSBlue300    // #82AAFF
+    RecommendationType.ARCHITECTURE -> DevOSBlue300    // #82AAFF
+}
+
 private fun RecommendationType.icon(): ImageVector = when (this) {
-    RecommendationType.SECURITY -> Icons.Outlined.Security
-    RecommendationType.TESTS -> Icons.Outlined.Science
-    RecommendationType.LEARNING -> Icons.Outlined.MenuBook
+    RecommendationType.SECURITY     -> Icons.Outlined.Security
+    RecommendationType.TESTS        -> Icons.Outlined.Science
+    RecommendationType.LEARNING     -> Icons.Outlined.MenuBook
     RecommendationType.ARCHITECTURE -> Icons.Outlined.Architecture
 }
