@@ -105,9 +105,9 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 
 | Status | Ticket | DA Key | Summary | Assignee | ACs | Notes |
 |--------|--------|--------|---------|----------|-----|-------|
-| 🔴 | DEVOS-046 | DA-59 | Security findings screen | JetpackCompose | 0/9 | Needs DEVOS-047 |
+| 🟡 | DEVOS-046 | DA-59 | Security findings screen | **Firoj** | 0/9 | **Reassigned to Firoj — UI screen** |
 | 🔴 | DEVOS-047 | DA-58 | Security scanning service | JetpackCompose | 0/5 | WorkManager job |
-| 🔴 | DEVOS-048 | DA-61 | Test intelligence screen | JetpackCompose | 0/6 | Needs DEVOS-049 |
+| 🟡 | DEVOS-048 | DA-61 | Test intelligence screen | **Firoj** | 0/6 | **Reassigned to Firoj — UI screen** |
 | 🔴 | DEVOS-049 | DA-60 | Test coverage analysis service | JetpackCompose | 0/8 | SAX parser (JaCoCo/Kover) |
 
 ## Phase 8 — Learning (DEVOS-E08 / DA-8)
@@ -154,7 +154,7 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 | 🔴 | DEVOS-067 | DA-79 | CI/CD pipeline | JetpackCompose | 0/5 | |
 | 🔴 | DEVOS-068 | DA-81 | Observability | JetpackCompose | 0/5 | |
 | 🔴 | DEVOS-069 | DA-80 | AI evaluation framework | JetpackCompose | 0/5 | |
-| 🔴 | DEVOS-070 | DA-82 | Performance optimization | JetpackCompose | 0/5 | Final pass |
+| 🟡 | DEVOS-070 | DA-82 | Performance optimization — Compose side | **Firoj** | 0/5 | **Reassigned to Firoj for Compose pass** (lazy lists, recomposition, Profiler) |
 
 ## Phase 13 — Screen-Mirror Tickets (DEVOS-101–140, DA-83 to DA-122)
 
