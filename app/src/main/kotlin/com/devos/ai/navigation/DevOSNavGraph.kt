@@ -12,6 +12,8 @@ import com.devos.ai.feature.auth.navigation.loginNavigation
 import com.devos.ai.feature.auth.navigation.onboardingNavigation
 import com.devos.ai.feature.auth.navigation.splashNavigation
 import com.devos.ai.feature.home.navigation.homeNavigation
+import com.devos.ai.feature.repository.navigation.overviewNavigation
+import com.devos.ai.feature.repository.navigation.projectListNavigation
 import com.devos.ai.feature.repository.navigation.repositoryImportNavigation
 import com.devos.ai.feature.repository.navigation.repositorySyncNavigation
 
@@ -50,9 +52,7 @@ fun DevOSNavGraph(
         // ── Primary tabs ────────────────────────────────────────────────────────
         homeNavigation(navController)
 
-        composable(route = DevOSRoutes.PROJECT_LIST) {
-            PlaceholderScreen(route = DevOSRoutes.PROJECT_LIST)
-        }
+        projectListNavigation(navController)
 
         composable(route = DevOSRoutes.AI_CHAT) {
             PlaceholderScreen(route = DevOSRoutes.AI_CHAT)
@@ -79,12 +79,7 @@ fun DevOSNavGraph(
         repositorySyncNavigation(navController)
 
         // ── Repository ──────────────────────────────────────────────────────────
-        composable(
-            route = DevOSRoutes.REPOSITORY_OVERVIEW,
-            arguments = listOf(navArgument("repoId") { type = NavType.StringType }),
-        ) {
-            PlaceholderScreen(route = "repository_overview")
-        }
+        overviewNavigation(navController)
 
         composable(
             route = DevOSRoutes.FILE_EXPLORER,
