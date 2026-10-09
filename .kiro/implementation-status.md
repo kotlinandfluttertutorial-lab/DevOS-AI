@@ -190,14 +190,11 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 
 | Check | Status |
 |-------|--------|
-| `./gradlew :core:core-security:assembleDebug` | ✅ PASS |
-| `./gradlew :feature:feature-auth:testDebugUnitTest` | ✅ PASS (review-fix iteration: 8 AuthViewModel, 5 CheckAuthState, 4 ExchangeCodeForToken, 8 OnboardingVM, 3 SplashVM = 28 tests) |
-| `./gradlew :feature:feature-home:testDebugUnitTest` | ✅ PASS (15 tests: 3 init/stub data, 3 dismissRecommendation, 3 nav events, 3 error state) |
-| `./gradlew :feature:feature-repository:testDebugUnitTest` | ✅ PASS (28 tests: 17 ImportViewModel + 11 SyncViewModel) |
-| `./gradlew assembleDebug` | ✅ PASS |
-| `./gradlew testDebugUnitTest` | ✅ PASS (BUILD SUCCESSFUL) |
-| Dark mode verified | 🟡 Token audit complete; manual screenshot review pending |
-| Accessibility scan | 🟡 Automated fixes applied; manual TalkBack test pending |
+| `./gradlew assembleDebug` | ✅ PASS — BUILD SUCCESSFUL in 34s |
+| `./gradlew testDebugUnitTest --rerun-tasks` | ✅ PASS — **327 tests, 0 failures** (2026-10-09) |
+| Dark mode verified | ✅ DONE — 7 hardcoded colors fixed, DarkModePreview.kt added |
+| Accessibility scan | ✅ DONE — contentDescription fixed across 7 screens |
+| Responsive layout (tablet) | ✅ DONE — NavigationRail on Medium/Expanded widths |
 
 ---
 
