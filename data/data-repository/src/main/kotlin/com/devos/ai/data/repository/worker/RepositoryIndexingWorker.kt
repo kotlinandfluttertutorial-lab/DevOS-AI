@@ -3,6 +3,9 @@ package com.devos.ai.data.repository.worker
 import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
+import androidx.work.ExistingWorkPolicy
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
 import com.devos.ai.core.database.dao.FileDao
@@ -27,18 +30,18 @@ import kotlin.coroutines.cancellation.CancellationException
 /**
  * WorkManager worker that clones and indexes a repository.
  *
- * Steps executed in order:
- * 1. [SyncStep.CLONE]   — shallow git clone into `filesDir/repos/<repoId>`
- * 2. [SyncStep.PARSE]   — walk the file tree and upsert [FileEntity] rows
- * 3. [SyncStep.DONE]    — mark sync status as SYNCED
+ * ## Pipeline steps
+ * 1. [SyncStep.CLONE]         — shallow git clone into `filesDir/repos/<repoId>`
+ * 2. [SyncStep.PARSE]         — walk the file tree and upsert [FileEntity] rows
+ * 3. [SyncStep.INDEX_SYMBOLS] — enqueue [SymbolIndexingWorker] as chained work
+ * 4. [SyncStep.DONE]          — mark sync status SYNCED
  *
- * Symbol extraction ([SyncStep.INDEX_SYMBOLS]) and vector building
- * ([SyncStep.BUILD_VECTORS]) are intentionally omitted — DEVOS-023 adds them.
+ * [SyncStep.BUILD_VECTORS] (RAG embeddings) is handled by DEVOS-031.
  *
- * Security rules enforced here:
+ * ## Security
  * - Tokens are NEVER logged raw; only `token.take(4)+"****"` appears in logs.
- * - File paths are canonicalised and checked against the repo root to prevent
- *   path-traversal attacks before any [FileEntity] is written.
+ * - All file paths are canonicalised against the repo root to prevent
+ *   path-traversal before any [FileEntity] is written.
  */
 @HiltWorker
 class RepositoryIndexingWorker @AssistedInject constructor(
@@ -59,6 +62,9 @@ class RepositoryIndexingWorker @AssistedInject constructor(
 
         /** Emitted via [Result.failure] output data on error. */
         const val KEY_ERROR     = "error_message"
+
+        /** Unique work name prefix for chaining with [SymbolIndexingWorker]. */
+        internal fun symbolWorkName(repoId: String) = "symbol_index_$repoId"
     }
 
     override suspend fun doWork(): Result {
@@ -81,6 +87,12 @@ class RepositoryIndexingWorker @AssistedInject constructor(
             val files = parseFiles(localPath, repoId)
             fileDao.insertAll(files)
 
+            // ── INDEX_SYMBOLS ─────────────────────────────────────────────────
+            // Enqueue SymbolIndexingWorker as chained unique work.
+            // It runs after this worker completes and shares the same work chain tag.
+            setProgress(workDataOf(KEY_STEP to SyncStep.INDEX_SYMBOLS.name))
+            enqueueSymbolIndexing(repoId)
+
             // ── DONE ──────────────────────────────────────────────────────────
             setProgress(workDataOf(KEY_STEP to SyncStep.DONE.name))
             repositoryDao.updateSyncStatus(repoId, SyncStatus.SYNCED.name)
@@ -100,7 +112,31 @@ class RepositoryIndexingWorker @AssistedInject constructor(
         }
     }
 
-    // ── Private helpers ────────────────────────────────────────────────────────
+    // ── Symbol worker chaining ────────────────────────────────────────────────
+
+    /**
+     * Enqueues [SymbolIndexingWorker] for [repoId] with REPLACE policy so that a
+     * manual re-sync always gets a fresh symbol extraction pass.
+     *
+     * The chained worker runs independently — if symbol indexing fails, the file
+     * index and sync status are not affected.
+     */
+    private fun enqueueSymbolIndexing(repoId: String) {
+        val request = OneTimeWorkRequestBuilder<SymbolIndexingWorker>()
+            .setInputData(workDataOf(SymbolIndexingWorker.KEY_REPO_ID to repoId))
+            .addTag("symbol_index")
+            .build()
+
+        WorkManager.getInstance(applicationContext)
+            .enqueueUniqueWork(
+                symbolWorkName(repoId),
+                ExistingWorkPolicy.REPLACE,
+                request,
+            )
+        Timber.d("Enqueued SymbolIndexingWorker for repo %s", repoId)
+    }
+
+    // ── Private helpers ───────────────────────────────────────────────────────
 
     /**
      * Performs a shallow (depth=1) clone of [url] into `filesDir/repos/[repoId]`.
@@ -142,14 +178,14 @@ class RepositoryIndexingWorker @AssistedInject constructor(
      * Walks the cloned directory tree and returns [FileEntity] rows for files
      * that are new or whose content hash has changed since the last sync.
      *
-     * Incremental behaviour:
-     * - Existing rows with matching hashes are skipped.
+     * ## Incremental behaviour
+     * - Existing rows with matching hashes are skipped (no DB write).
      * - Rows for files deleted from disk are removed from the DB.
      *
-     * Path-traversal protection:
-     * - Every resolved canonical path is checked against the repo root canonical
-     *   path before creating a [FileEntity]. Paths that escape the root throw
-     *   [IllegalArgumentException] and abort the parse step.
+     * ## Path-traversal protection
+     * Every resolved canonical path is checked against the repo root canonical
+     * path before creating a [FileEntity]. Paths that escape the root throw
+     * [IllegalArgumentException] and abort the parse step.
      */
     private suspend fun parseFiles(
         localPath: String,
@@ -219,7 +255,6 @@ class RepositoryIndexingWorker @AssistedInject constructor(
 
     /**
      * Computes a SHA-256 hex digest for [file].
-     *
      * Reads in 8 KB chunks to avoid large heap allocations for big files.
      */
     private fun computeHash(file: File): String {
