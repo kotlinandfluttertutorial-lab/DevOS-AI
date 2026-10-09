@@ -16,6 +16,9 @@ import com.devos.ai.feature.chat.answerDetailNavigation
 import com.devos.ai.feature.chat.sourceEvidenceNavigation
 import com.devos.ai.feature.settings.aiSettingsNavigation
 import com.devos.ai.feature.home.navigation.homeNavigation
+import com.devos.ai.feature.home.navigation.notificationsNavigation
+import com.devos.ai.feature.home.navigation.profileNavigation
+import com.devos.ai.feature.home.navigation.searchNavigation
 import com.devos.ai.feature.learning.navigation.courseDetailsNavigation
 import com.devos.ai.feature.learning.navigation.learningDashboardNavigation
 import com.devos.ai.feature.learning.navigation.lessonNavigation
@@ -235,22 +238,11 @@ fun DevOSNavGraph(
             PlaceholderScreen(route = DevOSRoutes.MCP_TOOLS)
         }
 
-        composable(route = DevOSRoutes.NOTIFICATIONS) {
-            PlaceholderScreen(route = DevOSRoutes.NOTIFICATIONS)
-        }
+        notificationsNavigation(navController)
 
-        composable(route = DevOSRoutes.PROFILE) {
-            PlaceholderScreen(route = DevOSRoutes.PROFILE)
-        }
+        profileNavigation(navController)
 
-        composable(
-            route = DevOSRoutes.SEARCH,
-            arguments = listOf(
-                navArgument("query") { type = NavType.StringType; defaultValue = "" },
-            ),
-        ) {
-            PlaceholderScreen(route = "search")
-        }
+        searchNavigation(navController)
 
         // ── Settings ─────────────────────────────────────────────────────────────
         composable(route = DevOSRoutes.SETTINGS) {
