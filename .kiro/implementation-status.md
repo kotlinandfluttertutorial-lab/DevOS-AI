@@ -77,7 +77,7 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 | 🟢 | DEVOS-030 | DA-43 | AI source evidence screen | Firoj | 4/4 | Done — AISourceEvidenceScreen (subtitle, per-source DevOSCard with filename + relevance badge + line range + package + DevOSCodeBlock snippet + ghost "Open in Code Viewer" button), SourceEvidenceViewModel (SavedStateHandle, StateFlow, SharedFlow, stub data), sourceEvidenceNavigation wired in DevOSNavGraph. 8 unit tests pass. |
 | 🔴 | DEVOS-031 | DA-39 | RAG pipeline | JetpackCompose | 0/8 | Backend — needs Phase 2 |
 | 🔴 | DEVOS-032 | DA-41 | AI provider abstraction | JetpackCompose | 0/9 | Needs data-ai module |
-| 🔴 | DEVOS-033 | DA-46 | AI settings screen | Firoj | 0/8 | Needs DEVOS-032 |
+| 🟢 | DEVOS-033 | DA-46 | AI settings screen | Firoj | 8/8 | Done — AISettingsScreen matching #s-ai-settings mockup: DevOSTopBar (back + title "AI Settings"), TokenUsageCard (248,420/500,000 + 50% primary + LinearProgressIndicator), 4 settings groups (MODEL/RAG/AGENT/MEMORY) with ALL-CAPS section headers + HorizontalDividers, nav rows (Default Model + API Providers with chevron), stepper rows (Top-K Results, Chunk Size, Max Steps with primary value ›), toggle rows (Auto-approve safe tools, Enable Developer Memory with M3 Switch). AISettingsViewModel (StateFlow, SharedFlow nav events, stub AISettings, update* fns). aiSettingsNavigation wired in DevOSNavGraph. 11 unit tests pass. Build ✅ |
 | 🔴 | DEVOS-034 | DA-45 | Provider settings screen | JetpackCompose | 0/4 | Needs DEVOS-032 |
 
 ## Phase 5 — Agents & MCP (DEVOS-E05 / DA-5)

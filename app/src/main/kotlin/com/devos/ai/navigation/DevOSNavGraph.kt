@@ -14,6 +14,7 @@ import com.devos.ai.feature.auth.navigation.splashNavigation
 import com.devos.ai.feature.chat.aiChatNavigation
 import com.devos.ai.feature.chat.answerDetailNavigation
 import com.devos.ai.feature.chat.sourceEvidenceNavigation
+import com.devos.ai.feature.settings.aiSettingsNavigation
 import com.devos.ai.feature.home.navigation.homeNavigation
 import com.devos.ai.feature.repository.navigation.overviewNavigation
 import com.devos.ai.feature.repository.navigation.projectListNavigation
@@ -275,9 +276,7 @@ fun DevOSNavGraph(
             PlaceholderScreen(route = DevOSRoutes.SETTINGS)
         }
 
-        composable(route = DevOSRoutes.AI_SETTINGS) {
-            PlaceholderScreen(route = DevOSRoutes.AI_SETTINGS)
-        }
+        aiSettingsNavigation(navController)
 
         composable(route = DevOSRoutes.PROVIDER_SETTINGS) {
             PlaceholderScreen(route = DevOSRoutes.PROVIDER_SETTINGS)
