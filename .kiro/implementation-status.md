@@ -38,8 +38,8 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 | 🟢 | DEVOS-006 | DA-18 | Code rendering components | JetpackCompose | 4/4 | DevOSCodeBlock + DevOSMarkdownText complete |
 | 🟢 | DEVOS-007 | DA-19 | Bottom navigation | Firoj | 5/5 | DevOSBottomBar wired into MainActivity Scaffold; hidden on SPLASH/ONBOARDING/LOGIN |
 | 🟢 | DEVOS-008 | DA-20 | Navigation graph | Firoj | 4/4 | All routes wired with PlaceholderScreen; NavHost compiles |
-| 🟢 | DEVOS-009 | DA-21 | Splash screen | Firoj | 4/4 | SplashScreen animated logo + SplashViewModel + 1500ms delay; NavGraph wired |
-| 🟢 | DEVOS-010 | DA-22 | Onboarding flow | Firoj | 5/5 | HorizontalPager 4 pages, StepDot, OnboardingViewModel, DataStore flag; NavGraph wired |
+| 🟢 | DEVOS-009 | DA-21 | Splash screen | Firoj | 4/4 | SplashScreen animated logo + SplashViewModel + 1500ms delay; NavGraph wired. **Mockup aligned 2026-10-08:** 80dp gradient logo box (DevOSBlue300→DevOSCyan300, 20dp radius), "DevOS AI" title (32sp ExtraBold letterSpacing=-1sp), tagline (13sp onSurfaceVariant), 48×4dp animated shimmer loading bar (DevOSNavy800 track + gradient fill via rememberInfiniteTransition), "Initializing…" caption (12sp), version string pinned bottom (11sp). |
+| 🟢 | DEVOS-010 | DA-22 | Onboarding flow | Firoj | 5/5 | HorizontalPager 4 pages, StepDot, OnboardingViewModel, DataStore flag; NavGraph wired. **Mockup aligned 2026-10-08:** Illustration card 200×180dp (surface bg, 24dp radius, 1dp outline border, 72dp icon inside). StepDot: active=24×8dp pill (primary), inactive=8×8dp circle (surfaceVariant). Button text "Next →". |
 | 🟢 | DEVOS-011 | DA-23 | Login — GitHub/GitLab OAuth | Firoj | 9/9 | Done — LoginScreen redesigned per #s-login mockup (no TopBar, gradient logo box, "Sign in to DevOS AI", left-aligned OAuth buttons, email/password fields, OR divider, inline error text, footer with Terms/Privacy links). OAuthProvider implements TokenKey. AuthModule converted to abstract class with @Binds. IoDispatcher qualifier added to core-common. Deep link devos://auth/callback wired. Build ✅. Tests pass. |
 | 🟢 | DEVOS-012 | DA-24 | Secure token storage | Firoj | 3/3 | Done — `SecureTokenRepository` interface + `SecureTokenRepositoryImpl` (EncryptedSharedPreferences AES256-GCM) + `SecurityModule` (@Binds) in core-security. TokenKey interface. OAuthProvider implements TokenKey. CheckAuthStateUseCase wired to SecureTokenRepository. Build ✅ |
 
@@ -62,7 +62,7 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 | 🔴 | DEVOS-020 | DA-33 | Code viewer — AI action bar | Firoj | 0/4 | Part of DEVOS-019 |
 | 🔴 | DEVOS-021 | DA-32 | Code search screen | Firoj | 0/6 | Needs DEVOS-015 |
 | 🔴 | DEVOS-022 | DA-34 | Symbol details screen | Firoj | 0/5 | Needs DEVOS-023 |
-| 🔴 | DEVOS-023 | DA-35 | Symbol indexing service | JetpackCompose | 0/7 | Needs DEVOS-015 |
+| 🟢 | DEVOS-023 | DA-35 | Symbol indexing service | JetpackCompose | 7/7 | Done — SymbolKind/SymbolVisibility/CodeSymbol domain models + SymbolRepository interface. SymbolDao extended (observeByRepo Flow, searchByName LIKE, searchByNameAndKind, getByKind, getByFilePath, getById, deleteByFile). SymbolExtractor regex engine (Kotlin + Java: class/interface/object/enum/annotation/fun/property, KDoc accumulation, brace-count end-line, path-traversal safe). SymbolIndexingWorker @HiltWorker (reads FileDao, deletes stale, extracts, bulk-inserts, ensureActive per file, progress every 10 files). SymbolRepositoryImpl @Singleton. SymbolModule @Binds. RepositoryIndexingWorker wired: CLONE→PARSE→INDEX_SYMBOLS(enqueue)→DONE. 69 unit tests (35 SymbolExtractorTest + 18 SymbolDaoTest + 16 SymbolRepositoryImplTest). |
 | 🔴 | DEVOS-024 | DA-37 | Dependency graph screen | Firoj | 0/5 | Needs DEVOS-023 |
 | 🔴 | DEVOS-025 | DA-36 | Architecture overview screen | Firoj | 0/7 | Needs DEVOS-023 |
 
@@ -124,14 +124,14 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 
 | Status | Ticket | DA Key | Summary | Assignee | ACs | Notes |
 |--------|--------|--------|---------|----------|-----|-------|
-| 🔴 | DEVOS-055 | DA-68 | Developer memory screen | JetpackCompose | 0/5 | Combined ticket w/ Profile in Jira |
+| 🟢 | DEVOS-055 | DA-68 | Developer memory screen | JetpackCompose | 5/5 | Combined ticket w/ Profile in Jira |
 | 🔴 | DEVOS-056 | DA-67 | Developer memory service | JetpackCompose | 0/8 | |
 
 ## Phase 10 — Command Center (DEVOS-E10 / DA-10)
 
 | Status | Ticket | DA Key | Summary | Assignee | ACs | Notes |
 |--------|--------|--------|---------|----------|-----|-------|
-| � | DEVOS-057 | DA-69 | Home dashboard screen | Firoj | 9/9 | Done — HomeScreen (4 states), HomeViewModel (DataStore dismiss persistence), stub data (3 projects, 3 recs, health, 2 sessions), HomeNavigation. 15 unit tests pass. Build ✅ |
+| � | 🟢 | DEVOS-057 | DA-69 | Home dashboard screen | Firoj | 9/9 | Done — HomeScreen (4 states), HomeViewModel (DataStore dismiss persistence), stub data (3 projects, 3 recs, health, 2 sessions), HomeNavigation. 15 unit tests pass. Build ✅. **Mockup aligned 2026-10-08:** Dynamic greeting (time-of-day) + dateLabel from VM. Search bar ✨ sparkle trailing icon. HealthCell WARNING→DevOSAmber300 (#FFCB6B). RecommendationCard 3dp left border per severity. Stub data matches mockup values. |
 | 🔴 | DEVOS-058 | DA-70 | Home AI recommendations engine | JetpackCompose | 0/7 | Needs DEVOS-057 |
 | 🔴 | DEVOS-059 | DA-72 | Notifications screen | Firoj | 0/8 | Combined ticket w/ Search + Profile in Jira |
 | 🔴 | DEVOS-060 | DA-71 | Search screen — global | Firoj | 0/6 | |
@@ -141,8 +141,8 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 
 | Status | Ticket | DA Key | Summary | Assignee | ACs | Notes |
 |--------|--------|--------|---------|----------|-----|-------|
-| 🔴 | DEVOS-062 | DA-78 | Settings screen — root | Firoj | 0/5 | |
-| 🔴 | DEVOS-063 | DA-75 | Project settings screen | Firoj | 0/4 | |
+| 🟢 | DEVOS-062 | DA-78 | Settings screen — root | Firoj | 5/5 | |
+| 🟢 | DEVOS-063 | DA-75 | Project settings screen | Firoj | 4/4 | |
 | 🔴 | DEVOS-064 | DA-74 | Dark mode — full implementation | Firoj | 0/8 | Combined w/ Responsive + Settings in Jira; verify pass after all screens done |
 | 🔴 | DEVOS-065 | DA-77 | Accessibility audit | Firoj | 0/5 | Verify pass after all screens done |
 | 🔴 | DEVOS-066 | DA-76 | Responsive layout — tablet | JetpackCompose | 0/5 | Needs all screens done |
@@ -173,6 +173,9 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 | 2026-10-08 | DEVOS-012 | Secure token storage — EncryptedSharedPreferences AES256-GCM (FEAT-004) | 3/3 ACs — `./gradlew :core:core-security:assembleDebug` PASS; `./gradlew testDebugUnitTest` PASS |
 | 2026-10-08 | DEVOS-011/012 | Review fix (feat-004-review): OAuth client IDs loaded from SecureTokenRepository via OAuthClientIdKey enum; dead LoginNavEvent.kt deleted; AuthViewModelTest updated for new constructor | All checks re-run PASS |
 | 2026-10-08 | DEVOS-057 | Home Dashboard screen (FIGMA-04) — HomeScreen, HomeViewModel, HomeUiState, HomeNavEvent, stub data (3 projects, 3 recs, health, 2 sessions), DataStore dismiss persistence, 15 unit tests pass | 9/9 ACs — `./gradlew :feature:feature-home:testDebugUnitTest` PASS (15 tests); `./gradlew assembleDebug` PASS |
+| 2026-10-08 | DEVOS-009/010/057 | Mockup alignment pass — SplashScreen (title, shimmer bar, version), OnboardingScreen (illustration card, pill dots), HomeScreen (dynamic greeting/date, sparkle search, amber warning, recommendation left borders) | All 7 screens verified against devos-ai-mockups.html |
+| 2026-10-08 | DEVOS-015 | Repository clone and indexing service — domain layer, Room DB v1, WorkManager JGit worker, RepositoryRepositoryImpl | 6/6 ACs — all modules assemble PASS; 23 unit tests PASS |
+| 2026-10-08 | DEVOS-023 | Symbol indexing service — SymbolKind/Visibility/CodeSymbol domain, SymbolDao (LIKE search + Flow), SymbolExtractor (Kotlin+Java regex), SymbolIndexingWorker @HiltWorker, SymbolRepositoryImpl, SymbolModule, wired into RepositoryIndexingWorker INDEX_SYMBOLS step | 7/7 ACs — 69 unit tests (35 extractor + 18 DAO + 16 impl); `./gradlew :data:data-repository:testDebugUnitTest` PASS |
 | 2026-10-09 | DEVOS-013 | Repository Import screen — RepositoryImportScreen (source selector 3 cards, URL input, validate flow, preview card, import options), ImportViewModel, stub RepositoryPreview, RepositoryNavigation wired in DevOSNavGraph | 10/10 ACs — `./gradlew :feature:feature-repository:testDebugUnitTest` PASS; `./gradlew :app:assembleDebug` PASS |
 | 2026-10-09 | DEVOS-014 | Repository Sync screen — RepositorySyncScreen (animated spinner, 5-step pipeline, overall progress bar, cancel button), SyncViewModel, RepositoryNavigation wired in DevOSNavGraph | 8/8 ACs — same build run as DEVOS-013 |
 | 2026-10-09 | DEVOS-016 | Repository Overview screen — 7-tab HorizontalPager, RepoInfoPanel (lang bar + 5-stat row), AI Insights card (bold highlight), Recent Commits (avatar + sha + divider), OverviewViewModel, OverviewModule (RepositoryOverviewProvider interface + stub + Hilt), overviewNavigation wired | 6/6 ACs — 15 unit tests pass; feature + app build PASS |

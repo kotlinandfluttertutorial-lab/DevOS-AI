@@ -19,15 +19,19 @@ sealed interface HomeUiState {
      * Data loaded successfully. Show the full dashboard content.
      *
      * @param recentProjects Up to 5 most recently touched projects.
-     * @param recommendations Active AI recommendations (dismissed ones are filtered out).
+     * @param recommendations Active AI recommendations (dismissed ones filtered out).
      * @param health Four-quadrant health snapshot.
      * @param recentSessions Up to 5 most recent AI chat sessions.
+     * @param greeting Time-of-day greeting e.g. "Good morning, Dev 👋"
+     * @param dateLabel Formatted date string e.g. "Wednesday, Oct 7"
      */
     data class Success(
         val recentProjects: List<ProjectSummary>,
         val recommendations: List<AIRecommendation>,
         val health: ProjectHealth,
         val recentSessions: List<ChatSessionSummary>,
+        val greeting: String = "Good morning, Dev \uD83D\uDC4B",
+        val dateLabel: String = "",
     ) : HomeUiState
 
     /** No projects imported yet. Show the welcome empty state. */
