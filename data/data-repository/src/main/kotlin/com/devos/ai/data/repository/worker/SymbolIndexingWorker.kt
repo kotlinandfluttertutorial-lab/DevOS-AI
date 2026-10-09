@@ -15,6 +15,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.File
@@ -73,12 +74,8 @@ class SymbolIndexingWorker @AssistedInject constructor(
             setProgress(workDataOf(KEY_STEP to SyncStep.INDEX_SYMBOLS.name))
             Timber.d("SymbolIndexingWorker starting for repo %s", repoId)
 
-            val entity = repositoryDao.observeById(repoId).let { flow ->
-                // One-shot read — coroutine-safe via kotlinx.coroutines.flow.first()
-                var result: com.devos.ai.core.database.entity.RepositoryEntity? = null
-                withContext(Dispatchers.IO) {
-                    kotlinx.coroutines.flow.first(flow)
-                }
+            val entity = withContext(Dispatchers.IO) {
+                repositoryDao.observeById(repoId).first()
             }
 
             val localPath = entity?.localPath

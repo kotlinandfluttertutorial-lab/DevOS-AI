@@ -30,7 +30,7 @@ import org.robolectric.annotation.Config
  *         observeByRepo (Flow), searchByName (Flow), deleteByRepo, deleteByFile.
  */
 @RunWith(RobolectricTestRunner::class)
-@Config(sdk = [33])
+@Config(sdk = [28])
 class SymbolDaoTest {
 
     private lateinit var db: DevOSDatabase

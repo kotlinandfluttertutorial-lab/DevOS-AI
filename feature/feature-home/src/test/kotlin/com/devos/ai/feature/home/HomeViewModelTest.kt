@@ -95,8 +95,8 @@ class HomeViewModelTest {
         val state = viewModel.uiState.value as HomeUiState.Success
         // Verify health object is present and has expected stub values
         assertThat(state.health.securityCount).isEqualTo(2)
-        assertThat(state.health.testCoverage).isEqualTo(34)
-        assertThat(state.health.architectureGrade).isEqualTo("B+")
+        assertThat(state.health.testCoverage).isEqualTo(67)
+        assertThat(state.health.architectureGrade).isEqualTo("A")
     }
 
     @Test
