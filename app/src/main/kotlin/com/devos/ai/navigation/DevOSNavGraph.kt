@@ -16,6 +16,10 @@ import com.devos.ai.feature.chat.answerDetailNavigation
 import com.devos.ai.feature.chat.sourceEvidenceNavigation
 import com.devos.ai.feature.settings.aiSettingsNavigation
 import com.devos.ai.feature.home.navigation.homeNavigation
+import com.devos.ai.feature.learning.navigation.courseDetailsNavigation
+import com.devos.ai.feature.learning.navigation.learningDashboardNavigation
+import com.devos.ai.feature.learning.navigation.lessonNavigation
+import com.devos.ai.feature.learning.navigation.quizNavigation
 import com.devos.ai.feature.repository.navigation.overviewNavigation
 import com.devos.ai.feature.repository.navigation.projectListNavigation
 import com.devos.ai.feature.repository.navigation.repositoryImportNavigation
@@ -60,9 +64,7 @@ fun DevOSNavGraph(
 
         aiChatNavigation(navController)
 
-        composable(route = DevOSRoutes.LEARNING_DASHBOARD) {
-            PlaceholderScreen(route = DevOSRoutes.LEARNING_DASHBOARD)
-        }
+        learningDashboardNavigation(navController)
 
         composable(route = DevOSRoutes.MORE) {
             PlaceholderScreen(route = DevOSRoutes.MORE)
@@ -218,32 +220,11 @@ fun DevOSNavGraph(
         }
 
         // ── Learning ─────────────────────────────────────────────────────────────
-        composable(
-            route = DevOSRoutes.COURSE_DETAILS,
-            arguments = listOf(navArgument("courseId") { type = NavType.StringType }),
-        ) {
-            PlaceholderScreen(route = "course_details")
-        }
+        courseDetailsNavigation(navController)
 
-        composable(
-            route = DevOSRoutes.LESSON,
-            arguments = listOf(
-                navArgument("courseId") { type = NavType.StringType },
-                navArgument("lessonId") { type = NavType.StringType },
-            ),
-        ) {
-            PlaceholderScreen(route = "lesson")
-        }
+        lessonNavigation(navController)
 
-        composable(
-            route = DevOSRoutes.QUIZ,
-            arguments = listOf(
-                navArgument("courseId") { type = NavType.StringType },
-                navArgument("quizId") { type = NavType.StringType },
-            ),
-        ) {
-            PlaceholderScreen(route = "quiz")
-        }
+        quizNavigation(navController)
 
         // ── Developer tools ───────────────────────────────────────────────────────
         composable(route = DevOSRoutes.DEVELOPER_MEMORY) {
