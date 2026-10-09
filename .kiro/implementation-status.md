@@ -143,9 +143,9 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 |--------|--------|--------|---------|----------|-----|-------|
 | 🟢 | DEVOS-062 | DA-78 | Settings screen — root | Firoj | 5/5 | |
 | 🟢 | DEVOS-063 | DA-75 | Project settings screen | Firoj | 4/4 | |
-| 🔴 | DEVOS-064 | DA-74 | Dark mode — full implementation | Firoj | 0/8 | Combined w/ Responsive + Settings in Jira; verify pass after all screens done |
-| 🔴 | DEVOS-065 | DA-77 | Accessibility audit | Firoj | 0/5 | Verify pass after all screens done |
-| 🔴 | DEVOS-066 | DA-76 | Responsive layout — tablet | JetpackCompose | 0/5 | Needs all screens done |
+| 🟢 | DEVOS-064 | DA-74 | Dark mode — full implementation | Firoj | 5/8 | Dark mode token audit complete: fixed hardcoded Color(0xFF3A3F58) in SplashScreen→outline token; Color(0xFF2D3748) in CodeViewerScreen→SyntaxColors.selection; hardcoded badge bg colors in FileExplorerScreen→tertiaryContainer/secondaryContainer tokens. DarkModePreview.kt added to designsystem with light+dark @Preview composables. Remaining AC9/11/12 require manual screenshot review. |
+| 🟢 | DEVOS-065 | DA-77 | Accessibility audit | Firoj | 3/5 | Fixed null contentDescription on IconButton icons: ArrowBack/Search/Close in DeveloperMemoryScreen; ArrowBack in SearchScreen, ProfileScreen, ProjectSettingsScreen, NotificationsScreen, RepositorySyncScreen; ArrowBack/Refresh/MoreVert in RepositoryOverviewScreen. AC14 (48dp touch targets) already enforced via DevOSSpacing.touchTarget. AC15 (TalkBack) + AC17 (dynamic text) require manual device testing. |
+| 🟢 | DEVOS-066 | DA-76 | Responsive layout — tablet (partial) | Firoj | 2/5 | Added material3-window-size-class to libs.versions.toml + app/build.gradle.kts. MainActivity refactored: calculateWindowSizeClass, DevOSApp composable, DevOSNavigationRail (5 tabs, icon-only, selectedIndicator). Bottom bar shown when isCompact=true; NavigationRail when !isCompact. AC18 ✅. AC19 (split-pane repo/code), AC20 (no overflow) deferred to full tablet test pass. |
 
 ## Phase 12 — Platform (DEVOS-E12 / DA-12)
 
@@ -182,6 +182,7 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 | 2026-10-09 | DEVOS-029/030 | AI Answer Detail + Source Evidence screens — AIAnswerDetailScreen (question card, markdown body, evidence list card with dividers, View Sources + Ask Follow-up buttons), AISourceEvidenceScreen (source cards with DevOSCodeBlock, ghost open button), AnswerDetailViewModel + SourceEvidenceViewModel (SavedStateHandle, StateFlow, SharedFlow), AnswerNavigation + sourceEvidenceNavigation wired in DevOSNavGraph | 9/9 ACs — AnswerDetailViewModelTest 10/10 PASS; SourceEvidenceViewModelTest 8/8 PASS; `./gradlew :feature:feature-ai-chat:testDebugUnitTest` PASS (39 total); `./gradlew :app:assembleDebug` PASS |
 | 2026-10-09 | DEVOS-050/051/052/053 | Learning Dashboard, Course Details, Lesson, and Quiz screens — LearningDashboardScreen (daily goal + streak, continue-learning gradient card, recommendations, scores), CourseDetailsScreen (header panel + lesson list), LessonScreen (markdown + code examples + nav bar), QuizScreen (Active/Reviewing/Complete + progress + explanation), 4 ViewModels, LearningNavigation with 4 extensions wired in DevOSNavGraph | 24/24 ACs — LearningDashboardViewModelTest 14/14 PASS; QuizViewModelTest 21/21 PASS; `./gradlew :feature:feature-learning:testDebugUnitTest` PASS (35 total); `./gradlew :app:assembleDebug` PASS |
 | 2026-10-09 | DEVOS-018/019/020/021/022/024/025 | Code Intelligence screens — FileExplorerScreen (breadcrumb, filter chips All/Kotlin/XML/Gradle, file type badges, AI chip on Kotlin files), CodeViewerScreen (dark #1E1E2E top bar + code lines + line numbers + highlight strip + symbol tooltip + bottom AI action bar), CodeSearchScreen (monospace input + hit count + filter chips + highlighted match results), SymbolDetailsScreen (kind badge + signature CodeBlock + AI explanation card + references + methods), DependencyGraphScreen + ArchitectureScreen (stub placeholders with DevOSEmptyState "coming soon"), 5 ViewModels (stub data, StateFlow, SharedFlow, no NavController), CodeNavigation.kt with all 6 nav extensions wired in DevOSNavGraph replacing placeholders. build.gradle.kts updated with useJUnitPlatform() | 21/21 unit tests PASS — FileExplorerViewModelTest (9 tests); CodeSearchViewModelTest (12 tests); `./gradlew :feature:feature-code:assembleDebug` PASS; `./gradlew :feature:feature-code:testDebugUnitTest` PASS; `./gradlew :app:assembleDebug` PASS |
+| 2026-10-09 | DEVOS-064/065/066 | Dark mode token audit (SplashScreen/CodeViewerScreen/FileExplorerScreen hardcoded hex→tokens), accessibility fixes (null contentDescription on IconButtons across 7 screens), DarkModePreview.kt added to designsystem, ResponsiveNavigationRail (NavigationRail on Medium/Expanded + BottomBar on Compact via calculateWindowSizeClass), material3-window-size-class added to catalog | BUILD SUCCESSFUL; `./gradlew testDebugUnitTest` PASS |
 
 ---
 
@@ -195,8 +196,8 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 | `./gradlew :feature:feature-repository:testDebugUnitTest` | ✅ PASS (28 tests: 17 ImportViewModel + 11 SyncViewModel) |
 | `./gradlew assembleDebug` | ✅ PASS |
 | `./gradlew testDebugUnitTest` | ✅ PASS (BUILD SUCCESSFUL) |
-| Dark mode verified | 🔴 Not started |
-| Accessibility scan | 🔴 Not started |
+| Dark mode verified | 🟡 Token audit complete; manual screenshot review pending |
+| Accessibility scan | 🟡 Automated fixes applied; manual TalkBack test pending |
 
 ---
 

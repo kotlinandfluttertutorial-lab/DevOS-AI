@@ -141,7 +141,7 @@ private fun SearchTopBar(
         ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
-                contentDescription = null,
+                contentDescription = "Navigate back",
                 tint = MaterialTheme.colorScheme.onSurface,
             )
         }

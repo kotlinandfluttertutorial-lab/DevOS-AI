@@ -36,7 +36,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.role
@@ -331,17 +330,17 @@ private fun FileTypeBadge(
             MaterialTheme.colorScheme.onPrimaryContainer,
         )
         FileItemType.KOTLIN -> Triple(
-            Color(0xFF2D5000),
+            MaterialTheme.colorScheme.tertiaryContainer,
             "kt",
             MaterialTheme.colorScheme.primary,
         )
         FileItemType.XML -> Triple(
-            Color(0xFF1A3A1A),
+            MaterialTheme.colorScheme.tertiaryContainer,
             "xml",
             MaterialTheme.colorScheme.tertiary,
         )
         FileItemType.GRADLE -> Triple(
-            Color(0xFF3D2C00),
+            MaterialTheme.colorScheme.secondaryContainer,
             "gr",
             MaterialTheme.colorScheme.secondary,
         )
