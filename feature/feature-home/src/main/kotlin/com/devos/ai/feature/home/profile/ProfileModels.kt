@@ -1,5 +1,7 @@
 package com.devos.ai.feature.home.profile
 
+import androidx.compose.runtime.Immutable
+
 /**
  * Subscription plan tier.
  */
@@ -38,6 +40,7 @@ data class UserProfile(
  */
 sealed interface ProfileUiState {
     data object Loading : ProfileUiState
+    @Immutable
     data class Success(val profile: UserProfile) : ProfileUiState
     data object Empty : ProfileUiState
     data class Error(val message: String, val retryable: Boolean) : ProfileUiState

@@ -154,7 +154,7 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 | 🔴 | DEVOS-067 | DA-79 | CI/CD pipeline | JetpackCompose | 0/5 | |
 | 🔴 | DEVOS-068 | DA-81 | Observability | JetpackCompose | 0/5 | |
 | 🔴 | DEVOS-069 | DA-80 | AI evaluation framework | JetpackCompose | 0/5 | |
-| 🟡 | DEVOS-070 | DA-82 | Performance optimization — Compose side | **Firoj** | 0/5 | **Reassigned to Firoj for Compose pass** (lazy lists, recomposition, Profiler) |
+| 🟢 | DEVOS-070 | DA-82 | Performance optimization — Compose side | **Firoj** | 5/5 | Done — Audit: all items() calls have key=, no forEach in LazyColumn (only in Row/Column with ≤5 static items). Added @Immutable to 8 Success UiState data classes with List<T> fields: HomeUiState.Success, AIChatUiState.Success, NotificationsUiState.Success, SearchUiState.Success, ProfileUiState.Success, ProjectListUiState.Success, SecurityFindingsUiState.Success, LearningDashboardUiState.Success. Build ✅ |
 
 ## Phase 13 — Screen-Mirror Tickets (DEVOS-101–140, DA-83 to DA-122)
 

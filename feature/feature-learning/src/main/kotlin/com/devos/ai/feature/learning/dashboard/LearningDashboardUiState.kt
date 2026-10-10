@@ -1,5 +1,7 @@
 package com.devos.ai.feature.learning.dashboard
 
+import androidx.compose.runtime.Immutable
+
 import com.devos.ai.feature.learning.model.CourseProgress
 import com.devos.ai.feature.learning.model.CourseRecommendation
 import com.devos.ai.feature.learning.model.QuizScore
@@ -12,6 +14,8 @@ import com.devos.ai.feature.learning.model.QuizScore
 sealed interface LearningDashboardUiState {
 
     data object Loading : LearningDashboardUiState
+
+    @Immutable
 
     data class Success(
         /** Lessons completed today vs daily goal. */
