@@ -1,37 +1,49 @@
 """
-Agents router — stub implementation.
-POST /v1/agents/execute
+Agents router.
+
+POST /v1/agents/execute          — submit an agent execution request
+GET  /v1/agents/{agent_id}/status — poll status of a running agent
 """
 import uuid
+from typing import Any
 
-from fastapi import APIRouter
-from pydantic import BaseModel
+from fastapi import APIRouter, HTTPException
+
+from app.models.ai_chat import AgentExecuteRequest, AgentExecuteResponse
+from app.services.ai_service import ai_service
 
 router = APIRouter()
 
-
-class AgentExecuteRequest(BaseModel):
-    agent_id: str
-    tool: str
-    parameters: dict = {}
-
-
-class AgentExecuteResponse(BaseModel):
-    execution_id: str
-    status: str
-    result: dict | None = None
-    error: str | None = None
+# In-memory store for agent status (keyed by agent_id).
+# In production this would be backed by Redis / the database.
+_agent_store: dict[str, AgentExecuteResponse] = {}
 
 
 @router.post("/agents/execute", response_model=AgentExecuteResponse, tags=["agents"])
 async def execute_agent(request: AgentExecuteRequest) -> AgentExecuteResponse:
     """
-    Execute an agent tool call.
-    Stub: returns a queued status. Wire up to real MCP tool execution in a later ticket.
+    Execute an AI agent with optional tool-calling.
+    Returns a full AgentExecuteResponse with execution steps and final answer.
+    The result is stored in-memory so it can be retrieved via the status endpoint.
     """
-    return AgentExecuteResponse(
-        execution_id=str(uuid.uuid4()),
-        status="queued",
-        result=None,
-        error=None,
-    )
+    result = await ai_service.execute_agent(request)
+    _agent_store[result.id] = result
+    return result
+
+
+@router.get(
+    "/agents/{agent_id}/status",
+    response_model=AgentExecuteResponse,
+    tags=["agents"],
+)
+async def get_agent_status(agent_id: str) -> AgentExecuteResponse:
+    """
+    Retrieve the current status of an agent execution by its ID.
+    Returns 404 if the agent_id is unknown.
+    """
+    result = _agent_store.get(agent_id)
+    if result is None:
+        raise HTTPException(
+            status_code=404, detail=f"Agent execution '{agent_id}' not found."
+        )
+    return result
