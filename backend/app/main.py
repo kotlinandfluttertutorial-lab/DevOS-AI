@@ -13,7 +13,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from app.config import settings
-from app.routers import agents, ai_chat, files, health, rag, repositories
+from app.routers import agents, ai_chat, files, git, health, issues, prs, rag, repositories
 
 logger = logging.getLogger("devos.api")
 
@@ -69,6 +69,10 @@ def create_app() -> FastAPI:
     app.include_router(ai_chat.router, prefix="/v1")
     app.include_router(rag.router, prefix="/v1")
     app.include_router(agents.router, prefix="/v1")
+    # Developer Intelligence — DA-129
+    app.include_router(git.router, prefix="/v1")
+    app.include_router(issues.router, prefix="/v1")
+    app.include_router(prs.router, prefix="/v1")
 
     return app
 
