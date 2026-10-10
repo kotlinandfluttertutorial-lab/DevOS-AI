@@ -15,6 +15,12 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions { jvmTarget = "17" }
+    testOptions {
+        unitTests {
+            isReturnDefaultValues = true
+            all { it.useJUnitPlatform() }
+        }
+    }
 }
 
 dependencies {
@@ -23,6 +29,9 @@ dependencies {
     implementation(libs.kotlinx.serialization)
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
+    // Structured logging — DevOSLogger / DevOSTimberTree
+    implementation(libs.timber)
     testImplementation(libs.bundles.test.unit)
     testRuntimeOnly(libs.test.junit5.engine)
+    testRuntimeOnly(libs.test.junit5.launcher)
 }
