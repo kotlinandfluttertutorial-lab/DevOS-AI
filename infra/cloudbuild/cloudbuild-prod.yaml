@@ -1,0 +1,70 @@
+steps:
+  # Step 1: Run tests
+  - name: 'python:3.12-slim'
+    id: 'run-tests'
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        cd backend
+        pip install -q poetry
+        poetry install --no-root
+        poetry run pytest tests/ -v --tb=short
+
+  # Step 2: Build Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'build-image'
+    args:
+      - build
+      - -t
+      - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/devos-ai/api:${SHORT_SHA}'
+      - -t
+      - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/devos-ai/api:prod-latest'
+      - ./backend
+    waitFor: ['run-tests']
+
+  # Step 3: Push to Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'push-image'
+    args:
+      - push
+      - --all-tags
+      - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/devos-ai/api'
+    waitFor: ['build-image']
+
+  # Step 4: Deploy to Cloud Run (production)
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    id: 'deploy-prod'
+    entrypoint: gcloud
+    args:
+      - run
+      - deploy
+      - devos-ai-api-prod
+      - --image=${_REGION}-docker.pkg.dev/${PROJECT_ID}/devos-ai/api:${SHORT_SHA}
+      - --region=${_REGION}
+      - --platform=managed
+      - --service-account=devos-ai-sa@${PROJECT_ID}.iam.gserviceaccount.com
+      - --allow-unauthenticated
+      - --port=8000
+      - --memory=1Gi
+      - --cpu=2
+      - --min-instances=1
+      - --max-instances=20
+      - --concurrency=80
+      - --timeout=300
+    waitFor: ['push-image']
+
+substitutions:
+  _REGION: us-central1
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+  machineType: E2_HIGHCPU_8
+
+# NOTE: Production deployments are MANUAL ONLY.
+# Do NOT configure an automatic trigger for this build config.
+# To trigger manually:
+#   gcloud builds submit \
+#     --config=infra/cloudbuild/cloudbuild-prod.yaml \
+#     --substitutions=SHORT_SHA=$(git rev-parse --short HEAD) \
+#     .
