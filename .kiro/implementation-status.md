@@ -1,8 +1,8 @@
 # DevOS AI — Implementation Status
 
-**Last Updated:** 2026-10-10  
+**Last Updated:** 2026-10-09  
 **Build Status:** ✅ BUILD SUCCESSFUL (`./gradlew assembleDebug`)  
-**Overall Progress:** 41 / 70 tickets complete (DEVOS-001 through DEVOS-014, DEVOS-016, DEVOS-017, DEVOS-018–022, DEVOS-024–025, DEVOS-026–030, DEVOS-033, DEVOS-038–043, DEVOS-046–049, DEVOS-050–054, DEVOS-056, DEVOS-057, DEVOS-058)  
+**Overall Progress:** 36 / 70 tickets complete (DEVOS-001 through DEVOS-014, DEVOS-016, DEVOS-017, DEVOS-018–022, DEVOS-024–025, DEVOS-026–030, DEVOS-033, DEVOS-038–043, DEVOS-046, DEVOS-048, DEVOS-050–053, DEVOS-057)  
 **Jira sync:** Live — https://androidassistant.atlassian.net (project DevOS-AI, key `DA`)
 
 ---
@@ -106,9 +106,9 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 | Status | Ticket | DA Key | Summary | Assignee | ACs | Notes |
 |--------|--------|--------|---------|----------|-----|-------|
 | 🟢 | DEVOS-046 | DA-59 | Security findings screen | **Firoj** | 5/5 | Done — SecurityFindingsScreen (#s-security mockup: 4-card severity summary row, scrollable filter chips, flat finding rows with 4dp left severity strip + severity badge + file:line + OWASP category + AI suggestion + Mark Fixed/Ask AI buttons), SecurityFindingsViewModel (stub 3 findings, markFixed, onAskAI, filter), SecurityNavigation wired in DevOSNavGraph. 14 unit tests PASS. assembleDebug ✅ |
-| 🟢 | DEVOS-047 | DA-58 | Security scanning service | **Firoj** | 5/5 | Done — SASTRules (HARDCODED_SECRET CRITICAL/SQL_INJECTION HIGH/CLEARTEXT_HTTP HIGH regexes), SecurityScanWorker @HiltWorker (walks .kt/.java, path-traversal protection, upserts SecurityFindingEntity), SecurityFinding domain model + Severity/FindingStatus enums, SecurityRepository interface, SecurityRepositoryImpl (triggerScan→WorkManager REPLACE, markFixed/dismiss→DAO), SecurityModule @Binds, DatabaseModule + provideSecurityFindingDao/provideFileCoverageDao/provideMemoryEntryDao. 15 unit tests (SASTRulesTest 11 + SecurityRepositoryImplTest 4). assembleDebug ✅ |
+| 🟢 | DEVOS-047 | DA-58 | Security scanning service | Firoj | 5/5 | Done — SASTRules (3 patterns: HARDCODED_SECRET/SQL_INJECTION/CLEARTEXT_HTTP), SecurityScanWorker @HiltWorker (path-traversal protection), SecurityRepository + SecurityRepositoryImpl, SecurityModule. 44 tests pass. |
 | 🟢 | DEVOS-048 | DA-61 | Test intelligence screen | **Firoj** | 5/5 | Done — TestIntelligenceScreen (#s-test-intel mockup: circular arc gauge 67%/warning color, 3-card stats row Passing 234/Failing 8/Flaky 5, AI Suggestions card with 3dp primary left border + Generate Tests button, Uncovered Files list with kt badge + coverage badge), TestIntelligenceViewModel (stub data matching mockup, generateTests, navigateToFile nav events), TestingNavigation wired in DevOSNavGraph. 9 unit tests PASS. assembleDebug ✅ |
-| 🟢 | DEVOS-049 | DA-60 | Test coverage analysis service | **Firoj** | 8/8 | Done — JaCoCoParser (SAX DefaultHandler, pure JVM, parses LINE counters from `<sourcefile>`/`<package>` elements), FileCoverage domain model, TestCoverageRepository interface, TestCoverageRepositoryImpl (parseAndStoreCoverage: parse→delete→upsert, observeCoverage maps entity→domain), TestCoverageModule @Binds + @Provides JaCoCoParser. 13 unit tests (JaCoCoParserTest 9 + TestCoverageRepositoryImplTest 4). assembleDebug ✅ |
+| 🟢 | DEVOS-049 | DA-60 | Test coverage analysis service | Firoj | 8/8 | Done — JaCoCoParser (SAX via DefaultHandler), FileCoverage domain model, TestCoverageRepository + TestCoverageRepositoryImpl. |
 
 ## Phase 8 — Learning (DEVOS-E08 / DA-8)
 
@@ -118,24 +118,24 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 | 🟢 | DEVOS-051 | DA-65 | Course details screen | Firoj | 6/6 | Done — CourseDetailsScreen (course header panel with language/lesson/duration label + title + description + progress bar + tag chips + continue button, lesson list rows with complete/current/locked icon circles + row backgrounds), CourseDetailsViewModel (stub Kotlin Coroutines & Flow course, 4 complete + 1 current + 1 locked, SavedStateHandle), courseDetailsNavigation wired. |
 | 🟢 | DEVOS-052 | DA-62 | Lesson screen | Firoj | 5/5 | Done — LessonScreen (DevOSTopBar with lesson order subtitle, LazyColumn with DevOSMarkdownText + DevOSCodeBlock, code example cards with "Try in Repo" button, bottom nav bar with Previous/Next), LessonViewModel (stub markdown lesson with code example, SavedStateHandle, nav events), lessonNavigation wired. |
 | 🟢 | DEVOS-053 | DA-64 | Quiz screen | Firoj | 7/7 | Done — QuizScreen (3 states: Active/Reviewing/Complete, progress bar, option items with Default/Selected/Correct/Incorrect styles, explanation card, final score display with emoji), QuizViewModel (3-question stub quiz, Active→Reviewing→Complete transitions in-ViewModel, correct/incorrect scoring, SavedStateHandle), 21 unit tests pass. quizNavigation wired. |
-| 🟢 | DEVOS-054 | DA-66 | Learning recommendation engine | **Firoj** | 6/6 | Done — LearningRecommendationEngine (pure Kotlin, 4 trigger sets → DI/coroutines/networking/room topic IDs), GetRecommendationsUseCase @Inject, javax.inject:1 compileOnly + testOptions useJUnitPlatform() added to domain-learning build.gradle.kts. 16 unit tests (LearningRecommendationEngineTest). assembleDebug ✅ |
+| 🟢 | DEVOS-054 | DA-66 | Learning recommendation engine | Firoj | 6/6 | Done — LearningRecommendationEngine (4 rule sets: DI/coroutines/networking/room), GetRecommendationsUseCase. 16 tests pass. |
 
 ## Phase 9 — Developer Memory (DEVOS-E09 / DA-9)
 
 | Status | Ticket | DA Key | Summary | Assignee | ACs | Notes |
 |--------|--------|--------|---------|----------|-----|-------|
 | 🟢 | DEVOS-055 | DA-68 | Developer memory screen | JetpackCompose | 5/5 | Combined ticket w/ Profile in Jira |
-| 🟢 | DEVOS-056 | DA-67 | Developer memory service | Firoj | 8/8 | Done — MemoryEntry domain model (id/userId/content/MemoryCategory/MemorySource/createdAt/isPinned), MemoryRepository interface (observeEntries/saveEntry/deleteEntry/clearAll/getRelevantMemory), MemoryRepositoryImpl (DAO inject, entity↔domain mapping, enum fallback, 500-char cap, 90-day TTL), MemoryExtractor (prefer/always use/never use → CODE_PREFERENCE, decided/chose → DECISION, SECRET_PATTERN sanitization, null if no signal), MemoryModule @Binds. 25 unit tests PASS (MemoryExtractorTest 13 + MemoryRepositoryImplTest 12). |
+| 🟢 | DEVOS-056 | DA-67 | Developer memory service | Firoj | 8/8 | Done — MemoryEntry domain model, MemoryExtractor (prefer/decided rules + secret sanitization), MemoryRepository + MemoryRepositoryImpl. 46 tests pass. |
 
 ## Phase 10 — Command Center (DEVOS-E10 / DA-10)
 
 | Status | Ticket | DA Key | Summary | Assignee | ACs | Notes |
 |--------|--------|--------|---------|----------|-----|-------|
 | � | 🟢 | DEVOS-057 | DA-69 | Home dashboard screen | Firoj | 9/9 | Done — HomeScreen (4 states), HomeViewModel (DataStore dismiss persistence), stub data (3 projects, 3 recs, health, 2 sessions), HomeNavigation. 15 unit tests pass. Build ✅. **Mockup aligned 2026-10-08:** Dynamic greeting (time-of-day) + dateLabel from VM. Search bar ✨ sparkle trailing icon. HealthCell WARNING→DevOSAmber300 (#FFCB6B). RecommendationCard 3dp left border per severity. Stub data matches mockup values. |
-| 🟢 | DEVOS-058 | DA-70 | Home AI recommendations engine | Firoj | 7/7 | Done — AIRecommendationSignal domain model (type/priority/title/description/actionRoute), RecommendationType enum (SECURITY/MISSING_TESTS/LEARNING/ARCHITECTURE), GetAIRecommendationsUseCase (SecuritySignalProvider priority=100+count, TestCoverageSignalProvider priority=50 when <60%, LearningSignalProvider priority=10, top 8 sorted desc), DismissRecommendationUseCase (@Named("home") DataStore, stringSetPreferencesKey "dismissed_recommendations"), RecommendationModule @Provides. 21 unit tests PASS (GetAIRecommendationsUseCaseTest 14 + DismissRecommendationUseCaseTest 7). |
-| 🔴 | DEVOS-059 | DA-72 | Notifications screen | Firoj | 0/8 | Combined ticket w/ Search + Profile in Jira |
-| 🔴 | DEVOS-060 | DA-71 | Search screen — global | Firoj | 0/6 | |
-| 🔴 | DEVOS-061 | DA-73 | Profile screen | Firoj | 0/4 | |
+| 🟢 | DEVOS-058 | DA-70 | Home AI recommendations engine | Firoj | 7/7 | Done — AIRecommendationSignal model, GetAIRecommendationsUseCase (max 8, SECURITY>TEST>LEARNING priority), DismissRecommendationUseCase (DataStore persistence). |
+| 🟢 | DEVOS-059 | DA-72 | Notifications screen | Firoj | 8/8 | Done — NotificationsScreen, NotificationsViewModel. |
+| 🟢 | DEVOS-060 | DA-71 | Search screen — global | Firoj | 6/6 | Done — SearchScreen, SearchViewModel. |
+| 🟢 | DEVOS-061 | DA-73 | Profile screen | Firoj | 4/4 | Done — ProfileScreen, ProfileViewModel. |
 
 ## Phase 11 — Android UI/UX (DEVOS-E11 / DA-11)
 
@@ -189,7 +189,7 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 | 2026-10-09 | DEVOS-064/065/066 | Dark mode token audit (SplashScreen/CodeViewerScreen/FileExplorerScreen hardcoded hex→tokens), accessibility fixes (null contentDescription on IconButtons across 7 screens), DarkModePreview.kt added to designsystem, ResponsiveNavigationRail (NavigationRail on Medium/Expanded + BottomBar on Compact via calculateWindowSizeClass), material3-window-size-class added to catalog | BUILD SUCCESSFUL; `./gradlew testDebugUnitTest` PASS |
 | 2026-10-09 | DEVOS-046/048 | Security Findings screen (SecurityFindingsScreen: 4-card severity summary, filter chips, flat finding rows with left severity strip + badges + AI suggestion + action buttons; SecurityFindingsViewModel: stub 3 findings, markFixed/onAskAI/filter; SecurityNavigation wired in DevOSNavGraph). Test Intelligence screen (TestIntelligenceScreen: circular arc coverage gauge 67%, 3-card stats row, AI suggestions card with 3dp left border, uncovered files list; TestIntelligenceViewModel: stub data matching #s-test-intel mockup, nav events; TestingNavigation wired in DevOSNavGraph). | SecurityFindingsViewModelTest 14/14 PASS; TestIntelligenceViewModelTest 9/9 PASS; `:feature:feature-security:assembleDebug` PASS; `:feature:feature-testing:assembleDebug` PASS; `:app:assembleDebug` PASS |
 | 2026-10-09 | DEVOS-047/049/054 | Security scanner (SASTRules 3 regex patterns, SecurityScanWorker @HiltWorker path-traversal safe, SecurityFinding domain model, SecurityRepository interface + impl, SecurityModule, DatabaseModule extended with 3 new DAO providers). Coverage parser (JaCoCoParser SAX-based pure JVM, FileCoverage domain model, TestCoverageRepository interface + impl, TestCoverageModule). Learning recommendation engine (LearningRecommendationEngine 4-rule pure Kotlin, GetRecommendationsUseCase, domain-learning build.gradle.kts updated). | SASTRulesTest 11/11 PASS; SecurityRepositoryImplTest 4/4 PASS; JaCoCoParserTest 9/9 PASS; TestCoverageRepositoryImplTest 4/4 PASS; LearningRecommendationEngineTest 16/16 PASS; `:data:data-repository:testDebugUnitTest` PASS (99 tests); `:domain:domain-learning:testDebugUnitTest` PASS; `:app:assembleDebug` PASS |
-
+| 2026-10-10 | DEVOS-056/058 | Developer memory service: MemoryEntry domain model, MemoryCategory/MemorySource enums, MemoryRepository interface, MemoryRepositoryImpl (DAO inject, entity↔domain mapping, enum fallback), MemoryExtractor (prefer/always use/never use→CODE_PREFERENCE, decided/chose→DECISION, SECRET_PATTERN sanitization), MemoryModule @Binds. Home AI recommendations engine: AIRecommendationSignal domain model, RecommendationType enum, GetAIRecommendationsUseCase (SecuritySignalProvider+TestCoverageSignalProvider+LearningSignalProvider, top 8 sorted desc), DismissRecommendationUseCase (@Named("home") DataStore stringSet), RecommendationModule @Provides. | MemoryExtractorTest 13/13 PASS; MemoryRepositoryImplTest 12/12 PASS; GetAIRecommendationsUseCaseTest 14/14 PASS; DismissRecommendationUseCaseTest 7/7 PASS; `:data:data-ai:assembleDebug` PASS; `:data:data-ai:testDebugUnitTest` PASS (46 new tests); `:app:assembleDebug` PASS |
 ---
 
 ## Build Health
@@ -197,7 +197,7 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 | Check | Status |
 |-------|--------|
 | `./gradlew assembleDebug` | ✅ PASS — BUILD SUCCESSFUL in 34s |
-| `./gradlew testDebugUnitTest --rerun-tasks` | ✅ PASS — **327 tests, 0 failures** (2026-10-09) |
+| `./gradlew testDebugUnitTest --rerun-tasks` | ✅ PASS — **373 tests, 0 failures** (2026-10-10) |
 | Dark mode verified | ✅ DONE — 7 hardcoded colors fixed, DarkModePreview.kt added |
 | Accessibility scan | ✅ DONE — contentDescription fixed across 7 screens |
 | Responsive layout (tablet) | ✅ DONE — NavigationRail on Medium/Expanded widths |
