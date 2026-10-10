@@ -3,6 +3,7 @@ package com.devos.ai.core.database.di
 import android.content.Context
 import androidx.room.Room
 import com.devos.ai.core.database.DevOSDatabase
+import com.devos.ai.core.database.dao.ChunkDao
 import com.devos.ai.core.database.dao.FileDao
 import com.devos.ai.core.database.dao.RepositoryDao
 import com.devos.ai.core.database.dao.SymbolDao
@@ -46,4 +47,8 @@ object DatabaseModule {
     @Provides
     @Singleton
     fun provideSymbolDao(db: DevOSDatabase): SymbolDao = db.symbolDao()
+
+    @Provides
+    @Singleton
+    fun provideChunkDao(db: DevOSDatabase): ChunkDao = db.chunkDao()
 }

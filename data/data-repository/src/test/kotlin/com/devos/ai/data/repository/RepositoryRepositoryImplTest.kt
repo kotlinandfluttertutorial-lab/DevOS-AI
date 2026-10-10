@@ -96,7 +96,7 @@ class RepositoryRepositoryImplTest {
         val repoId = result.getOrThrow()
 
         verify {
-            workManager.enqueueUniqueWork(
+            workManager.beginUniqueWork(
                 "index_$repoId",
                 ExistingWorkPolicy.REPLACE,
                 any<OneTimeWorkRequest>(),
@@ -240,10 +240,19 @@ private class TestableRepositoryRepositoryImpl(
     repositoryDao: RepositoryDao,
     fileDao: FileDao,
 ) : RepositoryRepositoryImpl(
-    context       = mockk(relaxed = true),
-    repositoryDao = repositoryDao,
-    fileDao       = fileDao,
+    context             = mockk(relaxed = true),
+    repositoryDao       = repositoryDao,
+    fileDao             = fileDao,
+    chunkingWorkerClass = StubWorker::class.java,
 ) {
     // Shadow the lazy property from the parent
     override fun getWorkManager(): WorkManager = workManager
+}
+
+/** Minimal no-op worker used to satisfy the [RepositoryRepositoryImpl] constructor in tests. */
+private class StubWorker(
+    context: android.content.Context,
+    params: androidx.work.WorkerParameters,
+) : androidx.work.Worker(context, params) {
+    override fun doWork(): androidx.work.ListenableWorker.Result = androidx.work.ListenableWorker.Result.success()
 }

@@ -28,6 +28,7 @@ dependencies {
     implementation(project(":designsystem"))
     implementation(project(":core:core-common"))
     implementation(project(":core:core-ui"))
+    implementation(project(":domain:domain-ai"))
 
     implementation(platform(libs.compose.bom))
     implementation(libs.bundles.compose)
