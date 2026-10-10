@@ -5,6 +5,7 @@ import assertk.assertions.hasSize
 import assertk.assertions.isEmpty
 import assertk.assertions.isBetween
 import assertk.assertions.isEqualTo
+import assertk.assertions.isEmpty
 import com.devos.ai.core.database.entity.CodeChunkEntity
 import org.junit.jupiter.api.Test
 
@@ -161,7 +162,7 @@ class VectorStoreTest {
         val chunk   = chunk("orth", embeddingJson = sparseJson(0 to 1.0f))
         val store   = VectorStore.from(listOf(chunk), vocabSize)
         val query   = FloatArray(vocabSize) { if (it == 1) 1.0f else 0f }
-        val results = store.search(query, topK = 10, minRelevance = 0f)
-        assertThat(results).isEmpty()  // 0.0 < default minRelevance implies no result
+        val results = store.search(query, topK = 10, minRelevance = 0.01f)
+        assertThat(results).isEmpty()
     }
 }

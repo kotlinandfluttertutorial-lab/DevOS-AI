@@ -83,16 +83,13 @@ class ReActEngineTest {
 
     @Test
     fun `engine status is RUNNING during execution`() = runTest {
-        val statusCaptures = mutableListOf<AgentRunStatus>()
         every { mockClient.streamChat(any(), any(), any()) } returns flowOf(
             StreamToken("Final Answer: done", done = true),
         )
 
         val run     = makeRun()
         val runFlow = MutableStateFlow(run)
-        runFlow.collect { statusCaptures.add(it.status) }
 
-        // We can't easily intercept mid-execution here, but we can verify the final state
         engine.execute(run, runFlow, maxSteps = 5, repoId = null)
         assertThat(runFlow.value.status).isEqualTo(AgentRunStatus.COMPLETED)
     }

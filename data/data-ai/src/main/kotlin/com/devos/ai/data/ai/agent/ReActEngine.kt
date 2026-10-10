@@ -120,14 +120,16 @@ class ReActEngine @Inject constructor(
                     client.streamChat(conversation, config, apiKey)
                         .collect { token ->
                             ensureActive()
-                            if (!token.done && token.error == null) {
+                            if (token.error == null) {
                                 assistantBuffer.append(token.delta)
-                                // Emit incremental thought update
-                                val updatedStep = step.copy(thought = assistantBuffer.toString())
-                                currentRun = currentRun.copy(
-                                    steps = currentRun.steps.dropLast(1) + updatedStep,
-                                )
-                                runFlow.value = currentRun
+                                if (!token.done) {
+                                    // Emit incremental thought update
+                                    val updatedStep = step.copy(thought = assistantBuffer.toString())
+                                    currentRun = currentRun.copy(
+                                        steps = currentRun.steps.dropLast(1) + updatedStep,
+                                    )
+                                    runFlow.value = currentRun
+                                }
                             }
                         }
 

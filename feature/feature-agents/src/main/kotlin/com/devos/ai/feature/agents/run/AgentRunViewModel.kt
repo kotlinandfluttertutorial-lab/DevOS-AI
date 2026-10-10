@@ -55,33 +55,41 @@ class AgentRunViewModel @Inject constructor(
     private fun startRun() {
         viewModelScope.launch {
             startedAtMs.set(System.currentTimeMillis())
-            startElapsedTimer()
+            try {
+                runAgentUseCase(goal, repoId, maxSteps = 20)
+                    .collect { run ->
+                        run ?: return@collect
+                        currentRunId = run.id
 
-            runAgentUseCase(goal, repoId, maxSteps = 20)
-                .collect { run ->
-                    run ?: return@collect
-                    currentRunId = run.id
+                        when (run.status) {
+                            AgentRunStatus.PENDING, AgentRunStatus.RUNNING -> startElapsedTimer()
+                            AgentRunStatus.COMPLETED, AgentRunStatus.CANCELLED, AgentRunStatus.FAILED ->
+                                stopElapsedTimer()
+                        }
 
-                    val completedSteps = run.steps.count { it.status.name == "COMPLETED" }
-                    val totalSteps     = run.steps.size.coerceAtLeast(1)
-                    val progress       = completedSteps.toFloat() / totalSteps.coerceAtLeast(1)
-                    val elapsed        = formatElapsed(System.currentTimeMillis() - startedAtMs.get())
-                    val stepLabel      = "Step $completedSteps of $totalSteps"
+                        val completedSteps = run.steps.count { it.status.name == "COMPLETED" }
+                        val totalSteps     = run.steps.size.coerceAtLeast(1)
+                        val progress       = completedSteps.toFloat() / totalSteps.coerceAtLeast(1)
+                        val elapsed        = formatElapsed(System.currentTimeMillis() - startedAtMs.get())
+                        val stepLabel      = "Step $completedSteps of $totalSteps"
 
-                    _uiState.value = when (run.status) {
-                        AgentRunStatus.PENDING, AgentRunStatus.RUNNING ->
-                            AgentRunUiState.Running(run, progress, elapsed, stepLabel)
+                        _uiState.value = when (run.status) {
+                            AgentRunStatus.PENDING, AgentRunStatus.RUNNING ->
+                                AgentRunUiState.Running(run, progress, elapsed, stepLabel)
 
-                        AgentRunStatus.COMPLETED ->
-                            AgentRunUiState.Completed(run, run.finalAnswer ?: "Task complete.")
+                            AgentRunStatus.COMPLETED ->
+                                AgentRunUiState.Completed(run, run.finalAnswer ?: "Task complete.")
 
-                        AgentRunStatus.CANCELLED ->
-                            AgentRunUiState.Cancelled(run)
+                            AgentRunStatus.CANCELLED ->
+                                AgentRunUiState.Cancelled(run)
 
-                        AgentRunStatus.FAILED ->
-                            AgentRunUiState.Error(run, run.finalAnswer ?: "Agent failed.", retryable = true)
+                            AgentRunStatus.FAILED ->
+                                AgentRunUiState.Error(run, run.finalAnswer ?: "Agent failed.", retryable = true)
+                        }
                     }
-                }
+            } finally {
+                stopElapsedTimer()
+            }
         }
     }
 
@@ -109,13 +117,13 @@ class AgentRunViewModel @Inject constructor(
 
     override fun onCleared() {
         super.onCleared()
-        elapsedJob?.cancel()
+        stopElapsedTimer()
     }
 
     // ── Helpers ───────────────────────────────────────────────────────────────
 
     private fun startElapsedTimer() {
-        elapsedJob?.cancel()
+        if (elapsedJob?.isActive == true) return
         elapsedJob = viewModelScope.launch {
             while (true) {
                 delay(1_000)
@@ -126,6 +134,11 @@ class AgentRunViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    private fun stopElapsedTimer() {
+        elapsedJob?.cancel()
+        elapsedJob = null
     }
 
     private fun formatElapsed(ms: Long): String {

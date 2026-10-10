@@ -38,6 +38,7 @@ dependencies {
     ksp(libs.hilt.compiler)
 
     testImplementation(libs.bundles.test.unit)
+    testImplementation(libs.test.org.json)
     testRuntimeOnly(libs.test.junit5.engine)
     testRuntimeOnly(libs.test.junit5.launcher)
     androidTestImplementation(platform(libs.compose.bom))

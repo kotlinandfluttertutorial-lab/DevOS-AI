@@ -44,5 +44,7 @@ dependencies {
 
     testImplementation(libs.bundles.test.unit)
     testImplementation(libs.test.mockwebserver)
+    testImplementation(libs.test.org.json)
     testRuntimeOnly(libs.test.junit5.engine)
+    testRuntimeOnly(libs.test.junit5.launcher)
 }

@@ -15,7 +15,7 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
@@ -64,7 +64,12 @@ class AgentToolDetailViewModelTest {
             agentRepository  = agentRepository,
         )
 
-    private val testDispatcher = UnconfinedTestDispatcher()
+    private val testDispatcher = StandardTestDispatcher()
+
+    private fun makeLoadedViewModel(runId: String = "run-1", stepId: String = "step-1") =
+        makeViewModel(runId, stepId).also {
+            testDispatcher.scheduler.advanceUntilIdle()
+        }
 
     @BeforeEach
     fun setUp() {
@@ -81,86 +86,86 @@ class AgentToolDetailViewModelTest {
     // ── Success state ─────────────────────────────────────────────────────────
 
     @Test
-    fun `loads step and emits Success state`() = runTest(UnconfinedTestDispatcher()) {
+    fun `loads step and emits Success state`() = runTest(testDispatcher) {
         val step = stubStep()
         coEvery { agentRepository.getRun("run-1") } returns stubRun(step)
 
-        val vm    = makeViewModel()
+        val vm    = makeLoadedViewModel()
         val state = vm.uiState.value
 
         assertThat(state).isInstanceOf(AgentToolDetailUiState.Success::class)
     }
 
     @Test
-    fun `Success state contains correct toolName`() = runTest(UnconfinedTestDispatcher()) {
+    fun `Success state contains correct toolName`() = runTest(testDispatcher) {
         val step = stubStep(toolName = "read_file")
         coEvery { agentRepository.getRun("run-1") } returns stubRun(step)
 
-        val state = makeViewModel().uiState.value as AgentToolDetailUiState.Success
+        val state = makeLoadedViewModel().uiState.value as AgentToolDetailUiState.Success
         assertThat(state.toolName).isEqualTo("read_file")
     }
 
     @Test
-    fun `Success state isSuccess true for COMPLETED step`() = runTest(UnconfinedTestDispatcher()) {
+    fun `Success state isSuccess true for COMPLETED step`() = runTest(testDispatcher) {
         val step = stubStep(status = AgentStepStatus.COMPLETED)
         coEvery { agentRepository.getRun("run-1") } returns stubRun(step)
 
-        val state = makeViewModel().uiState.value as AgentToolDetailUiState.Success
+        val state = makeLoadedViewModel().uiState.value as AgentToolDetailUiState.Success
         assertThat(state.isSuccess).isTrue()
     }
 
     @Test
-    fun `Success state contains durationMs`() = runTest(UnconfinedTestDispatcher()) {
+    fun `Success state contains durationMs`() = runTest(testDispatcher) {
         val step = stubStep(durationMs = 2345L)
         coEvery { agentRepository.getRun("run-1") } returns stubRun(step)
 
-        val state = makeViewModel().uiState.value as AgentToolDetailUiState.Success
+        val state = makeLoadedViewModel().uiState.value as AgentToolDetailUiState.Success
         assertThat(state.durationMs).isEqualTo(2345L)
     }
 
     @Test
-    fun `Success state inputJson is non-empty`() = runTest(UnconfinedTestDispatcher()) {
+    fun `Success state inputJson is non-empty`() = runTest(testDispatcher) {
         val step = stubStep()
         coEvery { agentRepository.getRun("run-1") } returns stubRun(step)
 
-        val state = makeViewModel().uiState.value as AgentToolDetailUiState.Success
+        val state = makeLoadedViewModel().uiState.value as AgentToolDetailUiState.Success
         assertThat(state.inputJson.isNotBlank()).isTrue()
     }
 
     @Test
-    fun `Success state outputJson is non-empty`() = runTest(UnconfinedTestDispatcher()) {
+    fun `Success state outputJson is non-empty`() = runTest(testDispatcher) {
         val step = stubStep()
         coEvery { agentRepository.getRun("run-1") } returns stubRun(step)
 
-        val state = makeViewModel().uiState.value as AgentToolDetailUiState.Success
+        val state = makeLoadedViewModel().uiState.value as AgentToolDetailUiState.Success
         assertThat(state.outputJson.isNotBlank()).isTrue()
     }
 
     // ── Error state ───────────────────────────────────────────────────────────
 
     @Test
-    fun `emits Error when run not found`() = runTest(UnconfinedTestDispatcher()) {
+    fun `emits Error when run not found`() = runTest(testDispatcher) {
         coEvery { agentRepository.getRun(any()) } returns null
-        val state = makeViewModel().uiState.value
+        val state = makeLoadedViewModel().uiState.value
         assertThat(state).isInstanceOf(AgentToolDetailUiState.Error::class)
     }
 
     @Test
-    fun `emits Error when stepId not found in run`() = runTest(UnconfinedTestDispatcher()) {
+    fun `emits Error when stepId not found in run`() = runTest(testDispatcher) {
         val run = stubRun(stubStep(stepId = "other-step"))
         coEvery { agentRepository.getRun("run-1") } returns run
-        val state = makeViewModel(stepId = "missing-step").uiState.value
+        val state = makeLoadedViewModel(stepId = "missing-step").uiState.value
         assertThat(state).isInstanceOf(AgentToolDetailUiState.Error::class)
     }
 
     // ── onToggleRawJson ───────────────────────────────────────────────────────
 
     @Test
-    fun `onToggleRawJson flips showRawJson`() = runTest(UnconfinedTestDispatcher()) {
+    fun `onToggleRawJson flips showRawJson`() = runTest(testDispatcher) {
         val step = stubStep()
         coEvery { agentRepository.getRun("run-1") } returns stubRun(step)
 
-        val vm     = makeViewModel()
+        val vm     = makeLoadedViewModel()
         val before = (vm.uiState.value as AgentToolDetailUiState.Success).showRawJson
         vm.onToggleRawJson()
         val after  = (vm.uiState.value as AgentToolDetailUiState.Success).showRawJson

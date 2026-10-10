@@ -17,9 +17,9 @@ object Tokenizer {
         "val", "var", "fun", "class", "object", "interface", "enum", "if", "else",
         "when", "for", "while", "do", "return", "throw", "try", "catch", "finally",
         "import", "package", "public", "private", "protected", "internal", "override",
-        "abstract", "open", "sealed", "data", "companion", "static", "final", "void",
-        "new", "this", "super", "null", "true", "false", "is", "as", "in", "by",
-        "it", "get", "set", "init", "constructor", "suspend", "inline", "reified",
+        "abstract", "open", "sealed", "companion", "static", "final", "void",
+        "new", "this", "super", "null", "true", "false", "is", "as", "in",
+        "it", "set", "init", "constructor", "suspend", "inline", "reified",
         // Common code noise
         "the", "a", "an", "of", "to", "and", "or", "not", "with", "from",
     )

@@ -1,6 +1,7 @@
 package com.devos.ai.feature.agents.run
 
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModelStore
 import app.cash.turbine.test
 import assertk.assertThat
 import assertk.assertions.isEqualTo
@@ -36,6 +37,7 @@ class AgentRunViewModelTest {
 
     private lateinit var runAgentUseCase: RunAgentUseCase
     private lateinit var cancelAgentRunUseCase: CancelAgentRunUseCase
+    private val viewModelStore = ViewModelStore()
 
     private fun makeRun(status: AgentRunStatus = AgentRunStatus.RUNNING) = AgentRun(
         id     = UUID.randomUUID().toString(),
@@ -46,7 +48,9 @@ class AgentRunViewModelTest {
 
     private fun makeViewModel(goal: String = "test goal"): AgentRunViewModel {
         val handle = SavedStateHandle(mapOf("goal" to goal))
-        return AgentRunViewModel(handle, runAgentUseCase, cancelAgentRunUseCase)
+        return AgentRunViewModel(handle, runAgentUseCase, cancelAgentRunUseCase).also {
+            viewModelStore.put(UUID.randomUUID().toString(), it)
+        }
     }
 
     private val testDispatcher = UnconfinedTestDispatcher()
@@ -61,6 +65,7 @@ class AgentRunViewModelTest {
 
     @AfterEach
     fun tearDown() {
+        viewModelStore.clear()
         Dispatchers.resetMain()
     }
 
