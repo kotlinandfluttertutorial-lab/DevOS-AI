@@ -34,6 +34,7 @@ import com.devos.ai.feature.code.navigation.fileExplorerNavigation
 import com.devos.ai.feature.code.navigation.symbolDetailsNavigation
 import com.devos.ai.feature.agents.agentRunNavigation
 import com.devos.ai.feature.agents.agentToolDetailNavigation
+import com.devos.ai.feature.agents.mcp.mcpNavigation
 import com.devos.ai.feature.settings.provider.providerSettingsNavigation
 import com.devos.ai.feature.repository.navigation.projectListNavigation
 import com.devos.ai.feature.repository.navigation.repositoryImportNavigation
@@ -41,6 +42,11 @@ import com.devos.ai.feature.repository.navigation.repositorySyncNavigation
 import com.devos.ai.feature.repository.navigation.overviewNavigation
 import com.devos.ai.feature.security.securityNavigation
 import com.devos.ai.feature.testing.testIntelligenceNavigation
+import com.devos.ai.feature.git.gitHistoryNavigation
+import com.devos.ai.feature.issues.issueListNavigation
+import com.devos.ai.feature.issues.issueDetailNavigation
+import com.devos.ai.feature.prs.prListNavigation
+import com.devos.ai.feature.prs.prReviewNavigation
 
 /**
  * Root navigation graph for DevOS AI.
@@ -124,46 +130,15 @@ fun DevOSNavGraph(
         agentToolDetailNavigation(navController)
 
         // ── Developer Intelligence ───────────────────────────────────────────────
-        composable(
-            route = DevOSRoutes.GIT_HISTORY,
-            arguments = listOf(navArgument("repoId") { type = NavType.StringType }),
-        ) {
-            PlaceholderScreen(route = "git_history")
-        }
+        gitHistoryNavigation(navController)
 
-        composable(
-            route = DevOSRoutes.ISSUE_LIST,
-            arguments = listOf(navArgument("projectId") { type = NavType.StringType }),
-        ) {
-            PlaceholderScreen(route = "issue_list")
-        }
+        issueListNavigation(navController)
 
-        composable(
-            route = DevOSRoutes.ISSUE_DETAIL,
-            arguments = listOf(
-                navArgument("projectId") { type = NavType.StringType },
-                navArgument("issueId") { type = NavType.StringType },
-            ),
-        ) {
-            PlaceholderScreen(route = "issue_detail")
-        }
+        issueDetailNavigation(navController)
 
-        composable(
-            route = DevOSRoutes.PR_LIST,
-            arguments = listOf(navArgument("projectId") { type = NavType.StringType }),
-        ) {
-            PlaceholderScreen(route = "pr_list")
-        }
+        prListNavigation(navController)
 
-        composable(
-            route = DevOSRoutes.PR_REVIEW,
-            arguments = listOf(
-                navArgument("projectId") { type = NavType.StringType },
-                navArgument("prId") { type = NavType.StringType },
-            ),
-        ) {
-            PlaceholderScreen(route = "pr_review")
-        }
+        prReviewNavigation(navController)
 
         // ── Quality ──────────────────────────────────────────────────────────────
         securityNavigation(navController)
@@ -180,9 +155,7 @@ fun DevOSNavGraph(
         // ── Developer tools ───────────────────────────────────────────────────────
         memoryNavigation(navController)
 
-        composable(route = DevOSRoutes.MCP_TOOLS) {
-            PlaceholderScreen(route = DevOSRoutes.MCP_TOOLS)
-        }
+        mcpNavigation(navController)
 
         notificationsNavigation(navController)
 
