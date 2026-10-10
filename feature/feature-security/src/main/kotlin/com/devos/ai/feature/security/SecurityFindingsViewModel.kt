@@ -1,5 +1,7 @@
 package com.devos.ai.feature.security
 
+import androidx.compose.runtime.Immutable
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,6 +17,8 @@ import javax.inject.Inject
 /** UI state for the Security Findings screen. */
 sealed interface SecurityFindingsUiState {
     data object Loading : SecurityFindingsUiState
+
+    @Immutable
 
     data class Success(
         val findings: List<SecurityFinding>,

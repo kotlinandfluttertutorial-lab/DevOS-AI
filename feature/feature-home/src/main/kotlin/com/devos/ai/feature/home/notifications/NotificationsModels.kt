@@ -1,5 +1,7 @@
 package com.devos.ai.feature.home.notifications
 
+import androidx.compose.runtime.Immutable
+
 /**
  * Notification type — determines the dot color and filter chip label.
  */
@@ -41,6 +43,7 @@ data class DevOSNotification(
  */
 sealed interface NotificationsUiState {
     data object Loading : NotificationsUiState
+    @Immutable
     data class Success(
         val notifications: List<DevOSNotification>,
         val filteredNotifications: List<DevOSNotification>,

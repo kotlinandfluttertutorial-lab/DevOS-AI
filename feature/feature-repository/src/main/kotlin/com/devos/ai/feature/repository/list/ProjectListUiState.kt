@@ -1,5 +1,7 @@
 package com.devos.ai.feature.repository.list
 
+import androidx.compose.runtime.Immutable
+
 import com.devos.ai.feature.repository.model.ProjectSummary
 import com.devos.ai.feature.repository.model.SortOrder
 
@@ -11,6 +13,8 @@ import com.devos.ai.feature.repository.model.SortOrder
  */
 sealed interface ProjectListUiState {
     data object Loading : ProjectListUiState
+
+    @Immutable
 
     data class Success(
         val repositories: List<ProjectSummary>,

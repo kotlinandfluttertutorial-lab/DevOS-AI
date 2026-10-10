@@ -1,5 +1,7 @@
 package com.devos.ai.feature.home.search
 
+import androidx.compose.runtime.Immutable
+
 /**
  * Result type — drives the icon and section header in the results list.
  */
@@ -58,6 +60,7 @@ val allSearchScopes = listOf(
 sealed interface SearchUiState {
     data object Idle : SearchUiState
     data object Searching : SearchUiState
+    @Immutable
     data class Success(
         val query: String,
         val scope: String,
