@@ -38,6 +38,7 @@ import com.devos.ai.feature.settings.provider.providerSettingsNavigation
 import com.devos.ai.feature.repository.navigation.projectListNavigation
 import com.devos.ai.feature.repository.navigation.repositoryImportNavigation
 import com.devos.ai.feature.repository.navigation.repositorySyncNavigation
+import com.devos.ai.feature.repository.navigation.overviewNavigation
 import com.devos.ai.feature.security.securityNavigation
 import com.devos.ai.feature.testing.testIntelligenceNavigation
 
