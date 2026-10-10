@@ -1,5 +1,7 @@
 package com.devos.ai.feature.home.dashboard
 
+import androidx.compose.runtime.Immutable
+
 import com.devos.ai.feature.home.model.AIRecommendation
 import com.devos.ai.feature.home.model.ChatSessionSummary
 import com.devos.ai.feature.home.model.ProjectHealth
@@ -25,6 +27,7 @@ sealed interface HomeUiState {
      * @param greeting Time-of-day greeting e.g. "Good morning, Dev 👋"
      * @param dateLabel Formatted date string e.g. "Wednesday, Oct 7"
      */
+    @Immutable
     data class Success(
         val recentProjects: List<ProjectSummary>,
         val recommendations: List<AIRecommendation>,
