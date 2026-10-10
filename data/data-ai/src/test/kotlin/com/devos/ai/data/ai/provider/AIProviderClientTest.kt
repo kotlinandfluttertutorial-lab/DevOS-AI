@@ -107,7 +107,7 @@ class AIProviderClientTest {
 
         val result = client.testConnection(config, "")
         assertThat(result.isFailure).isEqualTo(true)
-        assertThat(result.exceptionOrNull()).isInstanceOf(ProviderException::class)
+        assertThat(result.exceptionOrNull()!!).isInstanceOf(ProviderException::class)
     }
 
     @Test

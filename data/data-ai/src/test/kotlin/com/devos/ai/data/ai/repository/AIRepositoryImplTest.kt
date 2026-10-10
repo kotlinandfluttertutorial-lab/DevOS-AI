@@ -21,6 +21,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.slot
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
@@ -143,7 +144,7 @@ class AIRepositoryImplTest {
         )
         coEvery { ragRepository.retrieve(any(), any(), any(), any()) } returns chunks
 
-        val capturedTurns = mutableListOf<com.devos.ai.data.ai.provider.ChatTurn>()
+        val capturedTurns = slot<List<com.devos.ai.data.ai.provider.ChatTurn>>()
         every { mockProviderClient.streamChat(capture(capturedTurns), any(), any()) } returns
             flowOf(StreamToken("ok", done = true))
 
@@ -152,7 +153,7 @@ class AIRepositoryImplTest {
         }
 
         // System prompt should contain the RAG chunk content
-        val systemContent = capturedTurns.find {
+        val systemContent = capturedTurns.captured.find {
             it.role == com.devos.ai.data.ai.provider.TurnRole.SYSTEM
         }?.content ?: ""
         assertThat(systemContent.contains("UserRepository")).isTrue()

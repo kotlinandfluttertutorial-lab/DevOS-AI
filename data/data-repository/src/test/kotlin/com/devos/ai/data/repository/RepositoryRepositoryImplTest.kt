@@ -96,7 +96,7 @@ class RepositoryRepositoryImplTest {
         val repoId = result.getOrThrow()
 
         verify {
-            workManager.enqueueUniqueWork(
+            workManager.beginUniqueWork(
                 "index_$repoId",
                 ExistingWorkPolicy.REPLACE,
                 any<OneTimeWorkRequest>(),
