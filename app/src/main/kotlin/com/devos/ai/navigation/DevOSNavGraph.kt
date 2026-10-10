@@ -34,6 +34,7 @@ import com.devos.ai.feature.code.navigation.fileExplorerNavigation
 import com.devos.ai.feature.code.navigation.symbolDetailsNavigation
 import com.devos.ai.feature.agents.agentRunNavigation
 import com.devos.ai.feature.agents.agentToolDetailNavigation
+import com.devos.ai.feature.agents.mcp.mcpNavigation
 import com.devos.ai.feature.settings.provider.providerSettingsNavigation
 import com.devos.ai.feature.repository.navigation.projectListNavigation
 import com.devos.ai.feature.repository.navigation.repositoryImportNavigation
@@ -180,9 +181,7 @@ fun DevOSNavGraph(
         // ── Developer tools ───────────────────────────────────────────────────────
         memoryNavigation(navController)
 
-        composable(route = DevOSRoutes.MCP_TOOLS) {
-            PlaceholderScreen(route = DevOSRoutes.MCP_TOOLS)
-        }
+        mcpNavigation(navController)
 
         notificationsNavigation(navController)
 
