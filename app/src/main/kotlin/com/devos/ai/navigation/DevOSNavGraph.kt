@@ -45,6 +45,8 @@ import com.devos.ai.feature.testing.testIntelligenceNavigation
 import com.devos.ai.feature.git.gitHistoryNavigation
 import com.devos.ai.feature.issues.issueListNavigation
 import com.devos.ai.feature.issues.issueDetailNavigation
+import com.devos.ai.feature.prs.prListNavigation
+import com.devos.ai.feature.prs.prReviewNavigation
 
 /**
  * Root navigation graph for DevOS AI.
@@ -134,22 +136,9 @@ fun DevOSNavGraph(
 
         issueDetailNavigation(navController)
 
-        composable(
-            route = DevOSRoutes.PR_LIST,
-            arguments = listOf(navArgument("projectId") { type = NavType.StringType }),
-        ) {
-            PlaceholderScreen(route = "pr_list")
-        }
+        prListNavigation(navController)
 
-        composable(
-            route = DevOSRoutes.PR_REVIEW,
-            arguments = listOf(
-                navArgument("projectId") { type = NavType.StringType },
-                navArgument("prId") { type = NavType.StringType },
-            ),
-        ) {
-            PlaceholderScreen(route = "pr_review")
-        }
+        prReviewNavigation(navController)
 
         // ── Quality ──────────────────────────────────────────────────────────────
         securityNavigation(navController)
