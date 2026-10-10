@@ -11,6 +11,7 @@ import com.devos.ai.domain.ai.model.AgentStepStatus
 import com.devos.ai.domain.ai.model.AgentTool
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.toList
@@ -93,7 +94,7 @@ class ReActEngine @Inject constructor(
         try {
             coroutineScope {
                 for (stepIndex in 0 until maxSteps) {
-                    kotlinx.coroutines.ensureActive()
+                    ensureActive()
 
                     // ── THINK step ────────────────────────────────────────────
                     val step = AgentStep(
@@ -118,7 +119,7 @@ class ReActEngine @Inject constructor(
 
                     client.streamChat(conversation, config, apiKey)
                         .collect { token ->
-                            kotlinx.coroutines.ensureActive()
+                            ensureActive()
                             if (!token.done && token.error == null) {
                                 assistantBuffer.append(token.delta)
                                 // Emit incremental thought update

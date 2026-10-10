@@ -46,7 +46,7 @@ class SearchSymbolsTool @Inject constructor(
                 results.take(20).forEach { sym ->
                     appendLine("  • ${sym.kind} ${sym.name} — ${sym.filePath}:${sym.lineStart}")
                     if (sym.signature != null) appendLine("    ${sym.signature}")
-                    if (sym.docComment != null) appendLine("    // ${sym.docComment.take(80)}")
+                    if (sym.docComment != null) appendLine("    // ${sym.docComment!!.take(80)}")
                 }
                 if (results.size > 20) appendLine("  … and ${results.size - 20} more")
             }

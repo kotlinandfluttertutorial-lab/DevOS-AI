@@ -14,10 +14,12 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.File
 import kotlin.coroutines.cancellation.CancellationException
+import kotlin.coroutines.coroutineContext
 
 /**
  * WorkManager background job that chunks source files and builds the TF-IDF
@@ -70,9 +72,7 @@ class ChunkingWorker @AssistedInject constructor(
             Timber.d("ChunkingWorker: starting for repo %s", repoId)
 
             val entity = withContext(Dispatchers.IO) {
-                repositoryDao.observeById(repoId).let {
-                    kotlinx.coroutines.flow.first(it)
-                }
+                repositoryDao.observeById(repoId).first()
             }
 
             val localPath = entity?.localPath ?: run {
@@ -96,7 +96,7 @@ class ChunkingWorker @AssistedInject constructor(
             val total     = srcFiles.size
 
             for (fileEntity in srcFiles) {
-                ensureActive()
+                coroutineContext.ensureActive()
                 try {
                     val file = File(root, fileEntity.path)
                     if (!file.exists()) continue
