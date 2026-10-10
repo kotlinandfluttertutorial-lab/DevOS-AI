@@ -26,10 +26,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.material.icons.outlined.Error
 import androidx.compose.material.icons.outlined.RadioButtonUnchecked
 import androidx.compose.material.icons.outlined.SmartToy
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
@@ -108,7 +110,14 @@ fun AgentRunScreen(
         topBar         = {
             DevOSTopBar(
                 title          = "Agent Run",
-                onNavigateBack = onNavigateBack,
+                navigationIcon = {
+                    IconButton(onClick = onNavigateBack) {
+                        Icon(
+                            imageVector        = Icons.AutoMirrored.Outlined.ArrowBack,
+                            contentDescription = "Navigate back",
+                        )
+                    }
+                },
                 actions        = { statusPill() },
             )
         },
@@ -194,12 +203,10 @@ private fun AgentRunContent(
                 DevOSButton(
                     text     = "Cancel Agent",
                     onClick  = onCancelRun,
-                    style    = DevOSButtonStyle.Secondary,
+                    style    = DevOSButtonStyle.Destructive,
                     modifier = Modifier
                         .fillMaxWidth()
                         .semantics { contentDescription = "Cancel agent run" },
-                    // Override tint to error red matching the mockup
-                    contentColor = MaterialTheme.colorScheme.error,
                 )
             }
         }
@@ -324,7 +331,7 @@ private fun StepRow(
 
                 // ── Tool call box (active step only) ──────────────────────────
                 if (step.status == AgentStepStatus.RUNNING && step.toolName != null) {
-                    ToolCallBox(toolName = step.toolName, toolInput = step.toolInput)
+                    ToolCallBox(toolName = step.toolName!!, toolInput = step.toolInput)
                 }
             }
         }

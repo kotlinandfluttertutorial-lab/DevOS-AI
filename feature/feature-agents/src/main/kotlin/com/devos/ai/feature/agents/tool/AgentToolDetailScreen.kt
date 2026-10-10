@@ -15,7 +15,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Build
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -62,7 +65,14 @@ fun AgentToolDetailScreen(
         topBar         = {
             DevOSTopBar(
                 title          = "Tool Execution",
-                onNavigateBack = onNavigateBack,
+                navigationIcon = {
+                    IconButton(onClick = onNavigateBack) {
+                        Icon(
+                            imageVector        = Icons.AutoMirrored.Outlined.ArrowBack,
+                            contentDescription = "Navigate back",
+                        )
+                    }
+                },
             )
         },
     ) { innerPadding ->
