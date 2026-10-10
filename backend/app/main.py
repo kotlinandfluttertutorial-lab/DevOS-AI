@@ -13,7 +13,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from app.config import settings
-from app.routers import agents, ai_chat, health, repositories
+from app.routers import agents, ai_chat, files, health, rag, repositories
 
 logger = logging.getLogger("devos.api")
 
@@ -65,7 +65,9 @@ def create_app() -> FastAPI:
     # Routers — all mounted under /v1
     app.include_router(health.router, prefix="/v1")
     app.include_router(repositories.router, prefix="/v1")
+    app.include_router(files.router, prefix="/v1", tags=["files"])
     app.include_router(ai_chat.router, prefix="/v1")
+    app.include_router(rag.router, prefix="/v1")
     app.include_router(agents.router, prefix="/v1")
 
     return app
