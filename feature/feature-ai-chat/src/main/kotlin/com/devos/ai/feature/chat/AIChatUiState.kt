@@ -1,5 +1,7 @@
 package com.devos.ai.feature.chat
 
+import androidx.compose.runtime.Immutable
+
 import com.devos.ai.domain.ai.model.AIContext
 import com.devos.ai.domain.ai.model.ChatMessage
 
@@ -16,6 +18,7 @@ sealed interface AIChatUiState {
     data object Loading : AIChatUiState
 
     /** Conversation active. May be streaming if [isStreaming] = true. */
+    @Immutable
     data class Success(
         val messages: List<ChatMessage>,
         val context: AIContext,
