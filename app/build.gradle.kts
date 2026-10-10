@@ -40,7 +40,30 @@ android {
 
     buildFeatures {
         compose = true
-        buildConfig = false
+        buildConfig = true
+    }
+
+    flavorDimensions += "environment"
+    productFlavors {
+        create("local") {
+            dimension = "environment"
+            applicationIdSuffix = ".local"
+            versionNameSuffix = "-local"
+            buildConfigField("String", "BASE_URL", "\"http://10.0.2.2:8000/v1/\"")
+            buildConfigField("String", "ENVIRONMENT", "\"local\"")
+        }
+        create("staging") {
+            dimension = "environment"
+            applicationIdSuffix = ".staging"
+            versionNameSuffix = "-staging"
+            buildConfigField("String", "BASE_URL", "\"https://api-staging.devos.ai/v1/\"")
+            buildConfigField("String", "ENVIRONMENT", "\"staging\"")
+        }
+        create("production") {
+            dimension = "environment"
+            buildConfigField("String", "BASE_URL", "\"https://api.devos.ai/v1/\"")
+            buildConfigField("String", "ENVIRONMENT", "\"production\"")
+        }
     }
 }
 
