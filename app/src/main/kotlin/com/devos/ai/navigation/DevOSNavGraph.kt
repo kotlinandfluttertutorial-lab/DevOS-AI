@@ -42,6 +42,9 @@ import com.devos.ai.feature.repository.navigation.repositorySyncNavigation
 import com.devos.ai.feature.repository.navigation.overviewNavigation
 import com.devos.ai.feature.security.securityNavigation
 import com.devos.ai.feature.testing.testIntelligenceNavigation
+import com.devos.ai.feature.git.gitHistoryNavigation
+import com.devos.ai.feature.issues.issueListNavigation
+import com.devos.ai.feature.issues.issueDetailNavigation
 
 /**
  * Root navigation graph for DevOS AI.
@@ -125,29 +128,11 @@ fun DevOSNavGraph(
         agentToolDetailNavigation(navController)
 
         // ── Developer Intelligence ───────────────────────────────────────────────
-        composable(
-            route = DevOSRoutes.GIT_HISTORY,
-            arguments = listOf(navArgument("repoId") { type = NavType.StringType }),
-        ) {
-            PlaceholderScreen(route = "git_history")
-        }
+        gitHistoryNavigation(navController)
 
-        composable(
-            route = DevOSRoutes.ISSUE_LIST,
-            arguments = listOf(navArgument("projectId") { type = NavType.StringType }),
-        ) {
-            PlaceholderScreen(route = "issue_list")
-        }
+        issueListNavigation(navController)
 
-        composable(
-            route = DevOSRoutes.ISSUE_DETAIL,
-            arguments = listOf(
-                navArgument("projectId") { type = NavType.StringType },
-                navArgument("issueId") { type = NavType.StringType },
-            ),
-        ) {
-            PlaceholderScreen(route = "issue_detail")
-        }
+        issueDetailNavigation(navController)
 
         composable(
             route = DevOSRoutes.PR_LIST,

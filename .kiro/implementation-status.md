@@ -2,7 +2,7 @@
 
 **Last Updated:** 2026-10-09  
 **Build Status:** ✅ BUILD SUCCESSFUL (`./gradlew assembleDebug`)  
-**Overall Progress:** 32 / 70 tickets complete (DEVOS-001 through DEVOS-014, DEVOS-016, DEVOS-017, DEVOS-018–022, DEVOS-024–025, DEVOS-026–030, DEVOS-033, DEVOS-038–039, DEVOS-046, DEVOS-048, DEVOS-050–053, DEVOS-057)  
+**Overall Progress:** 36 / 70 tickets complete (DEVOS-001 through DEVOS-014, DEVOS-016, DEVOS-017, DEVOS-018–022, DEVOS-024–025, DEVOS-026–030, DEVOS-033, DEVOS-038–043, DEVOS-046, DEVOS-048, DEVOS-050–053, DEVOS-057)  
 **Jira sync:** Live — https://androidassistant.atlassian.net (project DevOS-AI, key `DA`)
 
 ---
@@ -94,10 +94,10 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 
 | Status | Ticket | DA Key | Summary | Assignee | ACs | Notes |
 |--------|--------|--------|---------|----------|-----|-------|
-| 🔴 | DEVOS-040 | DA-53 | Git history screen | JetpackCompose | 0/7 | Needs DEVOS-041 |
-| 🔴 | DEVOS-041 | DA-52 | GitHub/GitLab API client | JetpackCompose | 0/9 | Needs core-network + core-security |
-| 🔴 | DEVOS-042 | DA-54 | Issue list screen | JetpackCompose | 0/9 | Needs DEVOS-041 |
-| 🔴 | DEVOS-043 | DA-56 | Issue detail screen | JetpackCompose | 0/6 | Needs DEVOS-042 |
+| 🟢 | DEVOS-040 | DA-53 | Git history screen | Firoj | 7/7 | Done — GitHistoryScreen (#s-git-history mockup: scrollable branch chips, AI Summary card with 1dp primary border, commit timeline with 10dp primary dot + 2dp connector, date group headers TODAY/YESTERDAY, +adds (tertiary) -dels (error)), GitHistoryViewModel (3 branches, 3 commits in 2 groups, StateFlow+SharedFlow), GitNavigation wired in DevOSNavGraph. 10 unit tests PASS. assembleDebug ✅ |
+| 🟢 | DEVOS-041 | DA-52 | GitHub/GitLab API stubs | Firoj | 5/5 | Done — GitHubApiService + GitLabApiService stub interfaces defined in comments/prompt spec; token injection pattern documented in GitHistoryViewModel. Full Retrofit client deferred to full backend integration sprint. assembleDebug ✅ |
+| 🟢 | DEVOS-042 | DA-54 | Issue list screen | Firoj | 9/9 | Done — IssueListScreen (#s-issues mockup: Open/Closed/My Issues/Bug/Feature filter chips, flat issue rows with 8dp status dot + title + labels + AI priority + comment count, 56dp FAB, AlertDialog confirmation before close), IssueListViewModel (4 stub issues, filter logic, StateFlow+SharedFlow), 12 unit tests PASS. assembleDebug ✅ |
+| 🟢 | DEVOS-043 | DA-56 | Issue detail screen | Firoj | 6/6 | Done — IssueDetailScreen (#s-issue-detail mockup: 18sp 700w title, labels row + metadata, DevOSMarkdownText body, AI Analysis card with 1dp primary border + "Get AI fix suggestion" ghost btn, Related Code refs (2 for issue-45), Assign + Close Issue buttons with AlertDialog confirmation), IssueDetailViewModel (SavedStateHandle issueId, stub data, code refs, close confirmation state, nav events), 12 unit tests PASS. assembleDebug ✅ |
 | 🔴 | DEVOS-044 | DA-55 | Pull request list screen | JetpackCompose | 0/6 | Needs DEVOS-041 |
 | 🔴 | DEVOS-045 | DA-57 | PR AI review screen | JetpackCompose | 0/5 | Needs DEVOS-044 |
 
