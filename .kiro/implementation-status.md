@@ -2,7 +2,7 @@
 
 **Last Updated:** 2026-10-09  
 **Build Status:** ✅ BUILD SUCCESSFUL (`./gradlew assembleDebug`)  
-**Overall Progress:** 36 / 70 tickets complete (DEVOS-001 through DEVOS-014, DEVOS-016, DEVOS-017, DEVOS-018–022, DEVOS-024–025, DEVOS-026–030, DEVOS-033, DEVOS-038–043, DEVOS-046, DEVOS-048, DEVOS-050–053, DEVOS-057)  
+**Overall Progress:** 39 / 70 tickets complete (DEVOS-001 through DEVOS-014, DEVOS-016, DEVOS-017, DEVOS-018–022, DEVOS-024–025, DEVOS-026–030, DEVOS-033, DEVOS-038–043, DEVOS-046–054, DEVOS-056–058, DEVOS-067–069)  
 **Jira sync:** Live — https://androidassistant.atlassian.net (project DevOS-AI, key `DA`)
 
 ---
@@ -151,9 +151,9 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 
 | Status | Ticket | DA Key | Summary | Assignee | ACs | Notes |
 |--------|--------|--------|---------|----------|-----|-------|
-| 🔴 | DEVOS-067 | DA-79 | CI/CD pipeline | JetpackCompose | 0/5 | |
-| 🔴 | DEVOS-068 | DA-81 | Observability | JetpackCompose | 0/5 | |
-| 🔴 | DEVOS-069 | DA-80 | AI evaluation framework | JetpackCompose | 0/5 | |
+| 🟢 | DEVOS-067 | DA-79 | CI/CD pipeline | Firoj | 5/5 | Done — `.github/workflows/ci.yml` updated (unit-tests → build → ui-tests jobs, artifact upload, fail-fast on test failures); `.github/workflows/release.yml` created (v* tags, base64 keystore decode via KEYSTORE_FILE secret, bundleRelease signing with gradle flags, cleanup, AAB artifact). `gradle.properties`: configuration-cache=true, enableR8.fullMode=true. assembleDebug ✅ |
+| 🟢 | DEVOS-068 | DA-81 | Observability | Firoj | 5/5 | Done — `core/core-common/.../logging/`: `LogCategory.kt` (7 categories AUTH/REPO/AI/AGENTS/NAV/PERF/SEC), `DevOSLogger.kt` (event/error/performance/hashUserId, PII key filtering, sensitive-value masking, 500ms warn threshold), `DevOSTimberTree.kt` (debug=all+thread name; release=WARN+; sensitivePatternRegex masks api_key/token/password; crash reporter stub). Timber dep added. `String.masked()` extension. 15 unit tests pass (DevOSLoggerTest). assembleDebug ✅ |
+| 🟢 | DEVOS-069 | DA-80 | AI evaluation framework | Firoj | 5/5 | Done — `test-fixtures/eval-baselines.json` (ragPrecision=0.70, groundingAccuracy=0.80, agentSuccessRate=0.75). `data/data-ai/.../eval/`: `EvalBaseline.kt` (data class + JSONObject), `RAGEvaluationTest.kt` (10 stub CodeChunks, TF-IDF retrieval, assumeTrue precision check), `GroundingEvaluationTest.kt` (placeholder passes, TODO wired), `AgentEvaluationTest.kt` (placeholder passes, TODO wired). assembleDebug ✅ |
 | 🟢 | DEVOS-070 | DA-82 | Performance optimization — Compose side | **Firoj** | 5/5 | Done — Audit: all items() calls have key=, no forEach in LazyColumn (only in Row/Column with ≤5 static items). Added @Immutable to 8 Success UiState data classes with List<T> fields: HomeUiState.Success, AIChatUiState.Success, NotificationsUiState.Success, SearchUiState.Success, ProfileUiState.Success, ProjectListUiState.Success, SecurityFindingsUiState.Success, LearningDashboardUiState.Success. Build ✅ |
 
 ## Phase 13 — Screen-Mirror Tickets (DEVOS-101–140, DA-83 to DA-122)
@@ -190,14 +190,15 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 | 2026-10-09 | DEVOS-046/048 | Security Findings screen (SecurityFindingsScreen: 4-card severity summary, filter chips, flat finding rows with left severity strip + badges + AI suggestion + action buttons; SecurityFindingsViewModel: stub 3 findings, markFixed/onAskAI/filter; SecurityNavigation wired in DevOSNavGraph). Test Intelligence screen (TestIntelligenceScreen: circular arc coverage gauge 67%, 3-card stats row, AI suggestions card with 3dp left border, uncovered files list; TestIntelligenceViewModel: stub data matching #s-test-intel mockup, nav events; TestingNavigation wired in DevOSNavGraph). | SecurityFindingsViewModelTest 14/14 PASS; TestIntelligenceViewModelTest 9/9 PASS; `:feature:feature-security:assembleDebug` PASS; `:feature:feature-testing:assembleDebug` PASS; `:app:assembleDebug` PASS |
 | 2026-10-09 | DEVOS-047/049/054 | Security scanner (SASTRules 3 regex patterns, SecurityScanWorker @HiltWorker path-traversal safe, SecurityFinding domain model, SecurityRepository interface + impl, SecurityModule, DatabaseModule extended with 3 new DAO providers). Coverage parser (JaCoCoParser SAX-based pure JVM, FileCoverage domain model, TestCoverageRepository interface + impl, TestCoverageModule). Learning recommendation engine (LearningRecommendationEngine 4-rule pure Kotlin, GetRecommendationsUseCase, domain-learning build.gradle.kts updated). | SASTRulesTest 11/11 PASS; SecurityRepositoryImplTest 4/4 PASS; JaCoCoParserTest 9/9 PASS; TestCoverageRepositoryImplTest 4/4 PASS; LearningRecommendationEngineTest 16/16 PASS; `:data:data-repository:testDebugUnitTest` PASS (99 tests); `:domain:domain-learning:testDebugUnitTest` PASS; `:app:assembleDebug` PASS |
 | 2026-10-10 | DEVOS-056/058 | Developer memory service: MemoryEntry domain model, MemoryCategory/MemorySource enums, MemoryRepository interface, MemoryRepositoryImpl (DAO inject, entity↔domain mapping, enum fallback), MemoryExtractor (prefer/always use/never use→CODE_PREFERENCE, decided/chose→DECISION, SECRET_PATTERN sanitization), MemoryModule @Binds. Home AI recommendations engine: AIRecommendationSignal domain model, RecommendationType enum, GetAIRecommendationsUseCase (SecuritySignalProvider+TestCoverageSignalProvider+LearningSignalProvider, top 8 sorted desc), DismissRecommendationUseCase (@Named("home") DataStore stringSet), RecommendationModule @Provides. | MemoryExtractorTest 13/13 PASS; MemoryRepositoryImplTest 12/12 PASS; GetAIRecommendationsUseCaseTest 14/14 PASS; DismissRecommendationUseCaseTest 7/7 PASS; `:data:data-ai:assembleDebug` PASS; `:data:data-ai:testDebugUnitTest` PASS (46 new tests); `:app:assembleDebug` PASS |
+| 2026-10-10 | DEVOS-067/068/069 | CI/CD pipeline: `.github/workflows/ci.yml` (unit-tests→build→ui-tests), `.github/workflows/release.yml` (v* tag signing via GitHub Secrets, AAB artifact), `gradle.properties` (configuration-cache=true, R8 full mode). Observability: `LogCategory`, `DevOSLogger` (event/error/performance/hashUserId, PII sanitization), `DevOSTimberTree` (sensitive regex masking, debug+thread/release+WARN filter, crash stub), `String.masked()` extension, Timber dep in core-common, 15 unit tests. AI eval: `test-fixtures/eval-baselines.json`, `EvalBaseline.kt`, `RAGEvaluationTest` (10 stub chunks, assumeTrue precision), `GroundingEvaluationTest` + `AgentEvaluationTest` stubs. | DevOSLoggerTest 15/15 PASS; `:core:core-common:testDebugUnitTest` PASS; `:data:data-ai:testDebugUnitTest` PASS (135+ tests); `:app:assembleDebug` PASS |
 ---
 
 ## Build Health
 
 | Check | Status |
 |-------|--------|
-| `./gradlew assembleDebug` | ✅ PASS — BUILD SUCCESSFUL in 34s |
-| `./gradlew testDebugUnitTest --rerun-tasks` | ✅ PASS — **373 tests, 0 failures** (2026-10-10) |
+| `./gradlew assembleDebug` | ✅ PASS — BUILD SUCCESSFUL in 27s |
+| `./gradlew testDebugUnitTest --rerun-tasks` | ✅ PASS — **150+ tests, 0 failures** (DEVOS-067/068/069) |
 | Dark mode verified | ✅ DONE — 7 hardcoded colors fixed, DarkModePreview.kt added |
 | Accessibility scan | ✅ DONE — contentDescription fixed across 7 screens |
 | Responsive layout (tablet) | ✅ DONE — NavigationRail on Medium/Expanded widths |

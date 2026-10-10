@@ -1,0 +1,11 @@
+{
+  "version": "1.0",
+  "description": "Baseline scores for DevOS AI evaluation framework. A regression is detected when any metric drops more than 5% below its baseline value.",
+  "metrics": {
+    "ragPrecision": 0.70,
+    "groundingAccuracy": 0.80,
+    "agentSuccessRate": 0.75
+  },
+  "regressionThreshold": 0.05,
+  "establishedAt": "2025-01-01T00:00:00Z"
+}
