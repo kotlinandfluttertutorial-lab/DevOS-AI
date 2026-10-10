@@ -1,0 +1,16 @@
+# Local development overrides.
+# This file is automatically merged by docker-compose when running `docker-compose up`.
+# Enables hot-reload via volume mount — do NOT use in staging or production.
+
+version: "3.9"
+
+services:
+  api:
+    # Mount source code for live reload without rebuilding the image
+    volumes:
+      - ./:/app
+    # Override CMD to enable --reload flag
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    environment:
+      - ENVIRONMENT=local
+      - DEBUG=true
