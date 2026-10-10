@@ -4,8 +4,11 @@ import android.content.Context
 import androidx.room.Room
 import com.devos.ai.core.database.DevOSDatabase
 import com.devos.ai.core.database.dao.ChunkDao
+import com.devos.ai.core.database.dao.FileCoverageDao
 import com.devos.ai.core.database.dao.FileDao
+import com.devos.ai.core.database.dao.MemoryEntryDao
 import com.devos.ai.core.database.dao.RepositoryDao
+import com.devos.ai.core.database.dao.SecurityFindingDao
 import com.devos.ai.core.database.dao.SymbolDao
 import dagger.Module
 import dagger.Provides
@@ -51,4 +54,17 @@ object DatabaseModule {
     @Provides
     @Singleton
     fun provideChunkDao(db: DevOSDatabase): ChunkDao = db.chunkDao()
+
+    @Provides
+    @Singleton
+    fun provideSecurityFindingDao(db: DevOSDatabase): SecurityFindingDao =
+        db.securityFindingDao()
+
+    @Provides
+    @Singleton
+    fun provideFileCoverageDao(db: DevOSDatabase): FileCoverageDao = db.fileCoverageDao()
+
+    @Provides
+    @Singleton
+    fun provideMemoryEntryDao(db: DevOSDatabase): MemoryEntryDao = db.memoryEntryDao()
 }
