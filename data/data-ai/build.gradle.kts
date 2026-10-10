@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
 }
 
@@ -13,6 +14,13 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions { jvmTarget = "17" }
+
+    testOptions {
+        unitTests {
+            isReturnDefaultValues = true
+            all { it.useJUnitPlatform() }
+        }
+    }
 }
 
 dependencies {
@@ -23,6 +31,7 @@ dependencies {
     implementation(project(":core:core-common"))
 
     implementation(libs.kotlinx.coroutines)
+    implementation(libs.androidx.datastore)
     implementation(libs.bundles.network)
     implementation(libs.moshi)
     ksp(libs.moshi.codegen)
@@ -31,8 +40,11 @@ dependencies {
     implementation(libs.androidx.work)
     implementation(libs.hilt.work)
     ksp(libs.hilt.work.compiler)
+    implementation(libs.timber)
 
     testImplementation(libs.bundles.test.unit)
     testImplementation(libs.test.mockwebserver)
+    testImplementation(libs.test.org.json)
     testRuntimeOnly(libs.test.junit5.engine)
+    testRuntimeOnly(libs.test.junit5.launcher)
 }

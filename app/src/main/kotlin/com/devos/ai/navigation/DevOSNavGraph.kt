@@ -32,10 +32,13 @@ import com.devos.ai.feature.code.navigation.codeViewerNavigation
 import com.devos.ai.feature.code.navigation.dependencyGraphNavigation
 import com.devos.ai.feature.code.navigation.fileExplorerNavigation
 import com.devos.ai.feature.code.navigation.symbolDetailsNavigation
-import com.devos.ai.feature.repository.navigation.overviewNavigation
+import com.devos.ai.feature.agents.agentRunNavigation
+import com.devos.ai.feature.agents.agentToolDetailNavigation
+import com.devos.ai.feature.settings.provider.providerSettingsNavigation
 import com.devos.ai.feature.repository.navigation.projectListNavigation
 import com.devos.ai.feature.repository.navigation.repositoryImportNavigation
 import com.devos.ai.feature.repository.navigation.repositorySyncNavigation
+import com.devos.ai.feature.repository.navigation.overviewNavigation
 import com.devos.ai.feature.security.securityNavigation
 import com.devos.ai.feature.testing.testIntelligenceNavigation
 
@@ -116,22 +119,9 @@ fun DevOSNavGraph(
 
         sourceEvidenceNavigation(navController)
 
-        composable(
-            route = DevOSRoutes.AGENT_RUN,
-            arguments = listOf(navArgument("runId") { type = NavType.StringType }),
-        ) {
-            PlaceholderScreen(route = "agent_run")
-        }
+        agentRunNavigation(navController)
 
-        composable(
-            route = DevOSRoutes.AGENT_TOOL_EXEC,
-            arguments = listOf(
-                navArgument("runId") { type = NavType.StringType },
-                navArgument("toolId") { type = NavType.StringType },
-            ),
-        ) {
-            PlaceholderScreen(route = "agent_tool_exec")
-        }
+        agentToolDetailNavigation(navController)
 
         // ── Developer Intelligence ───────────────────────────────────────────────
         composable(
@@ -205,9 +195,7 @@ fun DevOSNavGraph(
 
         aiSettingsNavigation(navController)
 
-        composable(route = DevOSRoutes.PROVIDER_SETTINGS) {
-            PlaceholderScreen(route = DevOSRoutes.PROVIDER_SETTINGS)
-        }
+        providerSettingsNavigation(navController)
 
         projectSettingsNavigation(navController)
     }

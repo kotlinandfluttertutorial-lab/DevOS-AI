@@ -20,7 +20,8 @@
 | Track | Owner | Scope |
 |-------|-------|-------|
 | **Track A — UI / Screens** | **Firoj Mohammad** | Compose screens, ViewModels, navigation. Owns: Foundation (done), Repository Intelligence screens, Code Intelligence screens, AI Platform screens, Learning screens, Home/Command Center, Settings/UI polish, Accessibility, Dark mode. 68 tickets. |
-| **Track B � All remaining** | **Firoj Mohammad** | JetpackCompose unavailable as of 2026-10-09. All backend/service tickets reassigned to Firoj. |\n
+| **Track B — Backend / Data / Services** | **JetpackCompose** | Room, WorkManager, Retrofit, repository implementations, indexing/scanning/parsing services. Owns: Repository + Symbol indexing, RAG + AI providers, Agent engine + MCP, Developer Intelligence, Quality Intelligence, Learning recommendation engine, Developer Memory, Home recommendations, Responsive layout, Platform/CI-CD/Observability/Eval. 42 tickets. |
+
 Full rationale posted as a comment on epic DA-1 in Jira.
 
 ---
@@ -34,7 +35,7 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 | 🟢 | DEVOS-003 | DA-15 | Typography scale | Firoj | 3/3 | `Typography.kt` with JetBrains Mono (real TTFs) |
 | 🟢 | DEVOS-004 | DA-16 | Shape and spacing tokens | Firoj | 3/3 | `Shape.kt`, `Spacing.kt` complete |
 | 🟢 | DEVOS-005 | DA-17 | Core component library | Firoj | 8/8 | All P0+P1 components created; build passes |
-| 🟢 | DEVOS-006 | DA-18 | Code rendering components | Firoj | 4/4 | DevOSCodeBlock + DevOSMarkdownText complete |
+| 🟢 | DEVOS-006 | DA-18 | Code rendering components | JetpackCompose | 4/4 | DevOSCodeBlock + DevOSMarkdownText complete |
 | 🟢 | DEVOS-007 | DA-19 | Bottom navigation | Firoj | 5/5 | DevOSBottomBar wired into MainActivity Scaffold; hidden on SPLASH/ONBOARDING/LOGIN |
 | 🟢 | DEVOS-008 | DA-20 | Navigation graph | Firoj | 4/4 | All routes wired with PlaceholderScreen; NavHost compiles |
 | 🟢 | DEVOS-009 | DA-21 | Splash screen | Firoj | 4/4 | SplashScreen animated logo + SplashViewModel + 1500ms delay; NavGraph wired. **Mockup aligned 2026-10-08:** 80dp gradient logo box (DevOSBlue300→DevOSCyan300, 20dp radius), "DevOS AI" title (32sp ExtraBold letterSpacing=-1sp), tagline (13sp onSurfaceVariant), 48×4dp animated shimmer loading bar (DevOSNavy800 track + gradient fill via rememberInfiniteTransition), "Initializing…" caption (12sp), version string pinned bottom (11sp). |
@@ -48,7 +49,7 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 |--------|--------|--------|---------|----------|-----|-------|
 | 🟢 | DEVOS-013 | DA-25 | Repository import screen | Firoj | 10/10 | Done — RepositoryImportScreen, ImportViewModel (url/provider/branch/buildAiIndex StateFlow, validate/import/navigateBack), stub RepositoryPreview, 17 unit tests pass. Review fixes: replaced RoundedCornerShape(10.dp) with MaterialTheme.shapes.medium, hardcoded border widths with DevOSSpacing tokens, size(40.dp) with DevOSSpacing.iconSizeXLarge; back-button now routes through viewModel::navigateBack. Pass-2 review: added DevOSSpacing spinnerSize/stepIconSize/connectorWidth/strokeWidthNormal/strokeWidthThin tokens, removed all hardcoded dp from RepositorySyncScreen, wired Sync top-bar back through SyncViewModel::navigateBack (+1 test) |
 | 🟢 | DEVOS-014 | DA-26 | Repository sync screen | Firoj | 8/8 | Done — RepositorySyncScreen, SyncViewModel (5 hardcoded steps, cancel→NavigateBack, navigateBack→NavigateBack), 11 unit tests pass. Review fixes: replaced fontSize=N.sp with MaterialTheme.typography tokens; added explicit Complete/Cancelled state branches; removed unused ioDispatcher; provider+branch params wired into subtitle. Pass-2 review: all dp values now flow through DevOSSpacing tokens; top-bar back arrow routes through viewModel::navigateBack |
-| 🟡 | DEVOS-015 | DA-27 | Clone and indexing service | Firoj | 0/6 | In Progress — WorkManager + JGit job. **Now assigned to Firoj.** |
+| 🟡 | DEVOS-015 | DA-27 | Clone and indexing service | JetpackCompose | 0/6 | In Progress — WorkManager + JGit job. **Next up for JetpackCompose.** |
 | 🟢 | DEVOS-016 | DA-28 | Repository overview screen | Firoj | 6/6 | Done — RepositoryOverviewScreen (7-tab HorizontalPager, RepoInfoPanel with lang bar + stats, AI Insights card with bold highlight, Recent Commits with avatar + divider), OverviewViewModel (StateFlow, SharedFlow, tab select, retry/refresh), OverviewModule (RepositoryOverviewProvider interface + stub + Hilt binding), 15 unit tests pass. overviewNavigation wired in DevOSNavGraph. |
 | 🟢 | DEVOS-017 | DA-29 | Repository list screen | Firoj | 5/5 | Done — ProjectListScreen (search bar + language filter chips + sort chips + LazyColumn of ProjectCards with DevOSHealthIndicator + health/sync badges + footer stats), ProjectListViewModel (search/filter/sort logic, StateFlow, nav events), 16 unit tests pass. projectListNavigation wired in DevOSNavGraph. |
 
@@ -61,7 +62,7 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 | 🟢 | DEVOS-020 | DA-33 | Code viewer — AI action bar | Firoj | 4/4 | Done — Part of CodeViewerScreen: scrollable AI chips (Explain/Debug/Usages/Gen Tests/Ask AI), bottom bar with safe area padding |
 | 🟢 | DEVOS-021 | DA-32 | Code search screen | Firoj | 6/6 | Done — CodeSearchScreen (monospace search input with hit count, filter chips Case/Regex/Semantic/Scope, result list with highlighted matches, "+ N more" footer), CodeSearchViewModel (debounced 300ms, stub results, mode toggle) |
 | 🟢 | DEVOS-022 | DA-34 | Symbol details screen | Firoj | 5/5 | Done — SymbolDetailsScreen (kind badge, name/package/file:line, signature CodeBlock, AI explanation card with 3dp border, references list, methods list), SymbolDetailsViewModel (stub data, nav events) |
-| 🟢 | DEVOS-023 | DA-35 | Symbol indexing service | Firoj | 7/7 | Done — SymbolKind/SymbolVisibility/CodeSymbol domain models + SymbolRepository interface. SymbolDao extended (observeByRepo Flow, searchByName LIKE, searchByNameAndKind, getByKind, getByFilePath, getById, deleteByFile). SymbolExtractor regex engine (Kotlin + Java: class/interface/object/enum/annotation/fun/property, KDoc accumulation, brace-count end-line, path-traversal safe). SymbolIndexingWorker @HiltWorker (reads FileDao, deletes stale, extracts, bulk-inserts, ensureActive per file, progress every 10 files). SymbolRepositoryImpl @Singleton. SymbolModule @Binds. RepositoryIndexingWorker wired: CLONE→PARSE→INDEX_SYMBOLS(enqueue)→DONE. 69 unit tests (35 SymbolExtractorTest + 18 SymbolDaoTest + 16 SymbolRepositoryImplTest). |
+| 🟢 | DEVOS-023 | DA-35 | Symbol indexing service | JetpackCompose | 7/7 | Done — SymbolKind/SymbolVisibility/CodeSymbol domain models + SymbolRepository interface. SymbolDao extended (observeByRepo Flow, searchByName LIKE, searchByNameAndKind, getByKind, getByFilePath, getById, deleteByFile). SymbolExtractor regex engine (Kotlin + Java: class/interface/object/enum/annotation/fun/property, KDoc accumulation, brace-count end-line, path-traversal safe). SymbolIndexingWorker @HiltWorker (reads FileDao, deletes stale, extracts, bulk-inserts, ensureActive per file, progress every 10 files). SymbolRepositoryImpl @Singleton. SymbolModule @Binds. RepositoryIndexingWorker wired: CLONE→PARSE→INDEX_SYMBOLS(enqueue)→DONE. 69 unit tests (35 SymbolExtractorTest + 18 SymbolDaoTest + 16 SymbolRepositoryImplTest). |
 | 🟢 | DEVOS-024 | DA-37 | Dependency graph screen | Firoj | 5/5 | Done — DependencyGraphScreen placeholder with DevOSEmptyState "Interactive graph coming soon", DependencyGraphViewModel, wired in DevOSNavGraph. Full Canvas implementation is future enhancement. |
 | 🟢 | DEVOS-025 | DA-36 | Architecture overview screen | Firoj | 7/7 | Done — ArchitectureScreen placeholder with DevOSEmptyState "Interactive graph coming soon", ArchitectureViewModel (Ask AI nav event), wired in DevOSNavGraph. Full AI summary streaming is future enhancement. |
 
@@ -74,40 +75,40 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 | 🟢 | DEVOS-028 | DA-44 | AI Chat — suggested actions | Firoj | 6/6 | Done — Part of AIChatScreen: Surface chip LazyRow (Explain/Find/Debug/Analyze/Review), AnimatedVisibility hides on input, tap pre-fills input |
 | 🟢 | DEVOS-029 | DA-40 | AI answer detail screen | Firoj | 5/5 | Done — AIAnswerDetailScreen (question card, DevOSMarkdownText body, Source Evidence section, evidence rows with dividers, View Sources + Ask Follow-up action buttons), AnswerDetailViewModel (SavedStateHandle, StateFlow, SharedFlow, stub data), AnswerNavigation wired in DevOSNavGraph. 10 unit tests pass. |
 | 🟢 | DEVOS-030 | DA-43 | AI source evidence screen | Firoj | 4/4 | Done — AISourceEvidenceScreen (subtitle, per-source DevOSCard with filename + relevance badge + line range + package + DevOSCodeBlock snippet + ghost "Open in Code Viewer" button), SourceEvidenceViewModel (SavedStateHandle, StateFlow, SharedFlow, stub data), sourceEvidenceNavigation wired in DevOSNavGraph. 8 unit tests pass. |
-| 🔴 | DEVOS-031 | DA-39 | RAG pipeline | Firoj | 0/8 | Backend — needs Phase 2 |
-| 🔴 | DEVOS-032 | DA-41 | AI provider abstraction | Firoj | 0/9 | Needs data-ai module |
+| 🟢 | DEVOS-031 | DA-39 | RAG pipeline | JetpackCompose | 8/8 | Done — CodeChunkEntity (Room v2, MIGRATION_1_2), ChunkDao (insertAll/deleteByRepo/deleteByFile/getEmbeddedByRepo/observeCount), Tokenizer (camelCase/snake_case splitting, TF-IDF, stop-words), VectorStore (cosine similarity, sparse JSON serialisation), CodeChunker (40-line overlapping chunks, 14 languages), RAGRepositoryImpl (indexChunks builds vocabulary + embeds, retrieve with topK+minRelevance, deleteChunks, updateChunks), ChunkingWorker @HiltWorker, pipeline wired via RagModule @Named injection. DB version bumped 1→2 with explicit migration. 51 unit tests (15 TokenizerTest + 14 VectorStoreTest + 12 CodeChunkerTest + 10 RAGRepositoryImplTest). |
+| 🟢 | DEVOS-032 | DA-41 | AI provider abstraction | JetpackCompose | 9/9 | Done — AIProvider enum (OpenAI/Anthropic/Gemini/Ollama), AIModel + DefaultModels, ProviderConfig, AIProviderRepository interface, AIProviderRepositoryImpl (DataStore config + SecureTokenRepository keys), AIProviderClient interface + OpenAIClient/AnthropicClient/GeminiClient/OllamaClient (SSE/NDJSON streaming), AIRepositoryImpl (RAG→prompt→stream pipeline), AIProviderModule (multibinding + @Named OkHttpClient/DataStore), AIProviderKey annotation. Old stub replaced. 22 unit tests (13 AIProviderClientTest + 9 AIRepositoryImplTest). |
 | 🟢 | DEVOS-033 | DA-46 | AI settings screen | Firoj | 8/8 | Done — AISettingsScreen matching #s-ai-settings mockup: DevOSTopBar (back + title "AI Settings"), TokenUsageCard (248,420/500,000 + 50% primary + LinearProgressIndicator), 4 settings groups (MODEL/RAG/AGENT/MEMORY) with ALL-CAPS section headers + HorizontalDividers, nav rows (Default Model + API Providers with chevron), stepper rows (Top-K Results, Chunk Size, Max Steps with primary value ›), toggle rows (Auto-approve safe tools, Enable Developer Memory with M3 Switch). AISettingsViewModel (StateFlow, SharedFlow nav events, stub AISettings, update* fns). aiSettingsNavigation wired in DevOSNavGraph. 11 unit tests pass. Build ✅ |
-| 🔴 | DEVOS-034 | DA-45 | Provider settings screen | Firoj | 0/4 | Needs DEVOS-032 |
+| 🟢 | DEVOS-034 | DA-45 | Provider settings screen | JetpackCompose | 4/4 | Done — ProviderSettingsScreen matching #s-provider-settings mockup: amber security banner (#3d2c00 bg, #FFCB6B border/text, lock icon, 12sp), 4 provider cards (36dp icon box, name, Connected/Not-configured badge), configured state shows masked key row (monospace, surfaceVariant bg, "Edit" link), model+capabilities subtitle, unconfigured state shows outlined "Configure" button, AnimatedVisibility inline key input section (password field + Save&Test + Cancel), CircularProgressIndicator during testConnection. ProviderSettingsViewModel (stub data, onEditKey/onConfigureProvider/onSaveKey/onCancelEdit/onTestConnection). providerSettingsNavigation wired into DevOSNavGraph replacing PlaceholderScreen. 13 unit tests pass. |
 
 ## Phase 5 — Agents & MCP (DEVOS-E05 / DA-5)
 
 | Status | Ticket | DA Key | Summary | Assignee | ACs | Notes |
 |--------|--------|--------|---------|----------|-----|-------|
-| 🔴 | DEVOS-035 | DA-48 | Agent run screen | Firoj | 0/6 | Needs DEVOS-037 |
-| 🔴 | DEVOS-036 | DA-50 | Agent tool execution detail | Firoj | 0/5 | Part of DEVOS-035 |
-| 🔴 | DEVOS-037 | DA-47 | Agent orchestration engine | Firoj | 0/10 | Core AI engine (ReAct loop) |
-| 🔴 | DEVOS-038 | DA-49 | MCP server integration | Firoj | 0/8 | Needs DEVOS-037 |
-| 🔴 | DEVOS-039 | DA-51 | MCP tools screen | Firoj | 0/6 | Needs DEVOS-038 |
+| 🟢 | DEVOS-035 | DA-48 | Agent run screen | JetpackCompose | 6/6 | Done — AgentRunScreen matching #s-agent-run mockup: "● Running" green status pill, GoalCard (agent name + goal + step label + elapsed + LinearProgressIndicator primary blue), step list (✓ done=green circle, ⟳ RUNNING=pulsing primary animated, ○ PENDING=surfaceVariant, ✗ FAILED=error), gradient connector lines, active step ToolCallBox (amber text + monospace args), "Cancel Agent" full-width outlined error-red button, Completed state with DevOSMarkdownText final answer. AgentRunViewModel (SavedStateHandle goal/repoId, RunAgentUseCase + CancelAgentRunUseCase, elapsed timer, step tap nav). agentRunNavigation wired in DevOSNavGraph. 8 unit tests. |
+| 🟢 | DEVOS-036 | DA-50 | Agent tool execution detail | JetpackCompose | 5/5 | Done — AgentToolDetailScreen matching #s-agent-tool mockup: 40dp wrench icon box (#3d2c00 bg), tool name (15sp amber #FFCB6B), description, Done badge, stats row (DURATION/TOKENS/RESULTS), "Input Parameters" + "Output" DevOSCodeBlock JSON, "Show Raw JSON" toggle. AgentToolDetailViewModel (SavedStateHandle runId/stepId, loads AgentStep from AgentRepository, prettyJson formatting). agentToolDetailNavigation wired. 9 unit tests. |
+| 🟢 | DEVOS-037 | DA-47 | Agent orchestration engine | JetpackCompose | 10/10 | Done — AgentTool/AgentRun/AgentRunStatus domain models, AgentRepository interface, RunAgentUseCase + CancelAgentRunUseCase, AgentToolExecutor contract, 4 built-in tools (ReadFileTool with path-traversal protection, SearchSymbolsTool, SearchCodeTool, ListFilesTool), ReActEngine (Thought→Action→Observation loop, maxSteps enforcement, cancellation via coroutine scope, Final Answer detection), AgentRepositoryImpl (per-run SupervisorJob scope), AgentModule (@IntoMap multibinding for 4 tools), AgentToolKey annotation. 16 unit tests (9 ReActEngineTest + 7 AgentRepositoryImplTest). |
+| 🔴 | DEVOS-038 | DA-49 | MCP server integration | JetpackCompose | 0/8 | Needs DEVOS-037 |
+| 🔴 | DEVOS-039 | DA-51 | MCP tools screen | JetpackCompose | 0/6 | Needs DEVOS-038 |
 
 ## Phase 6 — Developer Intelligence (DEVOS-E06 / DA-6)
 
 | Status | Ticket | DA Key | Summary | Assignee | ACs | Notes |
 |--------|--------|--------|---------|----------|-----|-------|
-| 🔴 | DEVOS-040 | DA-53 | Git history screen | Firoj | 0/7 | Needs DEVOS-041 |
-| 🔴 | DEVOS-041 | DA-52 | GitHub/GitLab API client | Firoj | 0/9 | Needs core-network + core-security |
-| 🔴 | DEVOS-042 | DA-54 | Issue list screen | Firoj | 0/9 | Needs DEVOS-041 |
-| 🔴 | DEVOS-043 | DA-56 | Issue detail screen | Firoj | 0/6 | Needs DEVOS-042 |
-| 🔴 | DEVOS-044 | DA-55 | Pull request list screen | Firoj | 0/6 | Needs DEVOS-041 |
-| 🔴 | DEVOS-045 | DA-57 | PR AI review screen | Firoj | 0/5 | Needs DEVOS-044 |
+| 🔴 | DEVOS-040 | DA-53 | Git history screen | JetpackCompose | 0/7 | Needs DEVOS-041 |
+| 🔴 | DEVOS-041 | DA-52 | GitHub/GitLab API client | JetpackCompose | 0/9 | Needs core-network + core-security |
+| 🔴 | DEVOS-042 | DA-54 | Issue list screen | JetpackCompose | 0/9 | Needs DEVOS-041 |
+| 🔴 | DEVOS-043 | DA-56 | Issue detail screen | JetpackCompose | 0/6 | Needs DEVOS-042 |
+| 🔴 | DEVOS-044 | DA-55 | Pull request list screen | JetpackCompose | 0/6 | Needs DEVOS-041 |
+| 🔴 | DEVOS-045 | DA-57 | PR AI review screen | JetpackCompose | 0/5 | Needs DEVOS-044 |
 
 ## Phase 7 — Quality Intelligence (DEVOS-E07 / DA-7)
 
 | Status | Ticket | DA Key | Summary | Assignee | ACs | Notes |
 |--------|--------|--------|---------|----------|-----|-------|
 | 🟢 | DEVOS-046 | DA-59 | Security findings screen | **Firoj** | 5/5 | Done — SecurityFindingsScreen (#s-security mockup: 4-card severity summary row, scrollable filter chips, flat finding rows with 4dp left severity strip + severity badge + file:line + OWASP category + AI suggestion + Mark Fixed/Ask AI buttons), SecurityFindingsViewModel (stub 3 findings, markFixed, onAskAI, filter), SecurityNavigation wired in DevOSNavGraph. 14 unit tests PASS. assembleDebug ✅ |
-| 🔴 | DEVOS-047 | DA-58 | Security scanning service | Firoj | 0/5 | WorkManager job |
+| 🔴 | DEVOS-047 | DA-58 | Security scanning service | JetpackCompose | 0/5 | WorkManager job |
 | 🟢 | DEVOS-048 | DA-61 | Test intelligence screen | **Firoj** | 5/5 | Done — TestIntelligenceScreen (#s-test-intel mockup: circular arc gauge 67%/warning color, 3-card stats row Passing 234/Failing 8/Flaky 5, AI Suggestions card with 3dp primary left border + Generate Tests button, Uncovered Files list with kt badge + coverage badge), TestIntelligenceViewModel (stub data matching mockup, generateTests, navigateToFile nav events), TestingNavigation wired in DevOSNavGraph. 9 unit tests PASS. assembleDebug ✅ |
-| 🔴 | DEVOS-049 | DA-60 | Test coverage analysis service | Firoj | 0/8 | SAX parser (JaCoCo/Kover) |
+| 🔴 | DEVOS-049 | DA-60 | Test coverage analysis service | JetpackCompose | 0/8 | SAX parser (JaCoCo/Kover) |
 
 ## Phase 8 — Learning (DEVOS-E08 / DA-8)
 
@@ -117,21 +118,21 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 | 🟢 | DEVOS-051 | DA-65 | Course details screen | Firoj | 6/6 | Done — CourseDetailsScreen (course header panel with language/lesson/duration label + title + description + progress bar + tag chips + continue button, lesson list rows with complete/current/locked icon circles + row backgrounds), CourseDetailsViewModel (stub Kotlin Coroutines & Flow course, 4 complete + 1 current + 1 locked, SavedStateHandle), courseDetailsNavigation wired. |
 | 🟢 | DEVOS-052 | DA-62 | Lesson screen | Firoj | 5/5 | Done — LessonScreen (DevOSTopBar with lesson order subtitle, LazyColumn with DevOSMarkdownText + DevOSCodeBlock, code example cards with "Try in Repo" button, bottom nav bar with Previous/Next), LessonViewModel (stub markdown lesson with code example, SavedStateHandle, nav events), lessonNavigation wired. |
 | 🟢 | DEVOS-053 | DA-64 | Quiz screen | Firoj | 7/7 | Done — QuizScreen (3 states: Active/Reviewing/Complete, progress bar, option items with Default/Selected/Correct/Incorrect styles, explanation card, final score display with emoji), QuizViewModel (3-question stub quiz, Active→Reviewing→Complete transitions in-ViewModel, correct/incorrect scoring, SavedStateHandle), 21 unit tests pass. quizNavigation wired. |
-| 🔴 | DEVOS-054 | DA-66 | Learning recommendation engine | Firoj | 0/6 | |
+| 🔴 | DEVOS-054 | DA-66 | Learning recommendation engine | JetpackCompose | 0/6 | |
 
 ## Phase 9 — Developer Memory (DEVOS-E09 / DA-9)
 
 | Status | Ticket | DA Key | Summary | Assignee | ACs | Notes |
 |--------|--------|--------|---------|----------|-----|-------|
-| 🟢 | DEVOS-055 | DA-68 | Developer memory screen | Firoj | 5/5 | Combined ticket w/ Profile in Jira |
-| 🔴 | DEVOS-056 | DA-67 | Developer memory service | Firoj | 0/8 | |
+| 🟢 | DEVOS-055 | DA-68 | Developer memory screen | JetpackCompose | 5/5 | Combined ticket w/ Profile in Jira |
+| 🔴 | DEVOS-056 | DA-67 | Developer memory service | JetpackCompose | 0/8 | |
 
 ## Phase 10 — Command Center (DEVOS-E10 / DA-10)
 
 | Status | Ticket | DA Key | Summary | Assignee | ACs | Notes |
 |--------|--------|--------|---------|----------|-----|-------|
 | � | 🟢 | DEVOS-057 | DA-69 | Home dashboard screen | Firoj | 9/9 | Done — HomeScreen (4 states), HomeViewModel (DataStore dismiss persistence), stub data (3 projects, 3 recs, health, 2 sessions), HomeNavigation. 15 unit tests pass. Build ✅. **Mockup aligned 2026-10-08:** Dynamic greeting (time-of-day) + dateLabel from VM. Search bar ✨ sparkle trailing icon. HealthCell WARNING→DevOSAmber300 (#FFCB6B). RecommendationCard 3dp left border per severity. Stub data matches mockup values. |
-| 🔴 | DEVOS-058 | DA-70 | Home AI recommendations engine | Firoj | 0/7 | Needs DEVOS-057 |
+| 🔴 | DEVOS-058 | DA-70 | Home AI recommendations engine | JetpackCompose | 0/7 | Needs DEVOS-057 |
 | 🔴 | DEVOS-059 | DA-72 | Notifications screen | Firoj | 0/8 | Combined ticket w/ Search + Profile in Jira |
 | 🔴 | DEVOS-060 | DA-71 | Search screen — global | Firoj | 0/6 | |
 | 🔴 | DEVOS-061 | DA-73 | Profile screen | Firoj | 0/4 | |
@@ -150,9 +151,9 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 
 | Status | Ticket | DA Key | Summary | Assignee | ACs | Notes |
 |--------|--------|--------|---------|----------|-----|-------|
-| 🔴 | DEVOS-067 | DA-79 | CI/CD pipeline | Firoj | 0/5 | |
-| 🔴 | DEVOS-068 | DA-81 | Observability | Firoj | 0/5 | |
-| 🔴 | DEVOS-069 | DA-80 | AI evaluation framework | Firoj | 0/5 | |
+| 🔴 | DEVOS-067 | DA-79 | CI/CD pipeline | JetpackCompose | 0/5 | |
+| 🔴 | DEVOS-068 | DA-81 | Observability | JetpackCompose | 0/5 | |
+| 🔴 | DEVOS-069 | DA-80 | AI evaluation framework | JetpackCompose | 0/5 | |
 | 🟢 | DEVOS-070 | DA-82 | Performance optimization — Compose side | **Firoj** | 5/5 | Done — Audit: all items() calls have key=, no forEach in LazyColumn (only in Row/Column with ≤5 static items). Added @Immutable to 8 Success UiState data classes with List<T> fields: HomeUiState.Success, AIChatUiState.Success, NotificationsUiState.Success, SearchUiState.Success, ProfileUiState.Success, ProjectListUiState.Success, SecurityFindingsUiState.Success, LearningDashboardUiState.Success. Build ✅ |
 
 ## Phase 13 — Screen-Mirror Tickets (DEVOS-101–140, DA-83 to DA-122)
@@ -179,6 +180,10 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 | 2026-10-09 | DEVOS-014 | Repository Sync screen — RepositorySyncScreen (animated spinner, 5-step pipeline, overall progress bar, cancel button), SyncViewModel, RepositoryNavigation wired in DevOSNavGraph | 8/8 ACs — same build run as DEVOS-013 |
 | 2026-10-09 | DEVOS-016 | Repository Overview screen — 7-tab HorizontalPager, RepoInfoPanel (lang bar + 5-stat row), AI Insights card (bold highlight), Recent Commits (avatar + sha + divider), OverviewViewModel, OverviewModule (RepositoryOverviewProvider interface + stub + Hilt), overviewNavigation wired | 6/6 ACs — 15 unit tests pass; feature + app build PASS |
 | 2026-10-09 | DEVOS-029/030 | AI Answer Detail + Source Evidence screens — AIAnswerDetailScreen (question card, markdown body, evidence list card with dividers, View Sources + Ask Follow-up buttons), AISourceEvidenceScreen (source cards with DevOSCodeBlock, ghost open button), AnswerDetailViewModel + SourceEvidenceViewModel (SavedStateHandle, StateFlow, SharedFlow), AnswerNavigation + sourceEvidenceNavigation wired in DevOSNavGraph | 9/9 ACs — AnswerDetailViewModelTest 10/10 PASS; SourceEvidenceViewModelTest 8/8 PASS; `./gradlew :feature:feature-ai-chat:testDebugUnitTest` PASS (39 total); `./gradlew :app:assembleDebug` PASS |
+| 2026-10-09 | DEVOS-031 | RAG pipeline — CodeChunkEntity + ChunkDao + DB MIGRATION_1_2, Tokenizer (TF-IDF, camelCase/snake_case), VectorStore (cosine similarity + JSON serialisation), CodeChunker (40-line overlapping chunks), RAGRepositoryImpl (full impl replacing stub), ChunkingWorker @HiltWorker, RagModule @Named wiring, pipeline CLONE→PARSE→SYMBOL→CHUNK | 8/8 ACs — 51 unit tests (TokenizerTest + VectorStoreTest + CodeChunkerTest + RAGRepositoryImplTest) PASS |
+| 2026-10-09 | DEVOS-032 | AI provider abstraction — AIProvider/AIModel/ProviderConfig/AIProviderRepository domain, AIProviderRepositoryImpl (DataStore config + SecureToken keys), OpenAI/Anthropic/Gemini/Ollama SSE/NDJSON clients, AIRepositoryImpl (RAG→prompt→stream), AIProviderModule multibinding + @Named OkHttpClient, AIProviderKey annotation. Old stub replaced. | 9/9 ACs — 22 unit tests (AIProviderClientTest 13 + AIRepositoryImplTest 9) PASS |
+| 2026-10-09 | DEVOS-034 | Provider settings screen — ProviderSettingsScreen (amber security banner, 4 provider cards: icon+name+badge, masked key row, Configure button, AnimatedVisibility key input), ProviderSettingsViewModel (stub data, full key edit flow), providerSettingsNavigation wired in DevOSNavGraph | 4/4 ACs — 13 unit tests PASS |
+| 2026-10-09 | DEVOS-037 | Agent orchestration engine — AgentTool/AgentRun domain models, AgentRepository interface, RunAgentUseCase + CancelAgentRunUseCase, AgentToolExecutor, 4 built-in tools (ReadFile+SearchSymbols+SearchCode+ListFiles), ReActEngine (Thought→Action→Observation loop, maxSteps, cancellation), AgentRepositoryImpl (SupervisorJob per-run), AgentModule multibinding | 10/10 ACs — 16 unit tests PASS | 15 + VectorStoreTest 14 + CodeChunkerTest 12 + RAGRepositoryImplTest 10); build PASS |
 | 2026-10-09 | DEVOS-050/051/052/053 | Learning Dashboard, Course Details, Lesson, and Quiz screens — LearningDashboardScreen (daily goal + streak, continue-learning gradient card, recommendations, scores), CourseDetailsScreen (header panel + lesson list), LessonScreen (markdown + code examples + nav bar), QuizScreen (Active/Reviewing/Complete + progress + explanation), 4 ViewModels, LearningNavigation with 4 extensions wired in DevOSNavGraph | 24/24 ACs — LearningDashboardViewModelTest 14/14 PASS; QuizViewModelTest 21/21 PASS; `./gradlew :feature:feature-learning:testDebugUnitTest` PASS (35 total); `./gradlew :app:assembleDebug` PASS |
 | 2026-10-09 | DEVOS-018/019/020/021/022/024/025 | Code Intelligence screens — FileExplorerScreen (breadcrumb, filter chips All/Kotlin/XML/Gradle, file type badges, AI chip on Kotlin files), CodeViewerScreen (dark #1E1E2E top bar + code lines + line numbers + highlight strip + symbol tooltip + bottom AI action bar), CodeSearchScreen (monospace input + hit count + filter chips + highlighted match results), SymbolDetailsScreen (kind badge + signature CodeBlock + AI explanation card + references + methods), DependencyGraphScreen + ArchitectureScreen (stub placeholders with DevOSEmptyState "coming soon"), 5 ViewModels (stub data, StateFlow, SharedFlow, no NavController), CodeNavigation.kt with all 6 nav extensions wired in DevOSNavGraph replacing placeholders. build.gradle.kts updated with useJUnitPlatform() | 21/21 unit tests PASS — FileExplorerViewModelTest (9 tests); CodeSearchViewModelTest (12 tests); `./gradlew :feature:feature-code:assembleDebug` PASS; `./gradlew :feature:feature-code:testDebugUnitTest` PASS; `./gradlew :app:assembleDebug` PASS |
 | 2026-10-09 | DEVOS-064/065/066 | Dark mode token audit (SplashScreen/CodeViewerScreen/FileExplorerScreen hardcoded hex→tokens), accessibility fixes (null contentDescription on IconButtons across 7 screens), DarkModePreview.kt added to designsystem, ResponsiveNavigationRail (NavigationRail on Medium/Expanded + BottomBar on Compact via calculateWindowSizeClass), material3-window-size-class added to catalog | BUILD SUCCESSFUL; `./gradlew testDebugUnitTest` PASS |
