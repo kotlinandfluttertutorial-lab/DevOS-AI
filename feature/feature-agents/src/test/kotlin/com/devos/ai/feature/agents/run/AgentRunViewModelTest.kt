@@ -15,10 +15,14 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.util.UUID
@@ -45,11 +49,19 @@ class AgentRunViewModelTest {
         return AgentRunViewModel(handle, runAgentUseCase, cancelAgentRunUseCase)
     }
 
+    private val testDispatcher = UnconfinedTestDispatcher()
+
     @BeforeEach
     fun setUp() {
+        Dispatchers.setMain(testDispatcher)
         MockKAnnotations.init(this, relaxed = true)
-        runAgentUseCase     = mockk(relaxed = true)
+        runAgentUseCase       = mockk(relaxed = true)
         cancelAgentRunUseCase = mockk(relaxed = true)
+    }
+
+    @AfterEach
+    fun tearDown() {
+        Dispatchers.resetMain()
     }
 
     // ── Initial state ─────────────────────────────────────────────────────────

@@ -13,9 +13,13 @@ import com.devos.ai.domain.ai.repository.AgentRepository
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.mockk
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.util.UUID
@@ -60,10 +64,18 @@ class AgentToolDetailViewModelTest {
             agentRepository  = agentRepository,
         )
 
+    private val testDispatcher = UnconfinedTestDispatcher()
+
     @BeforeEach
     fun setUp() {
+        Dispatchers.setMain(testDispatcher)
         MockKAnnotations.init(this, relaxed = true)
         agentRepository = mockk(relaxed = true)
+    }
+
+    @AfterEach
+    fun tearDown() {
+        Dispatchers.resetMain()
     }
 
     // ── Success state ─────────────────────────────────────────────────────────
