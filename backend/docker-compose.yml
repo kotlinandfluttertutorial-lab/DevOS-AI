@@ -8,8 +8,10 @@ services:
     ports:
       - "8000:8000"
     env_file:
-      - .env
+      - .env.local          # use .env.local for docker-compose (local dev)
     environment:
+      # These override the env_file values so docker-compose service names
+      # (db, redis) resolve correctly instead of the localhost defaults.
       - DATABASE_URL=postgresql+asyncpg://devos:devos@db:5432/devos
       - REDIS_URL=redis://redis:6379
     depends_on:
