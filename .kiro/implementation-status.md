@@ -216,3 +216,19 @@ Full rationale posted as a comment on epic DA-1 in Jira.
 - `:app`: added `implementation(project(":data:data-ai"))` for Hilt graph resolution
 - AndroidManifest.xml stubs created for all 20+ modules that were missing them
 - commonmark added to designsystem dependencies for `DevOSMarkdownText`
+
+
+## Backend Infrastructure (DA-123 to DA-130)
+| Ticket | Description | Status |
+|--------|-------------|--------|
+| DA-123 | FastAPI scaffold | Done |
+| DA-124 | Docker local setup | Done |
+| DA-125 | GCP Cloud Run infra | Done |
+| DA-126 | Android build flavors | Done |
+| DA-127 | Repository API endpoints | Done |
+| DA-128 | AI chat + RAG + agents | Done |
+| DA-129 | Git/Issues/PRs endpoints | Done |
+| DA-130 | Android API wiring | Done |
+
+**Backend Total: 8/8 tickets complete**
+**Grand Total: 78/78 tickets complete (70 Android + 8 Backend)**
