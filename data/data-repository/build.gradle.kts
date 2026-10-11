@@ -28,6 +28,9 @@ dependencies {
     // DAOs + entities from core-database
     implementation(project(":core:core-database"))
 
+    // Network layer — DevOSApiService + NetworkException
+    implementation(project(":core:core-network"))
+
     // Secure token storage
     implementation(project(":core:core-security"))
 

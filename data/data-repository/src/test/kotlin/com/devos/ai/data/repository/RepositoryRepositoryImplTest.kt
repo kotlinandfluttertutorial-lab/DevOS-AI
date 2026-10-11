@@ -239,11 +239,13 @@ private class TestableRepositoryRepositoryImpl(
     private val workManager: WorkManager,
     repositoryDao: RepositoryDao,
     fileDao: FileDao,
+    apiService: com.devos.ai.network.DevOSApiService = mockk(relaxed = true),
 ) : RepositoryRepositoryImpl(
     context             = mockk(relaxed = true),
     repositoryDao       = repositoryDao,
     fileDao             = fileDao,
     chunkingWorkerClass = StubWorker::class.java,
+    apiService          = apiService,
 ) {
     // Shadow the lazy property from the parent
     override fun getWorkManager(): WorkManager = workManager
