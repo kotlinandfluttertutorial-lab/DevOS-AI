@@ -56,7 +56,7 @@ echo ">>> Building Docker image..."
 docker build \
   -t "${IMAGE}" \
   -t "${IMAGE_LATEST}" \
-  ./backend
+  ./devOS
 
 echo "    Build complete."
 

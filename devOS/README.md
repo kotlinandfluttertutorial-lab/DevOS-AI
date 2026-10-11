@@ -126,7 +126,7 @@ poetry run pytest
 ## Project Structure
 
 ```
-backend/
+devOS/
 ├── app/
 │   ├── main.py           # FastAPI app, middleware, router registration
 │   ├── config.py         # Pydantic Settings (auto-resolves env file)
