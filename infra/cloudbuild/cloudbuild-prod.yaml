@@ -6,7 +6,7 @@ steps:
     args:
       - -c
       - |
-        cd backend
+        cd devOS
         pip install -q poetry
         poetry install --no-root
         poetry run pytest tests/ -v --tb=short
@@ -20,7 +20,7 @@ steps:
       - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/devos-ai/api:${SHORT_SHA}'
       - -t
       - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/devos-ai/api:prod-latest'
-      - ./backend
+      - ./devOS
     waitFor: ['run-tests']
 
   # Step 3: Push to Artifact Registry
